@@ -1,0 +1,1545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mount 7 Community Forest</title>
+<style>
+  :root {
+    --bg: #0b1210;
+    --panel: #121d1a;
+    --panel-edge: #24352f;
+    --text: #f3f1e8;
+    --muted: #a9b5ad;
+    --accent: #f2c14e;
+    --track: #25332e;
+    --good: #5fd18b;
+    --bad: #ff7a59;
+    --money: #f2c14e;
+    --bikers: #57b8ff;
+    --residents: #d59bff;
+    --forestry: #ffb35c;
+    --lush: #2f9e44;
+    --scar: #b08968;
+    --fire-hi: #ff4d2e;
+    --fire-lo: #3a4a44;
+    --danger: #ff4d2e;
+    --chosen: #f2c14e;
+    --shadow: rgba(0, 0, 0, 0.45);
+    --font: "Atkinson Hyperlegible", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+    --num: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f4ec;
+    --panel: #ffffff;
+    --panel-edge: #cfd6cf;
+    --text: #101815;
+    --muted: #4a5751;
+    --accent: #8a5a00;
+    --track: #dfe4dc;
+    --good: #1c7c43;
+    --bad: #c2370f;
+    --money: #9a6a00;
+    --bikers: #1566b0;
+    --residents: #7b2fb5;
+    --forestry: #b35900;
+    --lush: #237a34;
+    --scar: #8c6a4f;
+    --fire-hi: #d4300f;
+    --fire-lo: #c9d1c9;
+    --danger: #d4300f;
+    --chosen: #8a5a00;
+    --shadow: rgba(0, 0, 0, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: clamp(16px, min(1.7vw, 3vh), 40px);
+    line-height: 1.3;
+    overflow: hidden;
+  }
+
+  #app { height: 100vh; display: flex; flex-direction: column; padding: 1.6vh 2vw 1vh; gap: 1.4vh; }
+
+  /* Top bar */
+  #topbar { display: flex; align-items: baseline; gap: 1.2em; min-height: 2.2em; }
+  #brand { font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85em; color: var(--muted); }
+  #roundLabel { font-weight: 800; font-size: 1.15em; }
+  #status { margin-left: auto; font-weight: 800; font-size: 0.8em; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.2em 0.6em; border: 3px solid var(--danger); color: var(--danger); border-radius: 0.3em; display: none; }
+  #status.on { display: inline-block; }
+
+  /* Stage: screen content on the left, meters on the right */
+  #stage { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.05fr 1fr; gap: 2.5vw; }
+  #stage.full #meters { display: none; }
+  #stage.full { grid-template-columns: 1fr; }
+  #content { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 1.4vh; }
+
+  /* Meters */
+  #meters { display: flex; flex-direction: column; gap: 1.6vh; min-height: 0; transition: opacity 0.8s; }
+  #meters.dormant { opacity: 0.28; filter: grayscale(0.7); }
+  #meters.dormant .value, #meters.dormant .mood, #meters.dormant .ledger { visibility: hidden; }
+  .meter { background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 0.5em; padding: 1vh 1vw 1.1vh; position: relative; }
+  .meter-head { display: flex; align-items: baseline; gap: 0.6em; }
+  .meter-name { font-weight: 800; font-size: 0.95em; }
+  .meter-bloc { color: var(--muted); font-size: 0.65em; text-transform: uppercase; letter-spacing: 0.06em; }
+  .value { margin-left: auto; font-family: var(--num); font-weight: 800; font-size: 1.15em; font-variant-numeric: tabular-nums; }
+  .bar { position: relative; height: clamp(22px, 4.2vh, 56px); background: var(--track); border-radius: 0.3em; margin-top: 0.6vh; overflow: hidden; }
+  .fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 0.3em; transition: width 1.8s cubic-bezier(.2,.8,.2,1); }
+  /* Quarter ticks so bar length reads without colour */
+  .bar::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, transparent calc(25% - 2px), var(--bg) calc(25% - 2px), var(--bg) 25%, transparent 25%,
+      transparent calc(50% - 2px), var(--bg) calc(50% - 2px), var(--bg) 50%, transparent 50%,
+      transparent calc(75% - 2px), var(--bg) calc(75% - 2px), var(--bg) 75%, transparent 75%); opacity: 0.55; }
+  .mood { font-weight: 700; font-size: 0.75em; color: var(--muted); min-width: 5.5em; text-align: right; }
+  .delta { position: absolute; right: 0.6em; top: -0.9em; font-family: var(--num); font-weight: 800; font-size: 0.95em;
+    padding: 0.05em 0.45em; border-radius: 0.3em; background: var(--panel); border: 3px solid currentColor;
+    opacity: 0; transform: translateY(0.4em); transition: opacity 0.4s, transform 0.4s; box-shadow: 0 0.2em 0.6em var(--shadow); }
+  .delta.show { opacity: 1; transform: translateY(0); }
+  .delta.up { color: var(--good); }
+  .delta.down { color: var(--bad); }
+
+  #m-treasury .value { font-size: 1.9em; color: var(--money); }
+  #m-treasury.negative .value { color: var(--danger); }
+  #m-treasury .fill { background: var(--money); }
+  #m-bikers .fill { background: var(--bikers); }
+  #m-residents .fill { background: var(--residents); }
+  #m-forestry .fill { background: var(--forestry); }
+  .ledger { font-size: 0.6em; color: var(--muted); margin-top: 0.5vh; font-family: var(--num); font-variant-numeric: tabular-nums; }
+  .ledger div { display: flex; gap: 0.8em; white-space: nowrap; overflow: hidden; }
+  .ledger span:first-child { overflow: hidden; text-overflow: ellipsis; flex: 1; }
+
+  /* The coupled forest slider: one marker, two meanings */
+  #m-forest .ends { display: flex; justify-content: space-between; font-size: 0.62em; font-weight: 700; margin-top: 0.4vh; gap: 1em; }
+  #m-forest .ends span:last-child { text-align: right; }
+  .strip { position: relative; height: clamp(16px, 2.6vh, 36px); border-radius: 0.3em; }
+  .strip.health { background: linear-gradient(90deg, var(--lush), #7aa35a 50%, var(--scar)); margin-top: 0.5vh; }
+  .strip.risk { background: linear-gradient(90deg, var(--fire-hi), #ff9f43 35%, var(--fire-lo)); margin-top: 0.4vh; }
+  .strip-label { position: absolute; left: 0.5em; top: 50%; transform: translateY(-50%); font-size: 0.58em; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 3px #000; pointer-events: none; z-index: 1; }
+  .strip-label.right { left: auto; right: 0.5em; }
+  #forestTrack { position: relative; }
+  #forestMarker { position: absolute; top: -0.5vh; bottom: -0.5vh; width: 0; transition: left 1.8s cubic-bezier(.2,.8,.2,1); z-index: 3; }
+  #forestMarker::before { content: ""; position: absolute; left: -5px; top: 0; bottom: 0; width: 10px; background: var(--text);
+    border: 2px solid var(--bg); border-radius: 4px; box-shadow: 0 0 0.6em var(--shadow); }
+  #fireZone { position: absolute; top: -0.5vh; bottom: -0.5vh; left: 0; display: none; z-index: 2; border: 3px dashed var(--danger);
+    border-radius: 0.3em; background: repeating-linear-gradient(135deg, transparent 0 10px, rgba(255, 77, 46, 0.28) 10px 20px); }
+  #fireZone.on { display: block; }
+  #fireZone span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.55em; font-weight: 900;
+    color: #fff; background: var(--danger); padding: 0.1em 0.4em; border-radius: 0.2em; white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase; }
+  /* When the fire zone is drawn on the lush end, move the strip names out of its way */
+  #forestTrack.zone .strip-label { left: auto; right: 0.5em; }
+  #m-forest .value { font-size: 0.8em; }
+
+  /* Screen content */
+  .kicker { color: var(--accent); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.75em; }
+  h1 { margin: 0; font-size: 2.3em; line-height: 1.05; }
+  h2 { margin: 0; font-size: 1.6em; line-height: 1.1; }
+  .prompt { font-size: 1.02em; margin: 0; max-width: 40em; }
+  .hidden-text .prompt { display: none; }
+  .options { display: flex; flex-direction: column; gap: 1.1vh; margin-top: 0.4vh; min-height: 0; }
+  .option { display: grid; grid-template-columns: auto 1fr; gap: 0.2em 0.8em; align-items: center; background: var(--panel);
+    border: 3px solid var(--panel-edge); border-radius: 0.5em; padding: 0.9vh 0.9vw; transition: opacity 0.6s, border-color 0.6s; }
+  .option .key { grid-row: span 2; width: 1.9em; height: 1.9em; display: grid; place-items: center; font-weight: 900; font-size: 1.25em;
+    border: 3px solid var(--text); border-radius: 0.3em; }
+  .option .label { font-weight: 800; font-size: 1.02em; }
+  .option .detail { color: var(--muted); font-size: 0.78em; }
+  .option .tally { grid-column: 2; font-size: 0.72em; font-weight: 700; color: var(--accent); font-family: var(--num); }
+  .option .after { grid-column: 1 / -1; font-size: 0.8em; border-top: 2px solid var(--panel-edge); padding-top: 0.6vh; margin-top: 0.3vh; }
+  .option .after p { margin: 0.2em 0; }
+  .option .after .note { color: var(--accent); font-weight: 700; }
+  .options.decided .option { opacity: 0.35; }
+  .options.decided .option.chosen { opacity: 1; border-color: var(--chosen); }
+  .option.chosen .key { background: var(--chosen); color: var(--bg); border-color: var(--chosen); }
+  .chosen-tag { font-size: 0.6em; font-weight: 900; letter-spacing: 0.1em; color: var(--chosen); margin-left: 0.6em; vertical-align: middle; }
+
+  .events { font-size: 0.72em; color: var(--muted); display: flex; flex-direction: column; gap: 0.2em; }
+  .events div::before { content: "\25B8  "; color: var(--accent); }
+
+  .center { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 2.2vh; }
+  .title-name { font-size: 3.4em; font-weight: 900; line-height: 1; }
+  .title-q { font-size: 1.6em; color: var(--muted); font-weight: 700; }
+  .setup-list { display: grid; gap: 1vh; margin: 0; padding: 0; list-style: none; font-size: 0.92em; }
+  .setup-list b { color: var(--accent); }
+  .rule { font-weight: 800; font-size: 1.1em; border-left: 0.3em solid var(--danger); padding-left: 0.7em; }
+
+  .outcome-title { font-size: 2.4em; font-weight: 900; line-height: 1.05; }
+  .outcome-text { font-size: 1.1em; max-width: 36em; margin: 0; }
+  .addenda p { margin: 0.5em 0; font-size: 0.92em; color: var(--muted); }
+  .path { font-size: 0.72em; color: var(--muted); }
+  .path b { color: var(--text); }
+
+  .votes { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2vh; }
+  .vote-col h3 { margin: 0 0 1vh; font-size: 1.1em; }
+  .vote-row { display: grid; grid-template-columns: 5em 1fr 2.6em; align-items: center; gap: 0.6em; margin: 0.8vh 0; font-weight: 700; }
+  .vote-row .bar { margin: 0; }
+  .vote-row .fill { background: var(--accent); }
+  .vote-row .n { font-family: var(--num); text-align: right; }
+  .empty { color: var(--muted); font-style: italic; }
+
+  .debrief { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6vh; }
+  .debrief li { opacity: 0; transform: translateX(-1em); transition: opacity 0.6s, transform 0.6s; }
+  .debrief li.on { opacity: 1; transform: none; }
+  .debrief b { display: block; font-size: 1.3em; }
+  .debrief span { color: var(--muted); }
+  .closing { font-size: 1.35em; font-weight: 700; max-width: 32em; opacity: 0; transition: opacity 1.2s; }
+  .closing.on { opacity: 1; }
+
+  #hint { font-size: 0.55em; color: var(--muted); text-align: right; opacity: 0.6; }
+
+  /* Overlays */
+  .overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.72); z-index: 10; }
+  .overlay.on { display: flex; }
+  .sheet { background: var(--panel); border: 3px solid var(--panel-edge); border-radius: 0.6em; padding: 3vh 3vw; max-width: 90vw; max-height: 90vh; overflow: auto; }
+  .sheet h2 { margin-bottom: 1.5vh; }
+  .keys { display: grid; grid-template-columns: auto 1fr; gap: 0.5em 1.2em; font-size: 0.85em; }
+  .keys kbd { font-family: var(--num); font-weight: 800; border: 2px solid var(--text); border-radius: 0.25em; padding: 0 0.4em; white-space: nowrap; }
+  .sheet .small { font-size: 0.7em; color: var(--muted); margin-top: 2vh; }
+  #soldOverlay { background: rgba(80, 0, 0, 0.88); }
+  #soldOverlay .sheet { text-align: center; border-color: var(--danger); background: #1a0806; color: #fff; }
+  #soldOverlay h1 { font-size: 3.4em; color: #ff6a4d; }
+  .vote-form { display: grid; grid-template-columns: auto repeat(3, 5em); gap: 1vh 1vw; align-items: center; }
+  .vote-form input { font: inherit; font-size: 1.2em; width: 100%; padding: 0.2em 0.3em; background: var(--bg); color: var(--text);
+    border: 2px solid var(--panel-edge); border-radius: 0.25em; text-align: center; }
+  .vote-form input:focus { outline: 3px solid var(--accent); }
+  .vote-form .h { font-weight: 800; text-align: center; }
+  .notes-body p { margin: 0.5em 0; max-width: 40em; font-size: 0.85em; }
+  .notes-body table { border-collapse: collapse; font-size: 0.7em; font-family: var(--num); margin-top: 1vh; }
+  .notes-body td, .notes-body th { border: 1px solid var(--panel-edge); padding: 0.2em 0.5em; text-align: right; }
+  .notes-body td:first-child, .notes-body th:first-child { text-align: left; }
+  #toast { position: fixed; left: 50%; bottom: 3vh; transform: translateX(-50%); background: var(--panel); border: 2px solid var(--accent);
+    padding: 0.4em 1em; border-radius: 0.4em; font-size: 0.8em; font-weight: 700; opacity: 0; transition: opacity 0.3s; z-index: 20; pointer-events: none; }
+  #toast.on { opacity: 1; }
+  #configError { display: none; position: fixed; inset: 0; background: #300; color: #fff; padding: 4vh 4vw; z-index: 30; font-size: 0.8em; overflow: auto; white-space: pre-wrap; }
+
+  @media (max-width: 900px), (max-aspect-ratio: 1/1) {
+    body { overflow: auto; font-size: 16px; }
+    #app { height: auto; min-height: 100vh; }
+    #stage { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fill, #forestMarker { transition-duration: 0.3s; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <span id="brand"></span>
+    <span id="roundLabel"></span>
+    <span id="status"></span>
+  </header>
+  <main id="stage">
+    <section id="content"></section>
+    <aside id="meters">
+      <div class="meter" id="m-treasury">
+        <div class="meter-head"><span class="meter-name"></span><span class="value"></span></div>
+        <div class="bar"><div class="fill"></div></div>
+        <div class="ledger"></div>
+        <div class="delta"></div>
+      </div>
+      <div class="meter" id="m-bikers">
+        <div class="meter-head"><span class="meter-name"></span><span class="meter-bloc"></span><span class="value"></span><span class="mood"></span></div>
+        <div class="bar"><div class="fill"></div></div>
+        <div class="delta"></div>
+      </div>
+      <div class="meter" id="m-residents">
+        <div class="meter-head"><span class="meter-name"></span><span class="meter-bloc"></span><span class="value"></span><span class="mood"></span></div>
+        <div class="bar"><div class="fill"></div></div>
+        <div class="delta"></div>
+      </div>
+      <div class="meter" id="m-forestry">
+        <div class="meter-head"><span class="meter-name"></span><span class="meter-bloc"></span><span class="value"></span><span class="mood"></span></div>
+        <div class="bar"><div class="fill"></div></div>
+        <div class="delta"></div>
+      </div>
+      <div class="meter" id="m-forest">
+        <div class="meter-head"><span class="meter-name"></span><span class="value"></span></div>
+        <div id="forestTrack">
+          <div class="strip health"><span class="strip-label">Forest health</span></div>
+          <div class="strip risk"><span class="strip-label">Fire risk</span></div>
+          <div id="fireZone"><span>Interface fire zone</span></div>
+          <div id="forestMarker"></div>
+        </div>
+        <div class="ends"><span id="lushEnd"></span><span id="thinEnd"></span></div>
+        <div class="delta"></div>
+      </div>
+    </aside>
+  </main>
+  <footer id="hint">? keys</footer>
+</div>
+
+<div class="overlay" id="keysOverlay"><div class="sheet">
+  <h2>Chair's keys</h2>
+  <div class="keys">
+    <kbd>Space</kbd><span>Next screen (also &rarr;, Page Down, or a presentation clicker)</span>
+    <kbd>&larr;</kbd><span>Previous screen (also Page Up). Looking back never changes the meters.</span>
+    <kbd>A</kbd> <span>Apply the option the room voted for (<kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd>)</span>
+    <kbd>U</kbd><span>Undo the last change (use it for a re-vote)</span>
+    <kbd>T</kbd><span>Tick the Treasury down by hand: "while you debate, you are paying staff"</span>
+    <kbd>V</kbd><span>Enter votes: the round's ballot and hands, or the opening / closing room vote</span>
+    <kbd>H</kbd><span>Hide or show the scenario text, to put the focus on the meters</span>
+    <kbd>I</kbd><span>Chair's notes for this screen (the room can see them too)</span>
+    <kbd>L</kbd><span>Light / dark theme, for a bright room</span>
+    <kbd>F</kbd><span>Fullscreen</span>
+    <kbd>R R</kbd><span>Reset everything for the next class (press twice)</span>
+    <kbd>Esc</kbd><span>Close any overlay</span>
+  </div>
+  <p class="small">Nothing is saved: reloading the page also resets the simulation.</p>
+</div></div>
+
+<div class="overlay" id="soldOverlay"><div class="sheet">
+  <h1>The forest has been sold.</h1>
+  <p id="soldText"></p>
+  <p class="small" style="color:#fcc">Space: carry on as a post-mortem &nbsp;&middot;&nbsp; U: undo</p>
+</div></div>
+
+<div class="overlay" id="voteOverlay"><div class="sheet">
+  <h2 id="voteTitle"></h2>
+  <form id="voteForm" class="vote-form" autocomplete="off"></form>
+  <p class="small">Type the counts. Tab moves between boxes. Enter saves, Esc cancels. Leave a row blank to clear it.</p>
+</div></div>
+
+<div class="overlay" id="notesOverlay"><div class="sheet">
+  <h2>Chair's notes</h2>
+  <div class="notes-body" id="notesBody"></div>
+</div></div>
+
+<div id="toast"></div>
+<pre id="configError"></pre>
+
+<script>
+/* ../content/config.js */
+/*
+ * Mount 7 Community Forest: scenario and meter configuration.
+ *
+ * This is the only file you should need to edit to tune the simulation. The dashboard
+ * (app/dashboard.html) reads it; `node tools/build.mjs` inlines it into the single-file
+ * classroom build in dist/; `node tools/simulate.mjs` plays every path through it.
+ *
+ * ALL NUMBERS ARE PLACEHOLDERS chosen to make the game play well, not real Golden figures.
+ * Replace them once the research items in docs/OPEN-QUESTIONS.md are pulled.
+ *
+ * Meter keys used in `deltas`:
+ *   treasury   dollars (+ adds cash)
+ *   bikers     Bikers / Tourism sentiment, 0-100
+ *   residents  Selkirk Hill Residents sentiment, 0-100
+ *   forestry   Forestry Sector sentiment, 0-100
+ *   forest     Forest Health / Wildfire Risk slider, 0-100
+ *              100 = lush, high fuel load, high fire risk
+ *                0 = thinned, scarred, low fire risk
+ *   forestTo   (optional) set the forest slider to an absolute value, e.g. after a burn
+ *
+ * Option `variants` apply when their `when` matches: their note is shown after the vote, and
+ * each key in their `deltas` REPLACES the option's value for that key.
+ *
+ * Conditions (`when`) can be:
+ *   { choice: { round: 'r2', option: 'A' } }      option may also be an array ['A', 'C']
+ *   { meter: 'residents', below: 40 }             or atLeast: 40; meter may also be treasury,
+ *                                                 forest, or sentiment (average of the three bars)
+ *   { sold: true }                                the forest went insolvent
+ *   { fire: 'interface' }                         id of the fire tier that happened
+ *   { all: [ ... ] }, { any: [ ... ] }, { not: { ... } }
+ */
+(function (root) {
+  var config = {
+    forestName: 'Mount 7 Community Forest',
+    place: 'Golden, BC',
+
+    titleScreen: {
+      // Shown under the forest name on the cold open screen. Set to '' to show nothing.
+      question: 'Who owns Mount 7?',
+    },
+
+    setupScreen: {
+      heading: 'You are the board.',
+      lines: [
+        'Four years. Four decisions. One forest.',
+        'The forest has to pay its own way, and it exists for the whole community.',
+      ],
+      rule: 'One rule: if the Treasury hits zero, the forest is sold. Game over.',
+    },
+
+    treasury: {
+      label: 'Treasury',
+      start: 300000,
+      // Fixed costs deducted automatically at the start of every round.
+      bleed: 90000,
+      bleedLabel: 'Fixed costs: staff, insurance, roads',
+      // Extra deduction on the T key, so the chair can lean on it mid-debate.
+      manualTick: 10000,
+      manualTickLabel: 'While you debate, you are paying staff',
+      // Treasury value that fills the bar completely.
+      barMax: 800000,
+    },
+
+    meters: {
+      bikers: { label: 'Bikers / Tourism', bloc: 'Left side of the room', start: 50 },
+      residents: { label: 'Selkirk Hill Residents', bloc: 'Middle of the room', start: 50 },
+      forestry: { label: 'Forestry Sector', bloc: 'Right side of the room', start: 50 },
+    },
+
+    // Words shown beside each sentiment bar so its state never relies on colour alone.
+    moods: [
+      { atLeast: 80, word: 'Delighted' },
+      { atLeast: 60, word: 'Supportive' },
+      { atLeast: 40, word: 'Uneasy' },
+      { atLeast: 20, word: 'Unhappy' },
+      { atLeast: 0, word: 'Furious' },
+    ],
+
+    forest: {
+      label: 'Forest Health / Wildfire Risk',
+      start: 61,
+      // The forest keeps growing whether or not you act: fuel builds up every round.
+      growthPerRound: 4,
+      growthLabel: 'The forest grew. Fuel load builds.',
+      lushEnd: { health: 'Lush, dense, healthy-looking', risk: 'High fuel load, high fire risk' },
+      thinEnd: { health: 'Thinned, scarred, logged', risk: 'Low fuel load, low fire risk' },
+      // The interface-fire zone is drawn on the slider from this round onwards (1-based).
+      showFireZoneFromRound: 4,
+    },
+
+    rounds: [
+      {
+        id: 'r1',
+        title: 'The First Harvest',
+        prompt:
+          'You have just taken over the forest. It needs to fund itself this year. The lower ' +
+          'stand, right above Selkirk Hill and beside a trail you have all ridden, is ready. ' +
+          'How hard do you cut?',
+        chairNote:
+          'After the first vote, surface the Residents knot: they want it cut so they do not ' +
+          'burn, and left standing so they keep their view and property values. Same people, ' +
+          'two incompatible demands. Then press U to undo and vote again. Do not warn them that ' +
+          'Round 1 trust carries into Round 3.',
+        options: [
+          {
+            key: 'A',
+            label: 'Leave it standing',
+            detail: 'Cut nothing this year.',
+            deltas: { treasury: 0, bikers: 10, residents: -5, forestry: -15, forest: 10 },
+            consequence: 'The view stays. The fuel stays. The mill waits.',
+          },
+          {
+            key: 'B',
+            label: 'Selective thin',
+            detail: 'Take the worst of it, leave the stand.',
+            deltas: { treasury: 120000, bikers: -5, residents: 10, forestry: 0, forest: -8 },
+            consequence: 'The boring, responsible option. The trail closes for a season. Nobody marches.',
+          },
+          {
+            key: 'C',
+            label: 'Full harvest of the lower stand',
+            detail: 'Cut the whole block.',
+            deltas: { treasury: 260000, bikers: -20, residents: -5, forestry: 20, forest: -25 },
+            consequence: 'Big cheque. Fire risk down. A scar you can see from town.',
+          },
+        ],
+      },
+      {
+        id: 'r2',
+        title: 'The Windfall',
+        prompt:
+          'An outside forestry company offers a lump sum for the timber rights to part of the ' +
+          'forest for the next 15 years. Big money up front. But their crews, their mill, and ' +
+          'their profits: the value, and the decisions, leave the community.',
+        chairNote:
+          'Ask: who captures the value? Where does the money go after it leaves Golden? ' +
+          '(Salvage alternative, if you prefer: a winter blowdown has killed a big block; ' +
+          'salvaging it means roading into a sensitive area. Edit this round in content/config.js.)',
+        options: [
+          {
+            key: 'A',
+            label: 'Take the buyout',
+            detail: 'Sign the 15-year timber lease.',
+            deltas: { treasury: 300000, bikers: -10, residents: 0, forestry: 20, forest: -15 },
+            consequence: 'The cheque clears. The logging trucks are not yours.',
+          },
+          {
+            key: 'B',
+            label: 'Decline, stay the course',
+            detail: 'Keep every decision local.',
+            deltas: { treasury: 0, bikers: 10, residents: 0, forestry: -10, forest: 0 },
+            consequence: 'Independence kept. The bank balance did not move.',
+          },
+          {
+            key: 'C',
+            label: 'Negotiate a partial deal',
+            detail: 'Shorter term, local hiring, trail buffers.',
+            deltas: { treasury: 150000, bikers: -5, residents: 0, forestry: 10, forest: -6 },
+            consequence: 'Half the money, most of the control.',
+          },
+        ],
+      },
+      {
+        id: 'r3',
+        title: 'The Partnership',
+        // Verify nations and terminology before running this round (docs/OPEN-QUESTIONS.md).
+        prompt:
+          'The Ktunaxa and Secwépemc, whose territory this was long before Golden existed, ' +
+          'propose co-managing the forest. Co-management changes who decides, and the time ' +
+          'horizon the forest is managed on. It may cost flexibility and money now. It may ' +
+          'also be the most honest answer to the question: whose forest is it?',
+        chairNote:
+          'Handle as a real governance decision, not a plot twist. Give the voiceless seat ' +
+          'explicit standing to speak first. Name option B for what it is: consultation ' +
+          'without power. If they decline, raise the legitimacy cost in the debrief: no meter ' +
+          'on this screen captures it.',
+        options: [
+          {
+            key: 'A',
+            label: 'Full co-management',
+            detail: 'Shared decisions, shared board seats.',
+            deltas: { treasury: -40000, bikers: 0, residents: -5, forestry: -5, forest: -6 },
+            consequence: 'Every future decision is now made on a longer horizon.',
+            variants: [
+              {
+                when: { choice: { round: 'r2', option: 'A' } },
+                note: 'The block you leased in Round 2 sits outside the partnership for 15 years.',
+                deltas: { forest: -3 },
+              },
+              {
+                when: { any: [{ meter: 'residents', below: 40 }, { meter: 'bikers', below: 35 }] },
+                note:
+                  'Trust burned earlier: council will not back a change this big without a ' +
+                  'public process you now have to pay for.',
+                deltas: { treasury: -70000 },
+              },
+            ],
+          },
+          {
+            key: 'B',
+            label: 'Advisory role only',
+            detail: 'They can advise. The board still decides.',
+            deltas: { treasury: 0, bikers: 0, residents: 0, forestry: 0, forest: -2 },
+            consequence: 'Consultation without power.',
+          },
+          {
+            key: 'C',
+            label: 'Decline',
+            detail: 'Keep the board as it is.',
+            deltas: { treasury: 0, bikers: 0, residents: 0, forestry: 10, forest: 0 },
+            consequence: 'Nothing on this screen moved much. That is not the same as no cost.',
+            // The cost is legitimacy, which no meter captures: raise it in the debrief.
+            freeOnPurpose: true,
+            variants: [
+              {
+                when: { meter: 'forestry', below: 30 },
+                note: 'Forestry wrote this board off in Round 1. Declining wins you nothing back.',
+                deltas: { forestry: 0 },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'r4',
+        title: 'Fire Season',
+        prompt:
+          'A hot, dry summer. Lightning in the forecast. Your forest, the one your board built ' +
+          'over three years, sits directly above the Selkirk Hill homes. Look at the slider. ' +
+          'That is your starting position. What do you do?',
+        chairNote:
+          'Let the slider do the moralizing. The interface-fire zone is now drawn on it. If ' +
+          'they are in the zone, "do nothing" burns Selkirk Hill. No dice: the board they ran ' +
+          'decides.',
+        // Extra effects when this round starts, on top of the bleed and the growth.
+        startEffects: [
+          {
+            when: { all: [{ choice: { round: 'r3', option: 'A' } }, { not: { choice: { round: 'r2', option: 'A' } } }] },
+            label: 'Partnership opens new funding and a cultural burning program',
+            deltas: { treasury: 100000, forest: -6 },
+          },
+          {
+            when: { all: [{ choice: { round: 'r3', option: 'A' } }, { choice: { round: 'r2', option: 'A' } }] },
+            label: 'Partnership funding, minus the leased block',
+            deltas: { treasury: 50000, forest: -3 },
+          },
+        ],
+        options: [
+          {
+            key: 'A',
+            label: 'Emergency thin and fuel break',
+            detail: 'Crews and machines on the slope now.',
+            deltas: { treasury: -150000, bikers: -10, residents: 20, forestry: 10, forest: -25 },
+            consequence: 'Expensive, ugly, and fast.',
+          },
+          {
+            key: 'B',
+            label: 'Controlled burn',
+            detail: 'Burn the understory on a safe day.',
+            deltas: { treasury: -60000, bikers: -5, residents: 10, forestry: 0, forest: -15 },
+            consequence: 'Smoke over town for a week. Less fuel on the hill.',
+          },
+          {
+            key: 'C',
+            label: 'Do nothing, and hope',
+            detail: 'Save the money.',
+            deltas: { treasury: 0, bikers: 5, residents: 0, forestry: 0, forest: 0 },
+            consequence: 'The slider decides what happens next.',
+            // The cost, if any, comes from the fire season outcome.
+            freeOnPurpose: true,
+          },
+        ],
+      },
+    ],
+
+    // Resolved on the Fire Season Outcome screen, after the Round 4 decision.
+    // The first tier whose `when` matches is used; it is deterministic, never luck.
+    fire: {
+      title: 'Fire Season: what happened',
+      tiers: [
+        {
+          id: 'interface',
+          when: { meter: 'forest', atLeast: 65 },
+          title: 'The fire reached Selkirk Hill',
+          text:
+            'A lightning strike on the upper slope. The fuel load did the rest. Evacuation ' +
+            'orders, homes lost at the interface, the trails closed for years.',
+          deltas: { treasury: -150000, bikers: -25, residents: -40, forestry: -10, forestTo: 12 },
+        },
+        {
+          id: 'held',
+          when: { meter: 'forest', atLeast: 40 },
+          title: 'Fire on the mountain, held',
+          text:
+            'A lightning fire on the upper slope. Crews held it before it reached the homes. ' +
+            'A tense week, a big bill, some burned trail.',
+          deltas: { treasury: -40000, bikers: -10, residents: -10, forest: -10 },
+        },
+        {
+          id: 'quiet',
+          when: { meter: 'forest', atLeast: 0 },
+          title: 'A quiet season',
+          text:
+            'Lightning came through. With the fuel load down, the one start that caught went ' +
+            'out on its own.',
+          deltas: { residents: 5 },
+        },
+      ],
+    },
+
+    // The first outcome whose `when` matches is shown.
+    epilogues: [
+      {
+        id: 'sold',
+        when: { sold: true },
+        title: 'Sold off and logged out',
+        text:
+          'The forest was sold to an outside company. They did not care about the trails or ' +
+          'the view. Fifty years later, the lower slopes of Mount 7 have been cut twice, and ' +
+          'the money went somewhere else.',
+      },
+      {
+        id: 'burned',
+        when: { fire: 'interface' },
+        title: 'The fire year',
+        text:
+          'Everyone in Golden still dates things from the fire. The houses were rebuilt. The ' +
+          'forest is coming back, fifty years young, and the kids who ride it now have never ' +
+          'seen it old.',
+      },
+      {
+        id: 'thriving',
+        when: { all: [
+          { meter: 'forest', atLeast: 30 }, { meter: 'forest', below: 60 }, { meter: 'treasury', atLeast: 100000 },
+          { meter: 'sentiment', atLeast: 45 },
+          { meter: 'bikers', atLeast: 30 }, { meter: 'residents', atLeast: 30 }, { meter: 'forestry', atLeast: 30 },
+        ] },
+        title: 'A thriving community asset',
+        text:
+          'Fifty years later, the forest still pays its own way. The trails are busier than ' +
+          'ever, the mill still buys local logs, and Selkirk Hill sleeps through fire season.',
+      },
+      {
+        id: 'scarred',
+        when: { meter: 'forest', atLeast: 0 },
+        title: 'Scarred but standing',
+        text:
+          'Fifty years later, the forest is still community-owned. It has been through some ' +
+          'hard years and it shows: on the slopes, and in who still trusts the board.',
+      },
+    ],
+
+    // Extra lines appended to the epilogue when their condition matches.
+    epilogueAddenda: [
+      {
+        when: { choice: { round: 'r2', option: 'A' } },
+        text: 'The 15-year timber lease is a line in the history books. The profits never came back to town.',
+      },
+      {
+        when: { choice: { round: 'r3', option: 'A' } },
+        text: 'The forest has been co-managed for two generations. Its plans are written in centuries, not years.',
+      },
+      {
+        when: { choice: { round: 'r3', option: 'C' } },
+        text: 'The partnership was offered once. Ask the voiceless seat what that cost.',
+      },
+    ],
+
+    closing:
+      'The trees you cut this year were planted before any of you were born. The ones you ' +
+      'plant, you will never see cut. What do you owe people who cannot vote, complain, or ' +
+      'thank you?',
+
+    // Opening and closing vote, shown side by side on the reveal screen.
+    roomVote: {
+      question: 'Should we log the lower slopes of Mount 7?',
+      choices: ['Yes', 'No', 'Unsure'],
+    },
+
+    // Debrief screen: revealed one at a time with the Next key. Name, then move on.
+    debrief: [
+      { term: 'Profit vs break-even', line: 'You were never trying to get rich. You were trying not to die.' },
+      { term: 'Who captures the value', line: 'Round 2: when the outsider buys in, the money leaves town.' },
+      { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
+      { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
+      { term: 'Social entrepreneurship', line: 'A business run for a community, including First Nations communities.' },
+    ],
+
+    // Used only by tools/simulate.mjs to check the tuning.
+    tuning: {
+      // One option key per round: the "cut nothing, protect it all" board. It should go broke.
+      protectEverythingPath: 'ABBC',
+    },
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = config;
+  else root.MOUNT7_CONFIG = config;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+/* engine.js */
+/*
+ * Mount 7 simulation engine: pure state transitions, no DOM.
+ * Shared by the dashboard (app/dashboard.html) and the path simulator (tools/simulate.mjs).
+ * Every function takes a state and returns a new state plus a list of the changes made,
+ * so the dashboard can animate them and keep an undo history.
+ */
+(function (root) {
+  var SENTIMENTS = ['bikers', 'residents', 'forestry'];
+
+  function clone(x) {
+    return JSON.parse(JSON.stringify(x));
+  }
+
+  function clamp(v, lo, hi) {
+    return Math.max(lo, Math.min(hi, v));
+  }
+
+  function initialState(cfg) {
+    var meters = {};
+    SENTIMENTS.forEach(function (k) {
+      meters[k] = cfg.meters[k].start;
+    });
+    return {
+      treasury: cfg.treasury.start,
+      meters: meters,
+      forest: cfg.forest.start,
+      choices: {}, // roundId -> option key
+      started: {}, // roundId -> true once its start effects have been applied
+      sold: false,
+      soldDuring: null,
+      fire: null, // id of the fire tier that happened
+      ledger: [], // treasury movements: { label, amount, balance }
+      votes: {}, // roundId -> { ballot: {A,B,C}, hands: {A,B,C} }
+      roomVote: { opening: null, closing: null },
+    };
+  }
+
+  function meterValue(state, name) {
+    if (name === 'treasury') return state.treasury;
+    if (name === 'forest') return state.forest;
+    if (name === 'sentiment') {
+      return SENTIMENTS.reduce(function (sum, k) { return sum + state.meters[k]; }, 0) / SENTIMENTS.length;
+    }
+    if (name in state.meters) return state.meters[name];
+    throw new Error('Unknown meter in condition: ' + name);
+  }
+
+  function evalCond(cond, state) {
+    if (!cond) return true;
+    if (cond.all) return cond.all.every(function (c) { return evalCond(c, state); });
+    if (cond.any) return cond.any.some(function (c) { return evalCond(c, state); });
+    if (cond.not) return !evalCond(cond.not, state);
+    if (cond.choice) {
+      var chosen = state.choices[cond.choice.round];
+      var wanted = [].concat(cond.choice.option);
+      return wanted.indexOf(chosen) !== -1;
+    }
+    if ('sold' in cond) return state.sold === cond.sold;
+    if ('fire' in cond) return state.fire === cond.fire;
+    if (cond.meter) {
+      var v = meterValue(state, cond.meter);
+      if ('below' in cond && !(v < cond.below)) return false;
+      if ('atLeast' in cond && !(v >= cond.atLeast)) return false;
+      return true;
+    }
+    throw new Error('Unknown condition: ' + JSON.stringify(cond));
+  }
+
+  // Apply a deltas object. Returns { state, changes } where changes lists every meter that moved.
+  function applyDeltas(state, deltas, label, cfg) {
+    var s = clone(state);
+    var changes = [];
+    Object.keys(deltas || {}).forEach(function (k) {
+      var d = deltas[k];
+      if (k === 'treasury') {
+        if (!d) return;
+        var before = s.treasury;
+        s.treasury += d;
+        s.ledger.push({ label: label, amount: d, balance: s.treasury });
+        changes.push({ meter: 'treasury', from: before, to: s.treasury });
+      } else if (k === 'forest' || k === 'forestTo') {
+        var fb = s.forest;
+        s.forest = clamp(k === 'forestTo' ? d : s.forest + d, 0, 100);
+        if (s.forest !== fb) changes.push({ meter: 'forest', from: fb, to: s.forest });
+      } else if (SENTIMENTS.indexOf(k) !== -1) {
+        if (!d) return;
+        var mb = s.meters[k];
+        s.meters[k] = clamp(mb + d, 0, 100);
+        if (s.meters[k] !== mb) changes.push({ meter: k, from: mb, to: s.meters[k] });
+      } else {
+        throw new Error('Unknown delta key: ' + k);
+      }
+    });
+    if (!s.sold && s.treasury <= 0) {
+      s.sold = true;
+      s.soldDuring = label;
+    }
+    return { state: s, changes: changes };
+  }
+
+  function chain(state, steps, cfg) {
+    var changes = [];
+    var events = [];
+    steps.forEach(function (step) {
+      var r = applyDeltas(state, step.deltas, step.label, cfg);
+      state = r.state;
+      changes = changes.concat(r.changes);
+      if (r.changes.length) events.push(step.label);
+    });
+    return { state: state, changes: changes, events: events };
+  }
+
+  function findRound(cfg, roundId) {
+    for (var i = 0; i < cfg.rounds.length; i++) if (cfg.rounds[i].id === roundId) return cfg.rounds[i];
+    throw new Error('Unknown round: ' + roundId);
+  }
+
+  // Start-of-round effects: fixed-cost bleed, forest growth, and any conditional start effects.
+  function startRound(state, roundId, cfg) {
+    var round = findRound(cfg, roundId);
+    var steps = [
+      { label: cfg.treasury.bleedLabel, deltas: { treasury: -cfg.treasury.bleed } },
+      { label: cfg.forest.growthLabel, deltas: { forest: cfg.forest.growthPerRound } },
+    ];
+    (round.startEffects || []).forEach(function (e) {
+      if (evalCond(e.when, state)) steps.push({ label: e.label, deltas: e.deltas });
+    });
+    var r = chain(state, steps, cfg);
+    r.state.started[roundId] = true;
+    return r;
+  }
+
+  // The option as it applies right now, with any matching variants folded in.
+  function resolveOption(state, roundId, key, cfg) {
+    var round = findRound(cfg, roundId);
+    var opt = round.options.filter(function (o) { return o.key === key; })[0];
+    if (!opt) return null;
+    var deltas = clone(opt.deltas);
+    var notes = [];
+    (opt.variants || []).forEach(function (v) {
+      if (!evalCond(v.when, state)) return;
+      if (v.note) notes.push(v.note);
+      Object.keys(v.deltas || {}).forEach(function (k) { deltas[k] = v.deltas[k]; });
+    });
+    return { key: opt.key, label: opt.label, detail: opt.detail, consequence: opt.consequence, deltas: deltas, notes: notes };
+  }
+
+  function applyOption(state, roundId, key, cfg) {
+    var opt = resolveOption(state, roundId, key, cfg);
+    if (!opt) throw new Error('No option ' + key + ' in ' + roundId);
+    var round = findRound(cfg, roundId);
+    var r = applyDeltas(state, opt.deltas, round.title + ': ' + opt.label, cfg);
+    r.state.choices[roundId] = key;
+    r.option = opt;
+    return r;
+  }
+
+  function manualTick(state, cfg) {
+    return applyDeltas(state, { treasury: -cfg.treasury.manualTick }, cfg.treasury.manualTickLabel, cfg);
+  }
+
+  function fireTier(state, cfg) {
+    return cfg.fire.tiers.filter(function (t) { return evalCond(t.when, state); })[0];
+  }
+
+  function resolveFire(state, cfg) {
+    var tier = fireTier(state, cfg);
+    var r = applyDeltas(state, tier.deltas, 'Fire season: ' + tier.title, cfg);
+    r.state.fire = tier.id;
+    r.tier = tier;
+    return r;
+  }
+
+  function epilogue(state, cfg) {
+    var outcome = cfg.epilogues.filter(function (e) { return evalCond(e.when, state); })[0];
+    var addenda = (cfg.epilogueAddenda || [])
+      .filter(function (a) { return evalCond(a.when, state); })
+      .map(function (a) { return a.text; });
+    return { outcome: outcome, addenda: addenda };
+  }
+
+  function moodWord(value, cfg) {
+    for (var i = 0; i < cfg.moods.length; i++) if (value >= cfg.moods[i].atLeast) return cfg.moods[i].word;
+    return '';
+  }
+
+  // Catch config mistakes early: returns a list of human-readable problems.
+  function validateConfig(cfg) {
+    var problems = [];
+    var probe = initialState(cfg);
+    function tryCond(c, where) {
+      try { evalCond(c, probe); } catch (e) { problems.push(where + ': ' + e.message); }
+    }
+    function tryDeltas(d, where) {
+      try { applyDeltas(probe, d, where, cfg); } catch (e) { problems.push(where + ': ' + e.message); }
+    }
+    var ids = {};
+    cfg.rounds.forEach(function (r, i) {
+      if (!r.id) problems.push('Round ' + (i + 1) + ' has no id');
+      if (ids[r.id]) problems.push('Duplicate round id ' + r.id);
+      ids[r.id] = true;
+      if (!r.options || !r.options.length) problems.push(r.id + ' has no options');
+      (r.options || []).forEach(function (o) {
+        if (!/^[A-Z]$/.test(o.key) || 'FHIKLRTUV'.indexOf(o.key) !== -1) {
+          problems.push(r.id + ' option key "' + o.key + '" must be a single letter not used by another control (A, B, C are safest)');
+        }
+        tryDeltas(o.deltas, r.id + ' ' + o.key);
+        (o.variants || []).forEach(function (v) {
+          tryCond(v.when, r.id + ' ' + o.key + ' variant');
+          tryDeltas(v.deltas, r.id + ' ' + o.key + ' variant');
+        });
+      });
+      (r.startEffects || []).forEach(function (e) {
+        tryCond(e.when, r.id + ' start effect');
+        tryDeltas(e.deltas, r.id + ' start effect');
+      });
+    });
+    cfg.fire.tiers.forEach(function (t) { tryCond(t.when, 'fire tier ' + t.id); tryDeltas(t.deltas, 'fire tier ' + t.id); });
+    cfg.epilogues.forEach(function (e) { tryCond(e.when, 'epilogue ' + e.id); });
+    (cfg.epilogueAddenda || []).forEach(function (a, i) { tryCond(a.when, 'epilogue addendum ' + (i + 1)); });
+    var last = cfg.epilogues[cfg.epilogues.length - 1];
+    if (!last || JSON.stringify(last.when) !== JSON.stringify({ meter: 'forest', atLeast: 0 })) {
+      problems.push('The last epilogue should be a catch-all ({ meter: "forest", atLeast: 0 }) so every game gets an ending');
+    }
+    return problems;
+  }
+
+  var engine = {
+    SENTIMENTS: SENTIMENTS,
+    clone: clone,
+    initialState: initialState,
+    evalCond: evalCond,
+    applyDeltas: applyDeltas,
+    startRound: startRound,
+    resolveOption: resolveOption,
+    applyOption: applyOption,
+    manualTick: manualTick,
+    fireTier: fireTier,
+    resolveFire: resolveFire,
+    epilogue: epilogue,
+    moodWord: moodWord,
+    meterValue: meterValue,
+    validateConfig: validateConfig,
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = engine;
+  else root.Mount7Engine = engine;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+(function () {
+  'use strict';
+  var cfg = window.MOUNT7_CONFIG;
+  var E = window.Mount7Engine;
+  var errBox = document.getElementById('configError');
+  if (!cfg || !E) {
+    errBox.style.display = 'block';
+    errBox.textContent = 'Could not load content/config.js or app/engine.js. Keep the folders together, or use the single-file build in dist/.';
+    return;
+  }
+  var problems = E.validateConfig(cfg);
+  if (problems.length) {
+    errBox.style.display = 'block';
+    errBox.textContent = 'There is a problem in content/config.js:\n\n' + problems.join('\n');
+    return;
+  }
+
+  var $ = function (sel, el) { return (el || document).querySelector(sel); };
+  var SENT = E.SENTIMENTS;
+
+  // ---- Screens ---------------------------------------------------------------------------
+  var screens = [{ type: 'title' }, { type: 'setup' }];
+  cfg.rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
+  screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
+
+  // ---- State and history -----------------------------------------------------------------
+  var state, screenIndex, history, debriefStep, shown, textHidden, resetArmedUntil = 0;
+
+  function fresh() {
+    state = E.initialState(cfg);
+    screenIndex = 0;
+    history = [];
+    debriefStep = 0;
+    textHidden = false;
+    // What the meters currently display, so animations run from the old value to the new one.
+    shown = { treasury: state.treasury, forest: state.forest, meters: E.clone(state.meters) };
+    SENT.concat(['treasury', 'forest']).forEach(hideDelta);
+  }
+
+  // undoScreen: where Undo should land (defaults to the current screen).
+  function commit(result, label, undoScreen) {
+    history.push({ state: state, screenIndex: undoScreen == null ? screenIndex : undoScreen, label: label });
+    var wasSold = state.sold;
+    state = result.state;
+    animateChanges(result.changes);
+    if (!wasSold && state.sold) setTimeout(showSold, 1900);
+  }
+
+  function undo() {
+    if (!history.length) return toast('Nothing to undo');
+    var h = history.pop();
+    state = h.state;
+    screenIndex = h.screenIndex;
+    hideOverlay('soldOverlay');
+    var changes = diffShown();
+    render();
+    animateChanges(changes);
+    toast('Undid: ' + h.label);
+  }
+
+  // Changes between what is displayed and the real state (used after undo).
+  function diffShown() {
+    var c = [];
+    if (shown.treasury !== state.treasury) c.push({ meter: 'treasury', from: shown.treasury, to: state.treasury });
+    if (shown.forest !== state.forest) c.push({ meter: 'forest', from: shown.forest, to: state.forest });
+    SENT.forEach(function (k) {
+      if (shown.meters[k] !== state.meters[k]) c.push({ meter: k, from: shown.meters[k], to: state.meters[k] });
+    });
+    return c;
+  }
+
+  // ---- Formatting ------------------------------------------------------------------------
+  function money(n) {
+    var s = '$' + Math.abs(Math.round(n)).toLocaleString('en-CA');
+    return n < 0 ? '−' + s : s;
+  }
+  function signedMoney(n) { return (n >= 0 ? '+' : '−') + money(Math.abs(n)).replace('−', ''); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function forestWord(v) {
+    if (v >= 75) return 'Tinderbox';
+    if (v >= 60) return 'Dense';
+    if (v >= 40) return 'Balanced';
+    if (v >= 25) return 'Thinned';
+    return 'Scarred';
+  }
+
+  // ---- Meters ----------------------------------------------------------------------------
+  function setupMeters() {
+    $('#brand').textContent = cfg.forestName;
+    $('#m-treasury .meter-name').textContent = cfg.treasury.label;
+    SENT.forEach(function (k) {
+      $('#m-' + k + ' .meter-name').textContent = cfg.meters[k].label;
+      $('#m-' + k + ' .meter-bloc').textContent = cfg.meters[k].bloc;
+    });
+    $('#m-forest .meter-name').textContent = cfg.forest.label;
+    $('#lushEnd').textContent = cfg.forest.lushEnd.health + ' · ' + cfg.forest.lushEnd.risk;
+    $('#thinEnd').textContent = cfg.forest.thinEnd.health + ' · ' + cfg.forest.thinEnd.risk;
+    var tier = cfg.fire.tiers[0];
+    var zoneFrom = tier.when && tier.when.meter === 'forest' ? tier.when.atLeast : null;
+    if (zoneFrom != null) $('#fireZone').style.width = (100 - zoneFrom) + '%';
+  }
+
+  // Slider position: lush (100) on the left, thinned (0) on the right.
+  function forestLeft(v) { return (100 - v) + '%'; }
+
+  function drawMeter(meter, value) {
+    if (meter === 'treasury') {
+      $('#m-treasury .value').textContent = money(value);
+      $('#m-treasury .fill').style.width = Math.max(0, Math.min(100, value / cfg.treasury.barMax * 100)) + '%';
+      $('#m-treasury').classList.toggle('negative', value <= 0);
+    } else if (meter === 'forest') {
+      $('#m-forest .value').textContent = forestWord(value) + ' · ' + Math.round(value) + '/100';
+      $('#forestMarker').style.left = forestLeft(value);
+    } else {
+      $('#m-' + meter + ' .value').textContent = Math.round(value);
+      $('#m-' + meter + ' .mood').textContent = E.moodWord(value, cfg);
+      $('#m-' + meter + ' .fill').style.width = value + '%';
+    }
+  }
+
+  function drawLedger() {
+    var rows = state.ledger.slice(-3).reverse();
+    $('#m-treasury .ledger').innerHTML = rows.map(function (r) {
+      return '<div><span>' + esc(r.label) + '</span><span>' + signedMoney(r.amount) + '</span></div>';
+    }).join('');
+  }
+
+  function drawAllMeters() {
+    drawMeter('treasury', state.treasury);
+    drawMeter('forest', state.forest);
+    SENT.forEach(function (k) { drawMeter(k, state.meters[k]); });
+    SENT.concat(['treasury', 'forest']).forEach(function (m) { tweenIds[m] = (tweenIds[m] || 0) + 1; });
+    shown = { treasury: state.treasury, forest: state.forest, meters: E.clone(state.meters) };
+    drawLedger();
+  }
+
+  // One running tween per meter: a newer one cancels the older.
+  var tweenIds = {};
+  function tween(meter, from, to, ms, step) {
+    var id = (tweenIds[meter] || 0) + 1;
+    tweenIds[meter] = id;
+    var t0 = performance.now();
+    function frame(t) {
+      if (tweenIds[meter] !== id) return;
+      var p = Math.min(1, (t - t0) / ms);
+      var e = 1 - Math.pow(1 - p, 3);
+      step(from + (to - from) * e);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function hideDelta(meter) {
+    var d = $('#m-' + meter + ' .delta');
+    if (d) d.className = 'delta';
+  }
+
+  function showDelta(meter, amount) {
+    var d = $('#m-' + meter + ' .delta');
+    var up = amount > 0;
+    var txt;
+    if (meter === 'treasury') txt = signedMoney(amount);
+    else if (meter === 'forest') txt = (up ? 'denser' : 'thinner');
+    else txt = (up ? '+' : '−') + Math.abs(amount);
+    // The forest delta is neither good nor bad; show direction only.
+    var cls = meter === 'forest' ? '' : (up ? ' up' : ' down');
+    d.textContent = (up ? '▲ ' : '▼ ') + txt;
+    d.className = 'delta' + cls;
+    void d.offsetWidth;
+    d.className = 'delta show' + cls;
+  }
+
+  function animateChanges(changes) {
+    // Collapse several changes to the same meter (e.g. bleed then growth) into one move.
+    var net = {};
+    changes.forEach(function (c) {
+      if (!net[c.meter]) net[c.meter] = { from: c.from, to: c.to };
+      else net[c.meter].to = c.to;
+    });
+    SENT.concat(['treasury', 'forest']).forEach(function (m) { if (!net[m]) hideDelta(m); });
+    Object.keys(net).forEach(function (m) {
+      var from = m === 'treasury' ? shown.treasury : m === 'forest' ? shown.forest : shown.meters[m];
+      var to = net[m].to;
+      if (from === to) return;
+      showDelta(m, to - from);
+      tween(m, from, to, 1800, function (v) { drawMeter(m, v); });
+      if (m === 'treasury') shown.treasury = to;
+      else if (m === 'forest') shown.forest = to;
+      else shown.meters[m] = to;
+    });
+    drawLedger();
+  }
+
+  // ---- Rendering screens -----------------------------------------------------------------
+  function currentRoundNumber() {
+    var s = screens[screenIndex];
+    if (s.type === 'round') return s.index + 1;
+    if (s.type === 'fire' || s.type === 'epilogue') return cfg.rounds.length;
+    return 0;
+  }
+
+  function render() {
+    var s = screens[screenIndex];
+    var stage = $('#stage');
+    var content = $('#content');
+    stage.classList.toggle('full', s.type === 'reveal' || s.type === 'debrief');
+    $('#meters').classList.toggle('dormant', s.type === 'title');
+    content.classList.toggle('hidden-text', textHidden);
+    var zoneOn = currentRoundNumber() >= cfg.forest.showFireZoneFromRound;
+    $('#fireZone').classList.toggle('on', zoneOn);
+    $('#forestTrack').classList.toggle('zone', zoneOn);
+
+    var status = $('#status');
+    status.classList.toggle('on', state.sold);
+    status.textContent = 'Sold · post-mortem';
+
+    var label = '';
+    if (s.type === 'round') label = 'Year ' + (s.index + 1) + ' of ' + cfg.rounds.length + ' · ' + s.round.title;
+    else if (s.type === 'fire') label = cfg.fire.title;
+    else if (s.type === 'epilogue') label = '50 years later';
+    else if (s.type === 'reveal') label = 'Did the room change its mind?';
+    else if (s.type === 'debrief') label = 'What you just did';
+    $('#roundLabel').textContent = label;
+
+    content.innerHTML = RENDER[s.type](s);
+  }
+
+  var RENDER = {
+    title: function () {
+      return '<div class="center"><div class="title-name">' + esc(cfg.forestName) + '</div>' +
+        (cfg.titleScreen.question ? '<div class="title-q">' + esc(cfg.titleScreen.question) + '</div>' : '') +
+        roomVoteNote('opening') + '</div>';
+    },
+    setup: function () {
+      var su = cfg.setupScreen;
+      var items = [
+        '<li><b>' + esc(cfg.treasury.label) + '.</b> The board’s cash. Fixed costs come out every year, whatever you decide.</li>'
+      ];
+      SENT.forEach(function (k) {
+        items.push('<li><b>' + esc(cfg.meters[k].label) + '.</b> ' + esc(cfg.meters[k].bloc) + '. That is you.</li>');
+      });
+      items.push('<li><b>' + esc(cfg.forest.label) + '.</b> One slider. Lush forest means high fire risk. Thinned forest means low fire risk.</li>');
+      return '<div class="center"><h1>' + esc(su.heading) + '</h1>' +
+        su.lines.map(function (l) { return '<p class="prompt">' + esc(l) + '</p>'; }).join('') +
+        '<ul class="setup-list">' + items.join('') + '</ul>' +
+        '<div class="rule">' + esc(su.rule) + '</div>' + roomVoteNote('opening') + '</div>';
+    },
+    round: function (s) {
+      var r = s.round;
+      var chosen = state.choices[r.id];
+      var votes = state.votes[r.id];
+      var html = '<div class="kicker">Year ' + (s.index + 1) + ' of ' + cfg.rounds.length +
+        (state.sold ? ' · post-mortem: what would you have done?' : '') + '</div>' +
+        '<h1>' + esc(r.title) + '</h1><p class="prompt">' + esc(r.prompt) + '</p>' +
+        '<div class="options' + (chosen ? ' decided' : '') + '">';
+      r.options.forEach(function (o) {
+        var isChosen = chosen === o.key;
+        var tally = '';
+        if (votes) {
+          var parts = [];
+          if (votes.ballot) parts.push('Ballot ' + (votes.ballot[o.key] || 0));
+          if (votes.hands) parts.push('Hands ' + (votes.hands[o.key] || 0));
+          tally = '<div class="tally">' + parts.join(' · ') + '</div>';
+        }
+        html += '<div class="option' + (isChosen ? ' chosen' : '') + '">' +
+          '<div class="key">' + esc(o.key) + '</div>' +
+          '<div class="label">' + esc(o.label) + (isChosen ? '<span class="chosen-tag">BOARD DECISION</span>' : '') + '</div>' +
+          '<div class="detail">' + esc(o.detail || '') + '</div>' + tally;
+        if (isChosen) {
+          var applied = state._applied && state._applied[r.id];
+          html += '<div class="after"><p>' + esc(o.consequence || '') + '</p>' +
+            (applied ? applied.map(function (n) { return '<p class="note">' + esc(n) + '</p>'; }).join('') : '') + '</div>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+      var ev = state._events && state._events[r.id];
+      if (ev && ev.length && !chosen) {
+        html += '<div class="events">' + ev.map(function (e) { return '<div>' + esc(e) + '</div>'; }).join('') + '</div>';
+      }
+      return html;
+    },
+    fire: function () {
+      if (!state.fire) {
+        return '<div class="center"><div class="kicker">' + esc(cfg.fire.title) + '</div>' +
+          '<p class="empty">Waiting on the board’s ' + esc(cfg.rounds[cfg.rounds.length - 1].title) + ' decision. Press ← to go back.</p></div>';
+      }
+      var tier = cfg.fire.tiers.filter(function (t) { return t.id === state.fire; })[0];
+      return '<div class="center"><div class="kicker">' + esc(cfg.fire.title) + '</div>' +
+        '<div class="outcome-title">' + esc(tier.title) + '</div><p class="outcome-text">' + esc(tier.text) + '</p></div>';
+    },
+    epilogue: function () {
+      var ep = E.epilogue(state, cfg);
+      var path = cfg.rounds.map(function (r) {
+        var k = state.choices[r.id];
+        var o = k && r.options.filter(function (x) { return x.key === k; })[0];
+        return esc(r.title) + ': <b>' + (o ? esc(o.label) : '—') + '</b>';
+      }).join(' &nbsp;→&nbsp; ');
+      return '<div class="center"><div class="kicker">50 years later</div>' +
+        '<div class="outcome-title">' + esc(ep.outcome.title) + '</div>' +
+        '<p class="outcome-text">' + esc(ep.outcome.text) + '</p>' +
+        '<div class="addenda">' + ep.addenda.map(function (a) { return '<p>' + esc(a) + '</p>'; }).join('') + '</div>' +
+        '<div class="path">' + path + '</div></div>';
+    },
+    reveal: function () {
+      return '<div class="center"><h1>' + esc(cfg.roomVote.question) + '</h1><div class="votes">' +
+        voteColumn('At the start', state.roomVote.opening) +
+        voteColumn('Now', state.roomVote.closing) + '</div>' +
+        (state.roomVote.closing ? '' : '<p class="empty">Take the closing vote, then press V to enter it.</p>') + '</div>';
+    },
+    debrief: function () {
+      var items = cfg.debrief.map(function (d, i) {
+        return '<li class="' + (i < debriefStep ? 'on' : '') + '"><b>' + esc(d.term) + '</b><span>' + esc(d.line) + '</span></li>';
+      }).join('');
+      return '<div class="center"><ul class="debrief">' + items + '</ul>' +
+        '<p class="closing' + (debriefStep > cfg.debrief.length ? ' on' : '') + '">' + esc(cfg.closing) + '</p></div>';
+    },
+  };
+
+  function roomVoteNote(which) {
+    var v = state.roomVote[which];
+    if (!v) return '';
+    var total = cfg.roomVote.choices.reduce(function (n, c) { return n + (v[c] || 0); }, 0);
+    return '<p class="path">Opening vote recorded (' + total + ' votes). It comes back at the end.</p>';
+  }
+
+  function voteColumn(title, v) {
+    if (!v) return '<div class="vote-col"><h3>' + esc(title) + '</h3><p class="empty">Not entered</p></div>';
+    var total = cfg.roomVote.choices.reduce(function (n, c) { return n + (v[c] || 0); }, 0) || 1;
+    return '<div class="vote-col"><h3>' + esc(title) + '</h3>' + cfg.roomVote.choices.map(function (c) {
+      var n = v[c] || 0;
+      return '<div class="vote-row"><span>' + esc(c) + '</span><div class="bar"><div class="fill" style="width:' +
+        (n / total * 100) + '%"></div></div><span class="n">' + n + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  // ---- Navigation ------------------------------------------------------------------------
+  function go(delta) {
+    var s = screens[screenIndex];
+    if (s.type === 'debrief' && delta > 0 && debriefStep <= cfg.debrief.length) {
+      debriefStep++;
+      render();
+      return;
+    }
+    if (s.type === 'debrief' && delta < 0 && debriefStep > 0) {
+      debriefStep--;
+      render();
+      return;
+    }
+    var next = screenIndex + delta;
+    if (next < 0 || next >= screens.length) return;
+    screenIndex = next;
+    render();
+    onEnter(screens[screenIndex]);
+  }
+
+  // Entering a round for the first time applies its start effects (bleed, growth, carry-forwards).
+  function onEnter(s) {
+    // A short pause so the room sees the new screen before the meters move.
+    // Undoing these lands on the previous screen, so the effects are not immediately re-applied.
+    if (s.type === 'round' && !state.started[s.round.id]) {
+      setTimeout(function () {
+        if (screens[screenIndex] !== s || state.started[s.round.id]) return;
+        var r = E.startRound(state, s.round.id, cfg);
+        r.state._events = r.state._events || {};
+        r.state._events[s.round.id] = r.events;
+        commit(r, s.round.title + ' start', screenIndex - 1);
+        render();
+      }, 700);
+    }
+    if (s.type === 'fire' && !state.fire && state.choices[cfg.rounds[cfg.rounds.length - 1].id]) {
+      setTimeout(function () {
+        if (screens[screenIndex] !== s || state.fire) return;
+        commit(E.resolveFire(state, cfg), 'Fire season', screenIndex - 1);
+        render();
+      }, 700);
+    }
+  }
+
+  function applyOption(key) {
+    var s = screens[screenIndex];
+    if (s.type !== 'round') return;
+    if (!state.started[s.round.id]) return toast('One moment: the year is still starting');
+    if (!s.round.options.some(function (o) { return o.key === key; })) return;
+    if (state.choices[s.round.id]) return toast('Already decided. Press U to undo first.');
+    var r = E.applyOption(state, s.round.id, key, cfg);
+    r.state._applied = r.state._applied || {};
+    r.state._applied[s.round.id] = r.option.notes;
+    commit(r, s.round.title + ': ' + r.option.label);
+    render();
+  }
+
+  function tick() {
+    var s = screens[screenIndex];
+    if (s.type === 'title' || s.type === 'reveal' || s.type === 'debrief') return;
+    commit(E.manualTick(state, cfg), 'Treasury tick');
+  }
+
+  // ---- Overlays --------------------------------------------------------------------------
+  function overlayOpen() { return !!document.querySelector('.overlay.on'); }
+  function showOverlay(id) { document.getElementById(id).classList.add('on'); }
+  function hideOverlay(id) { document.getElementById(id).classList.remove('on'); }
+  function hideAllOverlays() { document.querySelectorAll('.overlay.on').forEach(function (o) { o.classList.remove('on'); }); }
+
+  function showSold() {
+    if (!state.sold) return;
+    $('#soldText').textContent = 'The Treasury hit zero (' + state.soldDuring + '). An outside company bought ' +
+      cfg.forestName + '. It does not care about the trails or the view.';
+    showOverlay('soldOverlay');
+  }
+
+  var toastTimer;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('on'); }, 2200);
+  }
+
+  // Vote entry: a round's ballot + hands, or the opening / closing room vote.
+  var voteTarget = null;
+  function openVotes() {
+    var s = screens[screenIndex];
+    var form = $('#voteForm');
+    var rows, cols, existing;
+    if (s.type === 'round') {
+      voteTarget = { kind: 'round', id: s.round.id };
+      cols = s.round.options.map(function (o) { return o.key; });
+      rows = [['ballot', 'Private ballot'], ['hands', 'Public hands']];
+      existing = state.votes[s.round.id] || {};
+      $('#voteTitle').textContent = 'Votes: ' + s.round.title;
+    } else {
+      var which = (s.type === 'title' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
+      if (!which) return toast('Votes can be entered on round screens, the opening screens, or the reveal');
+      voteTarget = { kind: 'room', id: which };
+      cols = cfg.roomVote.choices;
+      rows = [[which, which === 'opening' ? 'Opening vote' : 'Closing vote']];
+      existing = {};
+      existing[which] = state.roomVote[which];
+      $('#voteTitle').textContent = cfg.roomVote.question;
+    }
+    form.style.gridTemplateColumns = 'auto repeat(' + cols.length + ', 5em)';
+    var html = '<span></span>' + cols.map(function (c) { return '<span class="h">' + esc(c) + '</span>'; }).join('');
+    rows.forEach(function (row) {
+      html += '<span>' + esc(row[1]) + '</span>';
+      cols.forEach(function (c) {
+        var v = existing[row[0]] ? existing[row[0]][c] : '';
+        html += '<input inputmode="numeric" pattern="[0-9]*" data-row="' + row[0] + '" data-col="' + esc(c) + '" value="' + (v == null ? '' : v) + '">';
+      });
+    });
+    form.innerHTML = html;
+    showOverlay('voteOverlay');
+    form.querySelector('input').focus();
+    form.querySelector('input').select();
+  }
+
+  function saveVotes(e) {
+    e.preventDefault();
+    var data = {};
+    $('#voteForm').querySelectorAll('input').forEach(function (inp) {
+      var row = inp.dataset.row;
+      var v = inp.value.trim();
+      data[row] = data[row] || {};
+      if (v !== '') data[row][inp.dataset.col] = Math.max(0, parseInt(v, 10) || 0);
+    });
+    Object.keys(data).forEach(function (row) { if (!Object.keys(data[row]).length) data[row] = null; });
+    var next = E.clone(state);
+    if (voteTarget.kind === 'round') next.votes[voteTarget.id] = data;
+    else next.roomVote[voteTarget.id] = data[voteTarget.id];
+    history.push({ state: state, screenIndex: screenIndex, label: 'vote entry' });
+    state = next;
+    hideOverlay('voteOverlay');
+    render();
+  }
+
+  function openNotes() {
+    var s = screens[screenIndex];
+    var body = '';
+    if (s.type === 'round') {
+      body += '<p><b>' + esc(s.round.title) + '.</b> ' + esc(s.round.chairNote || '') + '</p>';
+      body += '<table><tr><th>Option</th><th>Treasury</th>' + SENT.map(function (k) {
+        return '<th>' + esc(cfg.meters[k].label) + '</th>';
+      }).join('') + '<th>Forest</th></tr>';
+      s.round.options.forEach(function (o) {
+        var ro = E.resolveOption(state, s.round.id, o.key, cfg);
+        var d = ro.deltas;
+        body += '<tr><td>' + esc(o.key + '. ' + o.label) + '</td><td>' + signedMoney(d.treasury || 0) + '</td>' +
+          SENT.map(function (k) { return '<td>' + (d[k] > 0 ? '+' : '') + (d[k] || 0) + '</td>'; }).join('') +
+          '<td>' + (d.forest > 0 ? '+' : '') + (d.forest || 0) + '</td></tr>';
+        ro.notes.forEach(function (n) { body += '<tr><td colspan="6" style="text-align:left">&nbsp;&nbsp;↳ ' + esc(n) + '</td></tr>'; });
+      });
+      body += '</table><p class="small">Forest: + is toward lush and fire risk, − is toward thinned.</p>';
+    } else if (s.type === 'title' || s.type === 'setup') {
+      body = '<p>Cold open: no introduction. Ask the question, let them guess, then introduce yourself.</p>' +
+        '<p>Take the opening vote on "' + esc(cfg.roomVote.question) + '" and press V to enter it.</p>';
+    } else if (s.type === 'fire') {
+      body = '<p>The fire outcome is read straight off the slider after the Round 4 decision. Not luck: the board they ran decides.</p>';
+    } else if (s.type === 'epilogue') {
+      body = '<p>Read the outcome, then move to the reveal: opening vote beside closing vote.</p>';
+    } else if (s.type === 'reveal') {
+      body = '<p>Take the closing vote and press V to enter it. Let them see the room changed its own mind (or did not).</p>';
+    } else {
+      body = '<p>Press Space to reveal each concept. One sentence each, then move on. End on the 80-year close.</p>';
+    }
+    $('#notesBody').innerHTML = body;
+    showOverlay('notesOverlay');
+  }
+
+  // ---- Keyboard --------------------------------------------------------------------------
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key;
+    if ($('#voteOverlay').classList.contains('on')) {
+      if (k === 'Escape') { hideOverlay('voteOverlay'); e.preventDefault(); }
+      if (k === 'Enter') saveVotes(e);
+      return; // typing goes to the inputs
+    }
+    if ($('#soldOverlay').classList.contains('on')) {
+      if (k === ' ' || k === 'Enter' || k === 'Escape') { hideOverlay('soldOverlay'); e.preventDefault(); return; }
+      if (k === 'u' || k === 'U') { undo(); e.preventDefault(); }
+      return;
+    }
+    if (overlayOpen()) {
+      if (k === 'Escape' || k === '?' || k === 'i' || k === 'I' || k === 'k' || k === 'K') { hideAllOverlays(); e.preventDefault(); }
+      return;
+    }
+    var upper = k.length === 1 ? k.toUpperCase() : k;
+    switch (upper) {
+      case ' ': case 'ArrowRight': case 'PageDown': case 'Enter': go(1); break;
+      case 'ArrowLeft': case 'PageUp': case 'Backspace': go(-1); break;
+      case 'U': undo(); break;
+      case 'T': tick(); break;
+      case 'V': openVotes(); break;
+      case 'H': textHidden = !textHidden; render(); break;
+      case 'I': openNotes(); break;
+      case '?': case 'K': showOverlay('keysOverlay'); break;
+      case 'L': toggleTheme(); break;
+      case 'F': toggleFullscreen(); break;
+      case 'R':
+        if (performance.now() < resetArmedUntil) { resetArmedUntil = 0; fresh(); render(); drawAllMeters(); toast('Reset. Ready for the next class.'); }
+        else { resetArmedUntil = performance.now() + 3000; toast('Press R again to reset everything'); }
+        break;
+      default:
+        if (/^[A-Z]$/.test(upper)) applyOption(upper); else return;
+    }
+    e.preventDefault();
+  });
+
+  $('#voteForm').addEventListener('submit', saveVotes);
+  document.querySelectorAll('.overlay').forEach(function (o) {
+    o.addEventListener('click', function (e) { if (e.target === o && o.id !== 'voteOverlay') o.classList.remove('on'); });
+  });
+
+  function toggleTheme() {
+    var root = document.documentElement;
+    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  }
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+    else if (document.exitFullscreen) document.exitFullscreen();
+  }
+
+  // Test hook: lets automated checks drive the dashboard without key events.
+  window.__mount7 = { get state() { return state; }, get screen() { return screens[screenIndex]; } };
+
+  setupMeters();
+  fresh();
+  render();
+  drawAllMeters();
+})();
+</script>
+</body>
+</html>

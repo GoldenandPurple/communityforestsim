@@ -45,22 +45,29 @@ starting value and the `[tune]` deltas in `SCENARIOS.md`.
 - [ ] Starting position of the **Forest Health / Wildfire Risk** slider, and how much each option
   moves it, so Round 4 lands as a real reckoning rather than an obvious loss or an obvious escape.
 - [ ] The carry-forward links (Round 1 sentiment into Round 3 options; Round 2 choice into Round 3
-  and Round 4 exposure). Decide the exact rules when tuning.
+  and Round 4 exposure). Decide the exact rules when tuning. *v1 placeholders, all in
+  `content/config.js`: taking the buyout weakens co-management and its Round 4 dividend; low
+  Residents or Bikers trust makes co-management cost more (a public process); a Forestry bloc
+  already below 30 gains nothing when the board declines; co-management pays funding and a
+  cultural burning program into Round 4. The forest grows every round, so fuel builds on its own.*
 
 ## Design decisions still open
 
 - [ ] **Round 2 framing:** salvage windfall, outside buyout, or offer both and let the board pick
   which to entertain. Buyout is sharper for the value-capture lesson; salvage is more visceral.
+  *v1 default: buyout (15-year timber lease). The salvage text is in the round's chair note.*
 - [ ] **Real numbers vs deliberately simplified numbers.** A real AAC volume is credible but may be
   clumsy to run votes against. Consider round, legible figures that are clearly *based on* the real
   ones, and say so. Decide the balance.
 - [ ] **Insolvency behaviour:** does hitting zero Treasury stop the sim, or continue it as a
   post-mortem with the forest now owned by an outside company? The latter is arguably a better
-  lesson.
+  lesson. *v1 default: "The forest has been sold" screen, then Space continues as a post-mortem
+  (or U undoes). The epilogue is always "Sold off and logged out".*
 - [ ] **Whether to show the ballot count on screen** or keep votes as hands only. Showing a private
   ballot count next to the public show of hands is a nice touch but adds operator load.
+  *v1: optional. V opens the entry form; if nothing is entered, nothing is shown.*
 - [ ] **Second-class reuse.** If this gets run in more than one period, does anything need to change
-  between runs, or is a reset enough?
+  between runs, or is a reset enough? *v1: R R (or a page reload) resets everything.*
 
 ## Format assumptions to confirm with the teacher
 
