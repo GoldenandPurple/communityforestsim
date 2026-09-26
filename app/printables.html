@@ -40,7 +40,8 @@
   <h1>Mount 7: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
   ballot slips for each round and for the opening and closing vote, a sign for each third of the room, and the voiceless seat's card.</p>
-  <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.</p>
+  <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
+  Running the short game? Skip the pages marked <em>full game only</em>.</p>
   <p><button onclick="window.print()">Print</button></p>
 </div>
 <div id="pages"></div>
@@ -68,8 +69,9 @@
   var html = '';
   var roomChoices = cfg.roomVote.choices.map(function (c) { return { label: c }; });
   html += slipPage('Opening and closing vote', cfg.forestName, cfg.roomVote.question, roomChoices);
-  cfg.rounds.forEach(function (r, i) {
-    html += slipPage('Ballot: ' + r.title, 'Year ' + (i + 1) + ' of ' + cfg.rounds.length + ' · private ballot', r.title,
+  // Ballots for every round; rounds only played in the full game are marked, so you can skip printing them.
+  cfg.rounds.forEach(function (r) {
+    html += slipPage('Ballot: ' + r.title + (r.fullGameOnly ? ' (full game only)' : ''), 'Private ballot', r.title,
       r.options.map(function (o) { return { key: o.key, label: o.label }; }));
   });
 

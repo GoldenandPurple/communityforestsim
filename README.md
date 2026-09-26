@@ -1,7 +1,7 @@
 # Mount 7 Community Forest
 
-A 50-minute governance simulation for a high school class. The class is the board of a
-community forest above Golden, BC. Over four rounds (four years), they have to keep the forest
+A governance simulation for a high school class. The class is the board of a community forest
+above Golden, BC. Over seven years (or four, in the short game that fits a 50-minute period), they have to keep the forest
 solvent while balancing wildfire risk, three stakeholder groups with conflicting interests, and a
 co-management proposal from the First Nations whose territory it is. No path wins on every
 meter. That is the lesson.
@@ -10,7 +10,9 @@ meter. That is the lesson.
 
 1. Open **`dist/mount7-dashboard.html`** in any browser (double-click it). It is one
    self-contained file: no internet, no install. Copy it to a USB stick if you like.
-2. Put it on the projector, press **F** for fullscreen, and **?** to see the keys.
+2. Put it on the projector, press **F** for fullscreen, and **?** to see the keys. On the title
+   screen, **G** switches between the full game (7 years, about 75 minutes) and the short game
+   (4 years, fits a 50-minute period).
 3. Print **`dist/mount7-printables.html`**: ballot slips, the three bloc signs, and the
    voiceless seat's card.
 
@@ -27,7 +29,7 @@ clicker works for next and back.
 | `content/config.js` | **Every number and every word on screen.** Edit this to tune the game |
 | `app/dashboard.html`, `app/engine.js` | The dashboard source (opens directly from the repo too) |
 | `app/printables.html` | Printable ballots and signs, generated from the config |
-| `tools/simulate.mjs` | Plays all 81 paths and flags tuning problems |
+| `tools/simulate.mjs` | Plays every path through both game lengths and flags tuning problems |
 | `tools/build.mjs` | Rebuilds the single-file classroom versions in `dist/` |
 
 ## Tuning the numbers

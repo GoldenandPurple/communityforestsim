@@ -15,12 +15,18 @@
     return Math.max(lo, Math.min(hi, v));
   }
 
-  function initialState(cfg) {
+  // The rounds played in a game length: the short game skips rounds marked fullGameOnly.
+  function activeRounds(cfg, length) {
+    return cfg.rounds.filter(function (r) { return length !== 'short' || !r.fullGameOnly; });
+  }
+
+  function initialState(cfg, length) {
     var meters = {};
     SENTIMENTS.forEach(function (k) {
       meters[k] = cfg.meters[k].start;
     });
     return {
+      length: length || cfg.defaultLength || 'full',
       treasury: cfg.treasury.start,
       meters: meters,
       forest: cfg.forest.start,
@@ -57,6 +63,7 @@
     }
     if ('sold' in cond) return state.sold === cond.sold;
     if ('fire' in cond) return state.fire === cond.fire;
+    if ('length' in cond) return state.length === cond.length;
     if (cond.meter) {
       var v = meterValue(state, cond.meter);
       if ('below' in cond && !(v < cond.below)) return false;
@@ -194,6 +201,13 @@
     function tryDeltas(d, where) {
       try { applyDeltas(probe, d, where, cfg); } catch (e) { problems.push(where + ': ' + e.message); }
     }
+    var lengthIds = (cfg.gameLengths || []).map(function (l) { return l.id; });
+    ['full', 'short'].forEach(function (id) {
+      if (lengthIds.indexOf(id) === -1) problems.push('gameLengths needs an entry with id "' + id + '"');
+    });
+    if (cfg.defaultLength && lengthIds.indexOf(cfg.defaultLength) === -1) problems.push('defaultLength must be one of the gameLengths ids');
+    if (!activeRounds(cfg, 'short').length) problems.push('The short game has no rounds: mark fewer rounds fullGameOnly');
+    (cfg.debrief || []).forEach(function (d, i) { tryCond(d.when, 'debrief item ' + (i + 1)); });
     var ids = {};
     cfg.rounds.forEach(function (r, i) {
       if (!r.id) problems.push('Round ' + (i + 1) + ' has no id');
@@ -201,7 +215,7 @@
       ids[r.id] = true;
       if (!r.options || !r.options.length) problems.push(r.id + ' has no options');
       (r.options || []).forEach(function (o) {
-        if (!/^[A-Z]$/.test(o.key) || 'FHIKLRTUV'.indexOf(o.key) !== -1) {
+        if (!/^[A-Z]$/.test(o.key) || 'FGHIKLRTUV'.indexOf(o.key) !== -1) {
           problems.push(r.id + ' option key "' + o.key + '" must be a single letter not used by another control (A, B, C are safest)');
         }
         tryDeltas(o.deltas, r.id + ' ' + o.key);
@@ -228,6 +242,7 @@
   var engine = {
     SENTIMENTS: SENTIMENTS,
     clone: clone,
+    activeRounds: activeRounds,
     initialState: initialState,
     evalCond: evalCond,
     applyDeltas: applyDeltas,

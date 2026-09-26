@@ -286,7 +286,8 @@
     <kbd>I</kbd><span>Chair's notes for this screen (the room can see them too)</span>
     <kbd>L</kbd><span>Light / dark theme, for a bright room</span>
     <kbd>F</kbd><span>Fullscreen</span>
-    <kbd>R R</kbd><span>Reset everything for the next class (press twice)</span>
+    <kbd>G</kbd><span>Game length, on the title screen: full (7 years) or short (4 years, fits 50 minutes)</span>
+    <kbd>R R</kbd><span>Reset everything for the next class (press twice). Keeps the game length.</span>
     <kbd>Esc</kbd><span>Close any overlay</span>
   </div>
   <p class="small">Nothing is saved: reloading the page also resets the simulation.</p>
@@ -336,15 +337,26 @@
   var SENT = E.SENTIMENTS;
 
   // ---- Screens ---------------------------------------------------------------------------
-  var screens = [{ type: 'title' }, { type: 'setup' }];
-  cfg.rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
-  screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
+  // Rebuilt whenever the game length changes (the short game skips fullGameOnly rounds).
+  var screens, rounds, screensLength;
+  function buildScreens() {
+    if (screensLength === state.length) return;
+    screensLength = state.length;
+    rounds = E.activeRounds(cfg, state.length);
+    screens = [{ type: 'title' }, { type: 'setup' }];
+    rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
+    screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
+  }
+  function lastRound() { return rounds[rounds.length - 1]; }
+  function debriefItems() { return cfg.debrief.filter(function (d) { return E.evalCond(d.when, state); }); }
+  function lengthInfo() { return cfg.gameLengths.filter(function (l) { return l.id === state.length; })[0]; }
 
   // ---- State and history -----------------------------------------------------------------
   var state, screenIndex, history, debriefStep, shown, textHidden, resetArmedUntil = 0;
 
   function fresh() {
-    state = E.initialState(cfg);
+    state = E.initialState(cfg, state ? state.length : undefined);
+    buildScreens();
     screenIndex = 0;
     history = [];
     debriefStep = 0;
@@ -367,6 +379,7 @@
     if (!history.length) return toast('Nothing to undo');
     var h = history.pop();
     state = h.state;
+    buildScreens();
     screenIndex = h.screenIndex;
     hideOverlay('soldOverlay');
     var changes = diffShown();
@@ -513,11 +526,12 @@
   }
 
   // ---- Rendering screens -----------------------------------------------------------------
-  function currentRoundNumber() {
+  // The fire zone shows from the round flagged showFireZone onwards, and on the outcome screens.
+  function fireZoneOn() {
     var s = screens[screenIndex];
-    if (s.type === 'round') return s.index + 1;
-    if (s.type === 'fire' || s.type === 'epilogue') return cfg.rounds.length;
-    return 0;
+    if (s.type === 'fire' || s.type === 'epilogue') return true;
+    if (s.type !== 'round') return false;
+    return rounds.slice(0, s.index + 1).some(function (r) { return r.showFireZone; });
   }
 
   function render() {
@@ -527,7 +541,7 @@
     stage.classList.toggle('full', s.type === 'reveal' || s.type === 'debrief');
     $('#meters').classList.toggle('dormant', s.type === 'title');
     content.classList.toggle('hidden-text', textHidden);
-    var zoneOn = currentRoundNumber() >= cfg.forest.showFireZoneFromRound;
+    var zoneOn = fireZoneOn();
     $('#fireZone').classList.toggle('on', zoneOn);
     $('#forestTrack').classList.toggle('zone', zoneOn);
 
@@ -536,7 +550,7 @@
     status.textContent = 'Sold · post-mortem';
 
     var label = '';
-    if (s.type === 'round') label = 'Year ' + (s.index + 1) + ' of ' + cfg.rounds.length + ' · ' + s.round.title;
+    if (s.type === 'round') label = 'Year ' + (s.index + 1) + ' of ' + rounds.length + ' · ' + s.round.title;
     else if (s.type === 'fire') label = cfg.fire.title;
     else if (s.type === 'epilogue') label = '50 years later';
     else if (s.type === 'reveal') label = 'Did the room change its mind?';
@@ -550,7 +564,9 @@
     title: function () {
       return '<div class="center"><div class="title-name">' + esc(cfg.forestName) + '</div>' +
         (cfg.titleScreen.question ? '<div class="title-q">' + esc(cfg.titleScreen.question) + '</div>' : '') +
-        roomVoteNote('opening') + '</div>';
+        roomVoteNote('opening') +
+        '<p class="path">' + esc(lengthInfo().label) + ': ' + rounds.length + ' years, ' + esc(lengthInfo().note) +
+        (Object.keys(state.started).length ? '' : ' \u00B7 G to change') + '</p></div>';
     },
     setup: function () {
       var su = cfg.setupScreen;
@@ -562,7 +578,7 @@
       });
       items.push('<li><b>' + esc(cfg.forest.label) + '.</b> One slider. Lush forest means high fire risk. Thinned forest means low fire risk.</li>');
       return '<div class="center"><h1>' + esc(su.heading) + '</h1>' +
-        su.lines.map(function (l) { return '<p class="prompt">' + esc(l) + '</p>'; }).join('') +
+        su.lines.map(function (l) { return '<p class="prompt">' + esc(l.replace(/\{years\}/g, rounds.length)) + '</p>'; }).join('') +
         '<ul class="setup-list">' + items.join('') + '</ul>' +
         '<div class="rule">' + esc(su.rule) + '</div>' + roomVoteNote('opening') + '</div>';
     },
@@ -570,7 +586,7 @@
       var r = s.round;
       var chosen = state.choices[r.id];
       var votes = state.votes[r.id];
-      var html = '<div class="kicker">Year ' + (s.index + 1) + ' of ' + cfg.rounds.length +
+      var html = '<div class="kicker">Year ' + (s.index + 1) + ' of ' + rounds.length +
         (state.sold ? ' · post-mortem: what would you have done?' : '') + '</div>' +
         '<h1>' + esc(r.title) + '</h1><p class="prompt">' + esc(r.prompt) + '</p>' +
         '<div class="options' + (chosen ? ' decided' : '') + '">';
@@ -604,7 +620,7 @@
     fire: function () {
       if (!state.fire) {
         return '<div class="center"><div class="kicker">' + esc(cfg.fire.title) + '</div>' +
-          '<p class="empty">Waiting on the board’s ' + esc(cfg.rounds[cfg.rounds.length - 1].title) + ' decision. Press ← to go back.</p></div>';
+          '<p class="empty">Waiting on the board’s ' + esc(lastRound().title) + ' decision. Press ← to go back.</p></div>';
       }
       var tier = cfg.fire.tiers.filter(function (t) { return t.id === state.fire; })[0];
       return '<div class="center"><div class="kicker">' + esc(cfg.fire.title) + '</div>' +
@@ -612,7 +628,7 @@
     },
     epilogue: function () {
       var ep = E.epilogue(state, cfg);
-      var path = cfg.rounds.map(function (r) {
+      var path = rounds.map(function (r) {
         var k = state.choices[r.id];
         var o = k && r.options.filter(function (x) { return x.key === k; })[0];
         return esc(r.title) + ': <b>' + (o ? esc(o.label) : '—') + '</b>';
@@ -630,11 +646,11 @@
         (state.roomVote.closing ? '' : '<p class="empty">Take the closing vote, then press V to enter it.</p>') + '</div>';
     },
     debrief: function () {
-      var items = cfg.debrief.map(function (d, i) {
+      var items = debriefItems().map(function (d, i) {
         return '<li class="' + (i < debriefStep ? 'on' : '') + '"><b>' + esc(d.term) + '</b><span>' + esc(d.line) + '</span></li>';
       }).join('');
       return '<div class="center"><ul class="debrief">' + items + '</ul>' +
-        '<p class="closing' + (debriefStep > cfg.debrief.length ? ' on' : '') + '">' + esc(cfg.closing) + '</p></div>';
+        '<p class="closing' + (debriefStep > debriefItems().length ? ' on' : '') + '">' + esc(cfg.closing) + '</p></div>';
     },
   };
 
@@ -658,7 +674,7 @@
   // ---- Navigation ------------------------------------------------------------------------
   function go(delta) {
     var s = screens[screenIndex];
-    if (s.type === 'debrief' && delta > 0 && debriefStep <= cfg.debrief.length) {
+    if (s.type === 'debrief' && delta > 0 && debriefStep <= debriefItems().length) {
       debriefStep++;
       render();
       return;
@@ -689,7 +705,7 @@
         render();
       }, 700);
     }
-    if (s.type === 'fire' && !state.fire && state.choices[cfg.rounds[cfg.rounds.length - 1].id]) {
+    if (s.type === 'fire' && !state.fire && state.choices[lastRound().id]) {
       setTimeout(function () {
         if (screens[screenIndex] !== s || state.fire) return;
         commit(E.resolveFire(state, cfg), 'Fire season', screenIndex - 1);
@@ -857,6 +873,7 @@
       case 'I': openNotes(); break;
       case '?': case 'K': showOverlay('keysOverlay'); break;
       case 'L': toggleTheme(); break;
+      case 'G': toggleLength(); break;
       case 'F': toggleFullscreen(); break;
       case 'R':
         if (performance.now() < resetArmedUntil) { resetArmedUntil = 0; fresh(); render(); drawAllMeters(); toast('Reset. Ready for the next class.'); }
@@ -872,6 +889,20 @@
   document.querySelectorAll('.overlay').forEach(function (o) {
     o.addEventListener('click', function (e) { if (e.target === o && o.id !== 'voteOverlay') o.classList.remove('on'); });
   });
+
+  // Game length can only change before Year 1 starts.
+  function toggleLength() {
+    var s = screens[screenIndex];
+    if (s.type !== 'title' && s.type !== 'setup') return toast('Change the game length on the title screen');
+    if (Object.keys(state.started).length) return toast('Reset first (R R) to change the game length');
+    var ids = cfg.gameLengths.map(function (l) { return l.id; });
+    var next = E.clone(state);
+    next.length = ids[(ids.indexOf(state.length) + 1) % ids.length];
+    state = next;
+    buildScreens();
+    render();
+    toast(lengthInfo().label + ': ' + rounds.length + ' years');
+  }
 
   function toggleTheme() {
     var root = document.documentElement;

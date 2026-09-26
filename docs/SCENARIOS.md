@@ -1,6 +1,11 @@
 # Scenarios
 
-The four rounds. Round 1 is fully built as the reference pattern. Rounds 2 to 4 give the
+The short game plays the four core rounds below. The full game (7 years) adds three rounds,
+described in [Full game rounds](#full-game-rounds): The Trail Network (after The Windfall),
+Where the Profit Goes and The Mill or the Carbon (after The Partnership). The live values for
+everything here are in `content/config.js`.
+
+The four core rounds. Round 1 is fully built as the reference pattern. Rounds 2 to 4 give the
 dilemma, the options, and the *direction* each option pushes the meters. Exact numeric
 deltas are marked `[tune]` because they can only be set properly once the dashboard runs
 and a full play-through has been watched. See `OPEN-QUESTIONS.md`.
@@ -134,3 +139,54 @@ Read a short outcome off their **final** meter state, especially the Forest Heal
 whether the Treasury survived. Two or three canned outcomes are enough (thriving community
 asset / sold-off and logged out / scarred but standing). This is where the 80-year frame
 lands: the trees cut this year were planted before they were born.
+
+---
+
+## Full game rounds
+
+Played only in the full game (`fullGameOnly: true` in the config). Order: First Harvest,
+Windfall, **Trail Network**, Partnership, **Where the Profit Goes**, **Mill or the Carbon**,
+Fire Season.
+
+### The Trail Network (after The Windfall)
+
+Biking is booming; the club wants a new network on the upper mountain, and riders already park
+all along Selkirk Hill. Tests pricing and revenue diversification (ADST: pricing a product,
+the decision to seek profit or break even; optional 4 Ps).
+
+| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+|--------|----------|----------------|-----------|----------|--------------------|
+| **A. Charge for access** (parking, trail pass) | + | - | + (small) | 0 | 0 |
+| **B. Build it with the club** | + (small) | ++ | - | - | slightly toward lush (stands leave the timber base) |
+| **C. Keep it a working forest** | + (small) | - | 0 | + | slightly toward thinned |
+
+**Carry-forward:** if the buyout was taken, B means buying part of the lease back (costs money).
+B also makes the mill contract in Year 6 hurt the Bikers more (the contract needs the trail-side
+stands).
+
+### Where the Profit Goes (after The Partnership)
+
+A good timber year (automatic income and some harvest at the start of the round) leaves a
+surplus. The school, trail society and fire department all want it. Social enterprise in one
+question: who is the profit for?
+
+| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+|--------|----------|----------------|-----------|----------|--------------------|
+| **A. Community dividend** (grants to local groups) | - | + | + | + (small) | 0 |
+| **B. Rainy-day reserve** | - now, ++ back at the start of Fire Season | - (small) | - (small) | 0 | 0 |
+| **C. Hire a FireSmart crew** | - | 0 | + | + (small) | toward thinned |
+
+### The Mill or the Carbon (before Fire Season)
+
+The sawmill will close without a ten-year log contract; a carbon-offset buyer offers the same
+money to leave the trees standing. Same money, opposite forests.
+
+| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+|--------|----------|----------------|-----------|----------|--------------------|
+| **A. Guarantee the mill's supply** | ++ | - (small) | 0 | ++ | toward thinned |
+| **B. Sell carbon credits** | ++ | + (small) | - (small) | -- | toward lush (fire risk up) |
+| **C. Neither** | 0 | 0 | 0 | - | 0 |
+
+**Carry-forward:** carbon credits make Fire Season thinning expensive: emergency thinning or a
+controlled burn breaks the contract and costs a repayment. If the buyout was taken, the mill
+contract pays less (the leased block feeds the outside company's own mill).
