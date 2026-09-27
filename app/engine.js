@@ -5,7 +5,7 @@
  * so the dashboard can animate them and keep an undo history.
  */
 (function (root) {
-  var SENTIMENTS = ['bikers', 'residents', 'forestry'];
+  var SENTIMENTS = ['recreation', 'residents', 'forestry'];
 
   function clone(x) {
     return JSON.parse(JSON.stringify(x));

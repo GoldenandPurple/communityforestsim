@@ -16,7 +16,7 @@ truth everyone watches.
 Divide the room into thirds by seating. Each third *is* one of the sentiment segments for the
 whole session:
 
-- **Left third: Bikers / Tourism.** They care about trails, the view, the experience that
+- **Left third: Recreation & Tourism.** They care about trails, the view, the experience that
   brings visitors to Cedar Bend.
 - **Middle third: Hillside Residents.** They care about their homes (fire), their view,
   and their property values. Remember these interests conflict with each other, which is the

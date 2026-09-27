@@ -67,7 +67,7 @@ four healthy at once.
   gets sold to an outside company that does not care about the trails or the view. Game
   over.
 - **Segment sentiment**, as three separate bars so they can move in opposite
-  directions and force real tradeoffs: **Bikers / Tourism**, **Hillside
+  directions and force real tradeoffs: **Recreation & Tourism**, **Hillside
   Residents**, **Forestry Sector**. The ethics lesson lives in the fact that a move
   which fills one bar drains another. You cannot please all three.
 - **Forest Health / Wildfire Risk**, deliberately built as *one* slider with two ends

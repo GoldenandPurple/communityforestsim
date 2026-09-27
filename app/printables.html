@@ -76,14 +76,14 @@
   });
 
   var cares = {
-    bikers: 'Trails, the view, and the experience that brings visitors to ' + cfg.town + '.',
+    recreation: 'Trails, the view, and the outdoors: riders, hikers, paragliders, hunters, and the businesses that bring visitors to ' + cfg.town + '.',
     residents: 'Your homes (fire), your view, and your property values. Yes, those conflict.',
     forestry: 'Harvest, jobs, and the mill. You want the forest worked.',
   };
-  ['bikers', 'residents', 'forestry'].forEach(function (k) {
+  ['recreation', 'residents', 'forestry'].forEach(function (k) {
     var m = cfg.meters[k];
     html += '<section class="page"><div class="sign"><div class="big">' + esc(m.label) + '</div>' +
-      '<div class="where">' + esc(m.bloc) + '</div><div class="cares">' + esc(cares[k]) + '</div></div></section>';
+      '<div class="where">' + esc(m.bloc) + ' of the room</div><div class="cares">' + esc(cares[k]) + '</div></div></section>';
   });
 
   html += '<section class="page"><div class="card"><h3>The voiceless seat</h3>' +

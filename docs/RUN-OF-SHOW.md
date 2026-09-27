@@ -36,7 +36,7 @@ every dashboard change with a key press (see `DASHBOARD-SPEC.md`).
 - **Every reveal is a chance to move the meters visibly.** The reaction of the room to
   the dashboard reacting is a good chunk of the energy. Do not rush the apply-and-animate
   moment; let them watch the bar move.
-- **If a bloc goes quiet**, call on it by its interest, not by name: "Bikers, this cut
+- **If a bloc goes quiet**, call on it by its interest, not by name: "Recreation, this cut
   runs through your trails, are you really going to let that pass?"
 - **Fast votes early, slower votes later.** Round 1 can move quickly. Rounds 3 and 4
   deserve the debate. Do not spend your debate budget on the easy round.

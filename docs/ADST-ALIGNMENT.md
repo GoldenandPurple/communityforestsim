@@ -33,7 +33,7 @@ buyout) puts this in front of them as an ethical question: when an outside compa
 rights, the value leaves the community. Community ownership is the counter-case.
 
 **Market segmentation by demographic, geographic, psychographic, and purchasing pattern.**
-Grade 9 names market segmentation. The three sentiment blocs (bikers/tourism, residents,
+Grade 9 names market segmentation. The three sentiment blocs (recreation and tourism, residents,
 forestry) are stakeholder segmentation in action, and the impossibility of satisfying all three
 at once is the lesson that segments have conflicting interests.
 

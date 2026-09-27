@@ -48,13 +48,13 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
 
   if (showAll) {
     const w = rounds.length + 2;
-    console.log(pad('path', w) + pad('treasury after each round', rounds.length * 6 + 2) + 'bik res for  forest  fire       ending');
+    console.log(pad('path', w) + pad('treasury after each round', rounds.length * 6 + 2) + 'rec res for  forest  fire       ending');
     for (const r of results) {
       const m = r.s.meters;
       console.log(
         pad(r.path, w) +
           pad(r.treasuryByRound.map(k).join(''), rounds.length * 6 + 2) +
-          [m.bikers, m.residents, m.forestry].map((v) => String(v).padStart(3)).join(' ') +
+          [m.recreation, m.residents, m.forestry].map((v) => String(v).padStart(3)).join(' ') +
           String(r.s.forest).padStart(7) + '  ' +
           pad(r.s.fire, 10) + ' ' +
           r.epilogue + (r.s.sold ? ` (sold during: ${r.s.soldDuring})` : '')

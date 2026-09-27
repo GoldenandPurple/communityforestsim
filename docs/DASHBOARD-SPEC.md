@@ -23,7 +23,7 @@ version worth doing over a plain talk. Build it against this spec.
 1. **Treasury** ($). A number and a bar. Starts at a configured value. Has a per-round fixed-cost
    deduction applied at the start of each round (the bleed). Reaching zero triggers the insolvency
    end state.
-2. **Bikers / Tourism** sentiment. A 0 to 100 bar.
+2. **Recreation & Tourism** sentiment. A 0 to 100 bar.
 3. **Hillside Residents** sentiment. A 0 to 100 bar.
 4. **Forestry Sector** sentiment. A 0 to 100 bar.
 5. **Forest Health / Wildfire Risk.** A single slider with two labeled ends: one end "lush /

@@ -13,7 +13,7 @@
  *
  * Meter keys used in `deltas`:
  *   treasury   dollars (+ adds cash)
- *   bikers     Bikers / Tourism sentiment, 0-100
+ *   recreation Recreation & Tourism sentiment, 0-100
  *   residents  Hillside Residents sentiment, 0-100
  *   forestry   Forestry Sector sentiment, 0-100
  *   forest     Forest Health / Wildfire Risk slider, 0-100
@@ -107,9 +107,9 @@
     },
 
     meters: {
-      bikers: { label: 'Bikers / Tourism', bloc: 'Left side of the room', start: 50 },
-      residents: { label: 'Hillside Residents', bloc: 'Middle of the room', start: 50 },
-      forestry: { label: 'Forestry Sector', bloc: 'Right side of the room', start: 50 },
+      recreation: { label: 'Recreation & Tourism', bloc: 'Left side', start: 50 },
+      residents: { label: 'Hillside Residents', bloc: 'Middle', start: 50 },
+      forestry: { label: 'Forestry Sector', bloc: 'Right side', start: 50 },
     },
 
     // Words shown beside each sentiment bar so its state never relies on colour alone.
@@ -137,12 +137,15 @@
         title: 'The First Harvest',
         prompt:
           'You have just taken over the forest. It needs to fund itself this year. The lower ' +
-          'stand, right above the Hillside homes and beside the town\u2019s most popular trail, is ready. ' +
+          'stand, right above the Hillside homes and beside the Ridgeline trail, is ready. ' +
           'How hard do you cut?',
         chairNote:
           'After the first vote, surface the Residents knot: they want it cut so they do not ' +
           'burn, and left standing so they keep their view and property values. Same people, ' +
-          'two incompatible demands. Then press U to undo and vote again. Do not warn them that ' +
+          'two incompatible demands. Then press U to undo and vote again. Option D adds a new ' +
+          'dimension: not just how much you cut, but where. It spares the view and the trail, ' +
+          'but costs more to reach and does little for the homes. It also builds a road into the ' +
+          'upper mountain, which matters later. Do not warn them that ' +
           'the trust they burn now narrows their options in The Partnership. Scale, if asked: the ' +
           'full harvest is about a year\u2019s 20,000 m\u00B3 netting roughly $13 a cubic metre after ' +
           'logging, hauling and stumpage; the selective thin is about 9,000 m\u00B3.',
@@ -151,22 +154,30 @@
             key: 'A',
             label: 'Leave it standing',
             detail: 'Cut nothing this year.',
-            deltas: { treasury: 0, bikers: 10, residents: -5, forestry: -15, forest: 10 },
+            deltas: { treasury: 0, recreation: 10, residents: -5, forestry: -15, forest: 10 },
             consequence: 'The view stays. The fuel stays. The mill waits.',
           },
           {
             key: 'B',
             label: 'Selective thin',
             detail: 'Take the worst of it, leave the stand.',
-            deltas: { treasury: 120000, bikers: -5, residents: 10, forestry: 0, forest: -8 },
+            deltas: { treasury: 120000, recreation: -5, residents: 10, forestry: 0, forest: -8 },
             consequence: 'The boring, responsible option. The trail closes for a season. Nobody marches.',
           },
           {
             key: 'C',
             label: 'Full harvest of the lower stand',
             detail: 'Cut the whole block: a full year\u2019s harvest.',
-            deltas: { treasury: 260000, bikers: -20, residents: -5, forestry: 20, forest: -25 },
+            deltas: { treasury: 260000, recreation: -30, residents: -5, forestry: 20, forest: -25 },
             consequence: 'Big cheque. Fire risk down. A scar you can see from town.',
+          },
+          {
+            key: 'D',
+            label: 'Harvest the upper stand instead',
+            detail: 'Cut higher up, away from the homes and the trail.',
+            // Where you cut, not just how much: a new road, no scar over town, less fire benefit for the Hillside.
+            deltas: { treasury: 170000, recreation: -5, residents: -5, forestry: 15, forest: -10 },
+            consequence: 'No scar over town. A new road up the mountain. The fuel above the Hillside homes is still there.',
           },
         ],
       },
@@ -188,21 +199,21 @@
             key: 'A',
             label: 'Take the buyout',
             detail: 'Sign the 15-year timber lease.',
-            deltas: { treasury: 300000, bikers: -10, residents: 0, forestry: 20, forest: -15 },
+            deltas: { treasury: 300000, recreation: -10, residents: 0, forestry: 20, forest: -15 },
             consequence: 'The cheque clears. The logging trucks are not yours.',
           },
           {
             key: 'B',
             label: 'Decline, stay the course',
             detail: 'Keep every decision local.',
-            deltas: { treasury: 0, bikers: 10, residents: 0, forestry: -10, forest: 0 },
+            deltas: { treasury: 0, recreation: 10, residents: 0, forestry: -10, forest: 0 },
             consequence: 'Independence kept. The bank balance did not move.',
           },
           {
             key: 'C',
             label: 'Negotiate a partial deal',
             detail: 'Shorter term, local hiring, trail buffers.',
-            deltas: { treasury: 150000, bikers: -5, residents: 0, forestry: 10, forest: -6 },
+            deltas: { treasury: 150000, recreation: -5, residents: 0, forestry: 10, forest: -6 },
             consequence: 'Half the money, most of the control.',
           },
         ],
@@ -217,7 +228,7 @@
           'Hillside streets. Trails bring visitors and money to town. They also take stands out of ' +
           'the timber base, forever.',
         chairNote:
-          'This is the pricing round: the forest has more than one product. Ask the Bikers ' +
+          'This is the pricing round: the forest has more than one product. Ask Recreation ' +
           'whether they would pay for what they now get free, and the Residents who pays for ' +
           'the parking. Good slot for the optional 4 Ps exercise.',
         options: [
@@ -225,20 +236,25 @@
             key: 'A',
             label: 'Charge for access',
             detail: 'Paid parking and a trail pass.',
-            deltas: { treasury: 120000, bikers: -10, residents: 5, forestry: 0, forest: 0 },
+            deltas: { treasury: 120000, recreation: -10, residents: 5, forestry: 0, forest: 0 },
             consequence: 'Riders pay. Some stop coming.',
           },
           {
             key: 'B',
             label: 'Build it with the club',
             detail: 'A grant-funded network, with a share of tourism revenue.',
-            deltas: { treasury: 80000, bikers: 20, residents: -10, forestry: -10, forest: 3 },
+            deltas: { treasury: 80000, recreation: 20, residents: -10, forestry: -10, forest: 3 },
             consequence: 'World-class riding. Those stands will never be logged.',
             variants: [
               {
+                when: { choice: { round: 'r1', option: 'D' } },
+                note: 'The logging road you built in The First Harvest gets the club\u2019s crews up the mountain. Cheaper to build.',
+                deltas: { treasury: 110000 },
+              },
+              {
                 when: { choice: { round: 'r2', option: 'A' } },
                 note: 'The timber company holds the rights on the upper mountain. You pay to buy part of the lease back.',
-                deltas: { treasury: -20000, bikers: 10 },
+                deltas: { treasury: -20000, recreation: 10 },
               },
             ],
           },
@@ -246,7 +262,7 @@
             key: 'C',
             label: 'Keep it a working forest',
             detail: 'No new trails. Log the upper stands on schedule.',
-            deltas: { treasury: 60000, bikers: -15, residents: 0, forestry: 10, forest: -6 },
+            deltas: { treasury: 60000, recreation: -15, residents: 0, forestry: 10, forest: -6 },
             consequence: 'The upper mountain stays a timber block. The riders notice.',
           },
         ],
@@ -275,7 +291,7 @@
             key: 'A',
             label: 'Full co-management',
             detail: 'Equal board seats and a shared plan, like the Cheakamus forest near Whistler.',
-            deltas: { treasury: -40000, bikers: 0, residents: -5, forestry: -5, forest: -6 },
+            deltas: { treasury: -40000, recreation: 0, residents: -5, forestry: -5, forest: -6 },
             consequence: 'Every future decision is now made on a longer horizon.',
             variants: [
               {
@@ -284,7 +300,7 @@
                 deltas: { forest: -3 },
               },
               {
-                when: { any: [{ meter: 'residents', below: 40 }, { meter: 'bikers', below: 35 }] },
+                when: { any: [{ meter: 'residents', below: 40 }, { meter: 'recreation', below: 35 }] },
                 note:
                   'Trust burned earlier: council will not back a change this big without a ' +
                   'public process you now have to pay for.',
@@ -296,14 +312,14 @@
             key: 'B',
             label: 'Advisory role only',
             detail: 'They can advise. The board still decides.',
-            deltas: { treasury: 0, bikers: 0, residents: 0, forestry: 0, forest: -2 },
+            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: 0, forest: -2 },
             consequence: 'Consultation without power.',
           },
           {
             key: 'C',
             label: 'Decline',
             detail: 'Keep the board as it is.',
-            deltas: { treasury: 0, bikers: 0, residents: 0, forestry: 10, forest: 0 },
+            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: 10, forest: 0 },
             consequence: 'Nothing on this screen moved much. That is not the same as no cost.',
             // The cost is legitimacy, which no meter captures: raise it in the debrief.
             freeOnPurpose: true,
@@ -336,21 +352,21 @@
             key: 'A',
             label: 'Community dividend',
             detail: 'Grants to the school, trail society, and local groups.',
-            deltas: { treasury: -80000, bikers: 10, residents: 10, forestry: 5, forest: 0 },
+            deltas: { treasury: -80000, recreation: 10, residents: 10, forestry: 5, forest: 0 },
             consequence: 'Everyone gets a thank-you letter. The bank balance drops.',
           },
           {
             key: 'B',
             label: 'Rainy-day reserve',
             detail: 'Lock the money away in a reserve fund.',
-            deltas: { treasury: -100000, bikers: -5, residents: -5, forestry: 0, forest: 0 },
+            deltas: { treasury: -100000, recreation: -5, residents: -5, forestry: 0, forest: 0 },
             consequence: 'Nobody sees anything happen. Nobody thanks you.',
           },
           {
             key: 'C',
             label: 'Hire a FireSmart crew',
             detail: 'A local crew clearing fuel around the Hillside homes.',
-            deltas: { treasury: -60000, bikers: 0, residents: 10, forestry: 5, forest: -8 },
+            deltas: { treasury: -60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
             consequence: 'Local jobs, less fuel near the homes, less money in the bank.',
           },
         ],
@@ -374,13 +390,13 @@
             key: 'A',
             label: 'Guarantee the mill\u2019s supply',
             detail: 'A ten-year log contract.',
-            deltas: { treasury: 150000, bikers: -5, residents: 0, forestry: 20, forest: -12 },
+            deltas: { treasury: 150000, recreation: -5, residents: 0, forestry: 20, forest: -12 },
             consequence: 'The mill stays open. The trucks keep rolling.',
             variants: [
               {
                 when: { choice: { round: 'trails', option: 'B' } },
                 note: 'To fill the contract, crews have to cut the stands beside the new trails.',
-                deltas: { bikers: -15 },
+                deltas: { recreation: -15 },
               },
               {
                 when: { choice: { round: 'r2', option: 'A' } },
@@ -393,14 +409,14 @@
             key: 'B',
             label: 'Sell carbon credits',
             detail: 'Paid to leave the forest standing.',
-            deltas: { treasury: 150000, bikers: 5, residents: -5, forestry: -20, forest: 10 },
+            deltas: { treasury: 150000, recreation: 5, residents: -5, forestry: -20, forest: 10 },
             consequence: 'Paid to keep it dense. Directly above the Hillside homes.',
           },
           {
             key: 'C',
             label: 'Neither',
             detail: 'Keep your options open.',
-            deltas: { treasury: 0, bikers: 0, residents: 0, forestry: -15, forest: 0 },
+            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: -15, forest: 0 },
             consequence: 'The mill closes. Nobody pays you anything.',
           },
         ],
@@ -441,7 +457,7 @@
             key: 'A',
             label: 'Emergency thin and fuel break',
             detail: 'Crews and machines on the slope now.',
-            deltas: { treasury: -150000, bikers: -10, residents: 20, forestry: 10, forest: -25 },
+            deltas: { treasury: -150000, recreation: -10, residents: 20, forestry: 10, forest: -25 },
             consequence: 'Expensive, ugly, and fast.',
             variants: [
               {
@@ -455,7 +471,7 @@
             key: 'B',
             label: 'Controlled burn',
             detail: 'Burn the understory on a safe day.',
-            deltas: { treasury: -60000, bikers: -5, residents: 10, forestry: 0, forest: -15 },
+            deltas: { treasury: -60000, recreation: -5, residents: 10, forestry: 0, forest: -15 },
             consequence: 'Smoke over town for a week. Less fuel on the hill.',
             variants: [
               {
@@ -469,7 +485,7 @@
             key: 'C',
             label: 'Do nothing, and hope',
             detail: 'Save the money.',
-            deltas: { treasury: 0, bikers: 5, residents: 0, forestry: 0, forest: 0 },
+            deltas: { treasury: 0, recreation: 5, residents: 0, forestry: 0, forest: 0 },
             consequence: 'The slider decides what happens next.',
             // The cost, if any, comes from the fire season outcome.
             freeOnPurpose: true,
@@ -490,7 +506,7 @@
           text:
             'A lightning strike on the upper slope. The fuel load did the rest. Evacuation ' +
             'orders, homes lost at the interface, the trails closed for years.',
-          deltas: { treasury: -150000, bikers: -25, residents: -40, forestry: -10, forestTo: 12 },
+          deltas: { treasury: -150000, recreation: -25, residents: -40, forestry: -10, forestTo: 12 },
         },
         {
           id: 'held',
@@ -499,7 +515,7 @@
           text:
             'A lightning fire on the upper slope. Crews held it before it reached the homes. ' +
             'A tense week, a big bill, some burned trail.',
-          deltas: { treasury: -40000, bikers: -10, residents: -10, forest: -10 },
+          deltas: { treasury: -40000, recreation: -10, residents: -10, forest: -10 },
         },
         {
           id: 'quiet',
@@ -538,7 +554,7 @@
         when: { all: [
           { meter: 'forest', atLeast: 30 }, { meter: 'forest', below: 60 }, { meter: 'treasury', atLeast: 100000 },
           { meter: 'sentiment', atLeast: 45 },
-          { meter: 'bikers', atLeast: 30 }, { meter: 'residents', atLeast: 30 }, { meter: 'forestry', atLeast: 30 },
+          { meter: 'recreation', atLeast: 25 }, { meter: 'residents', atLeast: 25 }, { meter: 'forestry', atLeast: 25 },
         ] },
         title: 'A thriving community asset',
         text:

@@ -14,7 +14,7 @@ and a full play-through has been watched. See `OPEN-QUESTIONS.md`.
 
 - **Treasury** ($): the board's cash. Bleeds each round from fixed costs before any
   decision is applied.
-- **Bikers / Tourism** (sentiment bar)
+- **Recreation & Tourism** (sentiment bar)
 - **Hillside Residents** (sentiment bar)
 - **Forestry Sector** (sentiment bar)
 - **Forest Health / Wildfire Risk** (one coupled slider: high forest health means high
@@ -29,17 +29,22 @@ means lower fire risk and a more scarred, harvested look.
 ## Round 1: The First Harvest
 
 **Setup read to the room.** You have just taken over the forest. It needs to fund itself
-this year. The lower stand, right above the Hillside homes and beside the town's most popular
+this year. The lower stand, right above the Hillside homes and beside the Ridgeline
 trail, is ready. How hard do you cut?
 
 **Fixed-cost tick before the vote:** Treasury `-[tune]` (staff, insurance, roads, paid
 whether or not you act).
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Leave it standing** | 0 | + | mixed | - | toward lush (fire risk up) |
 | **B. Selective thin** (the boring, responsible option) | + | neutral | + | neutral | slightly toward thinned |
-| **C. Full harvest of the lower stand** | ++ | -- | mixed | ++ | hard toward thinned (fire risk down, but a scar visible from town) |
+| **C. Full harvest of the lower stand** | ++ | --- | mixed | ++ | hard toward thinned (fire risk down, but a scar visible from town) |
+| **D. Harvest the upper stand instead** | + | - (small) | mixed | + | somewhat toward thinned, but not above the homes |
+
+**Option D adds a dimension:** not just how much you cut, but where. It spares the view and the
+Ridgeline trail, costs more to reach, and does little for the Hillside homes' fire risk. Its new
+logging road carries forward: in the full game it makes building trails with the club cheaper.
 
 **Note on Residents being "mixed":** this is deliberate and it is the knot. The Hillside homeowners want it cut so they do not burn, *and* want it left so they keep their
 view and property value. Same people, two incompatible demands. Surface this after the
@@ -67,7 +72,7 @@ entertain):
 value" when an outsider wants in. The buyout framing is the sharper one for the ADST
 "flow of goods and services from producers to consumers" thread.
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Take the windfall / buyout** | ++ `[tune]` | - | neutral | ++ | toward thinned, but ecological cost `[tune]` |
 | **B. Decline, stay the course** | -/0 | + | neutral | - | little change |
@@ -96,7 +101,7 @@ communities" content turned into a decision the students make rather than a fact
 told. It reframes the word "community" that has been sitting unexamined in the room's name
 for two rounds.
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider | Notes |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider | Notes |
 |--------|----------|----------------|-----------|----------|--------------------|-------|
 | **A. Full co-management** | - short / + long `[tune]` | neutral | mixed | mixed | toward better long-term stewardship | changes the horizon of every later decision |
 | **B. Advisory role only** | 0 | neutral | neutral | neutral | small | the "consultation without power" option, worth naming as such |
@@ -119,7 +124,7 @@ directly above the Hillside homes.
 Give them a real-time-ish choice under pressure (an emergency thinning, a controlled burn, a
 prevention spend) but let the *slider* they built determine how bad the starting position is.
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Emergency thin / fuel break now** | -- | - | ++ | + | toward thinned fast |
 | **B. Controlled burn** | - | mixed | + | neutral | toward thinned, some risk |
@@ -153,14 +158,14 @@ Biking is booming; the club wants a new network on the upper mountain, and rider
 all along the Hillside. Tests pricing and revenue diversification (ADST: pricing a product,
 the decision to seek profit or break even; optional 4 Ps).
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Charge for access** (parking, trail pass) | + | - | + (small) | 0 | 0 |
 | **B. Build it with the club** | + (small) | ++ | - | - | slightly toward lush (stands leave the timber base) |
 | **C. Keep it a working forest** | + (small) | - | 0 | + | slightly toward thinned |
 
 **Carry-forward:** if the buyout was taken, B means buying part of the lease back (costs money).
-B also makes the mill contract in Year 6 hurt the Bikers more (the contract needs the trail-side
+B also makes the mill contract in Year 6 hurt Recreation more (the contract needs the trail-side
 stands).
 
 ### Where the Profit Goes (after The Partnership)
@@ -169,7 +174,7 @@ A good timber year (automatic income and some harvest at the start of the round)
 surplus. The school, trail society and fire department all want it. Social enterprise in one
 question: who is the profit for?
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Community dividend** (grants to local groups) | - | + | + | + (small) | 0 |
 | **B. Rainy-day reserve** | - now, ++ back at the start of Fire Season | - (small) | - (small) | 0 | 0 |
@@ -180,7 +185,7 @@ question: who is the profit for?
 The sawmill will close without a ten-year log contract; a carbon-offset buyer offers the same
 money to leave the trees standing. Same money, opposite forests.
 
-| Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
 | **A. Guarantee the mill's supply** | ++ | - (small) | 0 | ++ | toward thinned |
 | **B. Sell carbon credits** | ++ | + (small) | - (small) | -- | toward lush (fire risk up) |

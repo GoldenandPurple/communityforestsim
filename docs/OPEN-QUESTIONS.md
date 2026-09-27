@@ -58,7 +58,7 @@ documents listed at the end of the report before stating any of it as fact in th
 - [ ] The carry-forward links (Round 1 sentiment into Round 3 options; Round 2 choice into Round 3
   and Round 4 exposure). Decide the exact rules when tuning. *v1 placeholders, all in
   `content/config.js`: taking the buyout weakens co-management and its Round 4 dividend; low
-  Residents or Bikers trust makes co-management cost more (a public process); a Forestry bloc
+  Residents or Recreation trust makes co-management cost more (a public process); a Forestry bloc
   already below 30 gains nothing when the board declines; co-management pays funding and a
   cultural burning program into Round 4. The forest grows every round, so fuel builds on its own.*
 
