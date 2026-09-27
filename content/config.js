@@ -383,6 +383,11 @@
             deltas: { treasury: 40000 },
           },
           {
+            when: { choice: { round: 'r3', option: 'A' } },
+            label: 'Cultural burning program: a low, slow burn in the shoulder season',
+            deltas: { forest: -4 },
+          },
+          {
             when: { choice: { round: 'r3', option: 'C' } },
             label: 'No partnership: consultation on every cutting permit starts from scratch',
             deltas: { treasury: -30000 },
@@ -436,6 +441,11 @@
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
         startEffects: [
+          {
+            when: { choice: { round: 'r3', option: 'A' } },
+            label: 'Cultural burning program: a low, slow burn in the shoulder season',
+            deltas: { forest: -4 },
+          },
           {
             when: { choice: { round: 'r3', option: 'C' } },
             label: 'No partnership: consultation on every cutting permit starts from scratch',
@@ -522,12 +532,14 @@
         chairNote:
           'Let the slider do the moralizing. The interface-fire zone is now drawn on it. If ' +
           'they are in the zone, "do nothing" burns the Hillside homes. No dice: the board they ran ' +
-          'decides.',
+          'decides. If the slider is 80 or more, the controlled burn is closed: burning is done in ' +
+          'cool, damp seasons, years ahead, not in a drought. Boards that partnered have been ' +
+          'burning all along, which is why their slider is lower.',
         // Extra effects when this round starts, on top of the bleed and the growth.
         startEffects: [
           {
             when: { all: [{ choice: { round: 'r3', option: 'A' } }, { not: { choice: { round: 'r2', option: 'A' } } }] },
-            label: 'Partnership opens new funding and a cultural burning program',
+            label: 'Partnership: new funding, and a cultural burn before the dry season',
             deltas: { treasury: 100000, forest: -6 },
           },
           {
@@ -570,6 +582,11 @@
             key: 'B',
             label: 'Controlled burn',
             detail: 'Burn the understory on a safe day.',
+            // Prescribed and cultural burns need cool, damp conditions and manageable fuel.
+            locked: {
+              when: { meter: 'forest', atLeast: 80 },
+              note: 'Too dry and dense to burn safely this year.',
+            },
             deltas: { treasury: -60000, recreation: -5, residents: 10, forestry: 0, forest: -15 },
             consequence: 'Smoke over town for a week. Less fuel on the hill.',
             variants: [
@@ -604,7 +621,7 @@
           title: 'The fire reached the Hillside homes',
           text:
             'A lightning strike on the upper slope. The fuel load did the rest. Evacuation ' +
-            'orders, homes lost at the interface, the trails closed for years.',
+            'orders, homes damaged at the interface, the trails closed for years.',
           deltas: { treasury: -150000, recreation: -25, residents: -40, forestry: -10, forestTo: 12 },
         },
         {

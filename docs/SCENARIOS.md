@@ -162,16 +162,38 @@ standing to speak here.
 
 ## Round 4: Fire Season
 
-**Dilemma.** It is a hot, dry summer. The board's accumulated Forest Health / Wildfire Risk
-slider now sets their exposure. This round is less a free choice than a reckoning with the
-earlier ones: the boards that preserved everything are sitting on the highest fuel load,
-directly above the Hillside homes.
-
-Give them a real-time-ish choice under pressure (an emergency thinning, a controlled burn, a
-prevention spend) but let the *slider* they built determine how bad the starting position is.
+The last year in both game lengths. It is a hot, dry summer, and the board's accumulated Forest
+Health / Wildfire Risk slider sets its exposure. The interface-fire zone (slider 65 and up)
+appears on the slider for the first time. This round is less a free choice than a reckoning:
+the boards that preserved everything are sitting on the highest fuel load, directly above the
+Hillside homes.
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
-|--------|----------|----------------|-----------|----------|--------------------|
+|--------|----------|----------------------|-----------|----------|--------------------|
+| **A. Emergency thin / fuel break now** | -- | - | ++ | + | toward thinned fast |
+| **B. Controlled burn** | - | - (small) | + | 0 | toward thinned |
+| **C. Do nothing, hope** | 0 | + (small) | 0 | 0 | unchanged |
+
+**Rules:**
+- **Controlled burn is closed at a slider of 80 or more** ("Too dry and dense to burn safely this
+  year"). Burning is done in cool, damp seasons, years ahead, not in a drought.
+- **Boards that chose the full partnership have been burning all along:** the cultural burning
+  program runs every year after the partnership (full game), plus a burn before the dry season
+  at the start of this round. Their slider is lower, and their burn stays available.
+- Carbon credits make thinning cost more (and burning too, unless the board partnered).
+
+**Outcome, read straight off the slider after the decision (no dice):**
+
+| Slider | Outcome |
+|--------|---------|
+| 65 and up | The fire reached the Hillside homes: evacuation orders, homes damaged, trails closed for years |
+| 40 to 64 | Fire on the mountain, held before the homes |
+| below 40 | A quiet season |
+
+"Homes damaged" (not "lost") is deliberate: some students will have lived through recent
+evacuations, such as the 2024 Dogtooth fire near Golden.
+
+--------|----------|----------------|-----------|----------|--------------------|
 | **A. Emergency thin / fuel break now** | -- | - | ++ | + | toward thinned fast |
 | **B. Controlled burn** | - | mixed | + | neutral | toward thinned, some risk |
 | **C. Do nothing, hope** | 0 | + | -- if it burns | neutral | unchanged, high exposure |
