@@ -675,7 +675,7 @@
         title: 'A thriving community asset',
         text:
           'Fifty years later, the forest still pays its own way. The trails are busier than ' +
-          'ever, the mill still buys local logs, and the Hillside sleeps through fire season.',
+          'ever, local wood still means local work, and the Hillside sleeps through fire season.',
       },
       {
         id: 'scarred',
@@ -742,7 +742,7 @@
     debrief: [
       { term: 'Profit vs break-even', line: 'You were never trying to get rich. You were trying not to die.' },
       { term: 'Who captures the value', line: 'The Windfall: when the outsider buys in, the money leaves town.' },
-      { term: 'Pricing and revenue streams', line: 'Timber, trail passes, carbon credits: what does a forest sell, and to whom?', when: { length: 'full' } },
+      { term: 'Pricing and revenue streams', line: 'Timber, shuttle rides, parking, carbon credits: what does a forest sell, and to whom?', when: { length: 'full' } },
       { term: 'Where the profit goes', line: 'A social enterprise decides who its surplus is for.', when: { length: 'full' } },
       { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
       { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
