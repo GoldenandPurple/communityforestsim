@@ -77,6 +77,15 @@ value" when an outsider wants in. The buyout framing is the sharper one for the 
 | **A. Take the windfall / buyout** | ++ `[tune]` | - | neutral | ++ | toward thinned, but ecological cost `[tune]` |
 | **B. Decline, stay the course** | -/0 | + | neutral | - | little change |
 | **C. Partial / negotiated** | + | neutral | neutral | + | small move |
+| **D. Salvage the blowdown** (road into the Cedar Creek watershed) | ++ | - (small) | - (small), then -- later | + | toward thinned (dead fuel removed) |
+
+**Buyout detail:** the Residents lose a little on the buyout: an outside operator above their
+homes, and no local board to take their concerns to. The lease term is left vague.
+
+**Salvage carry-forward:** the cost lands later and on someone else. At the start of The
+Partnership, runoff down the new road fouls the town's drinking water (boil-water advisory,
+repairs: Treasury down, Residents down hard). This can also tip Residents' trust low enough to
+make co-management cost more.
 
 **Carry-forward:** a buyout accepted here should visibly constrain Round 3 (harder to
 partner on land whose rights you have already leased out). Salvage accepted here should

@@ -74,7 +74,7 @@
   #status.on { display: inline-block; }
 
   /* Stage: screen content on the left, meters on the right */
-  #stage { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.05fr 1fr; gap: 2.5vw; }
+  #stage { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 2.5vw; }
   #stage.full #meters { display: none; }
   #stage.full { grid-template-columns: 1fr; }
   #content { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 1.4vh; }
@@ -141,7 +141,8 @@
   h2 { margin: 0; font-size: 1.6em; line-height: 1.1; }
   .prompt { font-size: 1.02em; margin: 0; max-width: 40em; }
   .hidden-text .prompt { display: none; }
-  .options { display: flex; flex-direction: column; gap: 1.1vh; margin-top: 0.4vh; min-height: 0; }
+  /* Options never shrink; if space runs out, the start-of-year notes below them are what gets cut */
+  .options { display: flex; flex-direction: column; gap: 1.1vh; margin-top: 0.4vh; flex-shrink: 0; }
   .option { display: grid; grid-template-columns: auto 1fr; gap: 0.2em 0.8em; align-items: center; background: var(--panel);
     border: 3px solid var(--panel-edge); border-radius: 0.5em; padding: 0.9vh 0.9vw; transition: opacity 0.6s, border-color 0.6s; }
   .option .key { grid-row: span 2; width: 1.9em; height: 1.9em; display: grid; place-items: center; font-weight: 900; font-size: 1.25em;

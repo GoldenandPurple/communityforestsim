@@ -185,22 +185,24 @@
         id: 'r2',
         title: 'The Windfall',
         prompt:
-          'An outside forestry company offers a lump sum for the timber rights to part of the ' +
-          'forest for the next 15 years. Big money up front. But their crews, their mill, and ' +
-          'their profits: the value, and the decisions, leave the community.',
+          'Two offers of fast money. An outside company wants the timber rights to part of the ' +
+          'forest, long term: big money up front, but their crews, their mill, their profits. ' +
+          'Or salvage the timber a windstorm flattened in Cedar Creek, where the town gets its ' +
+          'drinking water, by building a road into the watershed.',
         chairNote:
           'Ask: who captures the value? Where does the money go after it leaves Cedar Bend? ' +
-          '(Salvage alternative, if you prefer: a winter blowdown has killed a big block; ' +
-          'salvaging it means roading into a sensitive area. Edit this round in content/config.js.) ' +
+          'Option D is the other kind of fast money: the cost lands on someone else, later. Do ' +
+          'not warn them: if they salvage, the next spring\u2019s runoff down the new road muddies ' +
+          'the town\u2019s water (it arrives at the start of The Partnership). ' +
           'Hold the real parallel for the debrief: Golden\u2019s 20,000 m\u00B3 community forest ' +
           'allocation went back to the Province in 2010, before a licence was ever issued.',
         options: [
           {
             key: 'A',
             label: 'Take the buyout',
-            detail: 'Sign the 15-year timber lease.',
-            deltas: { treasury: 300000, recreation: -10, residents: 0, forestry: 20, forest: -15 },
-            consequence: 'The cheque clears. The logging trucks are not yours.',
+            detail: 'Sign a long-term timber lease.',
+            deltas: { treasury: 300000, recreation: -10, residents: -5, forestry: 20, forest: -15 },
+            consequence: 'The cheque clears. The logging trucks are not yours, and neither is anyone to call when the Hillside has concerns.',
           },
           {
             key: 'B',
@@ -215,6 +217,14 @@
             detail: 'Shorter term, local hiring, trail buffers.',
             deltas: { treasury: 150000, recreation: -5, residents: 0, forestry: 10, forest: -6 },
             consequence: 'Half the money, most of the control.',
+          },
+          {
+            key: 'D',
+            label: 'Salvage the blowdown',
+            detail: 'Build a road into the Cedar Creek watershed and log the fallen timber.',
+            // Removes dead fuel now; the watershed cost arrives later (see The Partnership's start effects).
+            deltas: { treasury: 200000, recreation: -5, residents: -5, forestry: 10, forest: -8 },
+            consequence: 'Quick money, and the dead wood is off the mountain. There is a road where there was none.',
           },
         ],
       },
@@ -270,6 +280,13 @@
       {
         id: 'r3',
         title: 'The Partnership',
+        startEffects: [
+          {
+            when: { choice: { round: 'r2', option: 'D' } },
+            label: 'Runoff down the salvage road fouled the town\u2019s water: boil-water advisory, repairs',
+            deltas: { treasury: -60000, residents: -15 },
+          },
+        ],
         // The partner is deliberately unnamed: nobody in the room stands in for a real Nation.
         // Have your district's Indigenous Education staff review this round before running it.
         prompt:
@@ -296,7 +313,7 @@
             variants: [
               {
                 when: { choice: { round: 'r2', option: 'A' } },
-                note: 'The block you leased in The Windfall sits outside the partnership for 15 years.',
+                note: 'The block you leased in The Windfall sits outside the partnership until the lease runs out.',
                 deltas: { forest: -3 },
               },
               {
@@ -575,7 +592,11 @@
     epilogueAddenda: [
       {
         when: { choice: { round: 'r2', option: 'A' } },
-        text: 'The 15-year timber lease is a line in the history books. The profits never came back to town.',
+        text: 'The timber lease is a line in the history books. The profits never came back to town.',
+      },
+      {
+        when: { choice: { round: 'r2', option: 'D' } },
+        text: 'Cedar Creek still runs brown after every big rain. The salvage road is still there.',
       },
       {
         when: { choice: { round: 'r3', option: 'A' } },
