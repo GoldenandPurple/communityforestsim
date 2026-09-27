@@ -107,6 +107,19 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
       if (theseEndings.size === 1) warn(`${round.id} ${o.key} always leads to "${[...theseEndings][0]}" no matter what else happens.`);
     }
   });
+  const fav = cfg.tuning?.favouredOption;
+  const favIndex = fav ? rounds.findIndex((r) => r.id === fav.round) : -1;
+  if (favIndex !== -1) {
+    const rate = (key, ending) => {
+      const group = results.filter((r) => r.path[favIndex] === key);
+      return group.filter((r) => r.epilogue === ending).length / (group.length || 1);
+    };
+    for (const o of rounds[favIndex].options) {
+      if (o.key === fav.option) continue;
+      if (rate(o.key, 'sold') <= rate(fav.option, 'sold')) warn(`${fav.round} ${o.key} goes broke no more often than favoured option ${fav.option}.`);
+      if (rate(o.key, 'thriving') >= rate(fav.option, 'thriving')) warn(`${fav.round} ${o.key} thrives at least as often as favoured option ${fav.option}.`);
+    }
+  }
   if (!warnings) console.log('  none');
   if (painless.length && painless.length <= results.length / 100) {
     console.log(`  (${painless.length} path(s) end with every bar within 10 of its start and the Treasury intact, e.g. ${painless[0].path}: fine at this rate)`);

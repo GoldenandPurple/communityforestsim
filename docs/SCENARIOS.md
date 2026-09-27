@@ -97,21 +97,58 @@ frame the deadwood as the fuel. Decide which when tuning.
 ## Round 3: The Partnership
 
 **Dilemma.** The First Nation whose territory includes Thunderhead Mountain (deliberately
-unnamed; see `CONCEPT.md`) proposes a co-management partnership over the forest. This is the ethical center of the simulation. Handle it as a real governance
-decision with real tradeoffs, not a box to tick.
+unnamed; see `CONCEPT.md`) invites the board into an equal partnership: shared board seats,
+shared decisions, and a plan written for the next hundred years. This is the ethical centre of
+the simulation. Handle it as a real governance decision, not a box to tick.
 
-Frame honestly: the land is their territory, never ceded, and was long before Cedar Bend existed. Co-management
-changes who decides, and can change the whole horizon the forest is managed on. It may cost
-short-term flexibility or revenue; it may also be the most legitimate answer to "whose
-forest is it?" and open access to different funding and relationships.
+**The framing is positive by design.** The partnership is presented as an invitation and an
+opportunity, with concrete, business-relevant benefits: long-term stewardship knowledge,
+cultural burning that lowers fire risk, funding that only partnerships qualify for, and more
+certainty for the forest's plans. Its costs are short-term and practical: setting up joint
+governance, and reopening harvest plans.
 
-**What it tests.** This is literally the ADST "social entrepreneurship in First Nations
-communities" content turned into a decision the students make rather than a fact they are
-told. It reframes the word "community" that has been sitting unexamined in the room's name
-for two rounds.
+| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
+|--------|----------|----------------------|-----------|----------|--------------------|
+| **A. Full partnership** (co-management) | - now, + later | 0 | 0 | - (small) | toward better long-term stewardship |
+| **B. Advisory role only** | 0 now, - later (small) | 0 | 0 | 0 | small |
+| **C. Decline** | 0 now, - later | 0 | 0 | + (small) | 0 |
 
-| Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider | Notes |
-|--------|----------|----------------|-----------|----------|--------------------|-------|
+**What happens later:**
+- **Full partnership:** joint stewardship funding (full game), then new funding and a cultural
+  burning program at the start of Fire Season. Halved if the board leased timber rights in The
+  Windfall. The result text hints at this ("New doors open…") so the choice does not read as
+  pure cost.
+- **Advisory or decline:** every later year starts with a permitting cost, because
+  consultation on each cutblock starts from scratch without a partnership. This is framed as
+  lost certainty and slower process, **never as the Nation obstructing the board.**
+- If the board burned community trust earlier (Residents below 40 or Recreation below 35), the
+  partnership costs more: the board must rebuild trust through public engagement first. The
+  cause is the board's own earlier conduct, not the partnership.
+- `tuning.favouredOption` in the config makes the simulator warn if tuning ever stops the
+  partnership being the strongest choice (fewest forests sold, most thriving endings).
+
+### Facilitator guidance (read before running this round)
+
+This round runs in a sensitive moment. Since the 2025 BC Supreme Court decision in the Cowichan
+Tribes Aboriginal title case, questions about title and private property have been prominent
+and emotional in BC, and some students will have heard strong views at home.
+
+- **Keep the scenario's facts in front.** The forest is Crown land that the Province licensed to
+  the town. No homes, private land, or anyone's property is part of this decision. Your on-screen
+  notes say this too.
+- **Do not raise court cases yourself.** If a student does, acknowledge it is a real and ongoing
+  conversation in BC, say this scenario is about a forest licence rather than title to private
+  land, and that partnerships like this are one way communities and Nations build certainty
+  together. Do not speculate about legal outcomes; offer to follow up if needed.
+- **Nobody plays the Nation.** The partner is a government and a rights holder, not a stakeholder
+  or a bloc. The voiceless seat may speak to the long view and to the fact that this is someone's
+  territory, but does not speak *as* a Nation.
+- **Name option B for what it is:** consultation without power. The screen says so; that is
+  intended.
+- **Get a review first.** Have your district's Indigenous Education staff look at this round
+  before you run it.
+
+--------|----------|----------------|-----------|----------|--------------------|-------|
 | **A. Full co-management** | - short / + long `[tune]` | neutral | mixed | mixed | toward better long-term stewardship | changes the horizon of every later decision |
 | **B. Advisory role only** | 0 | neutral | neutral | neutral | small | the "consultation without power" option, worth naming as such |
 | **C. Decline** | 0 | neutral | mixed | + | neutral | has a legitimacy cost that no meter fully captures, raise this in debrief |

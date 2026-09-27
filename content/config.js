@@ -294,28 +294,33 @@
           },
         ],
         // The partner is deliberately unnamed: nobody in the room stands in for a real Nation.
-        // Have your district's Indigenous Education staff review this round before running it.
+        // Framing is positive by design: an invitation and an opportunity. See docs/SCENARIOS.md
+        // (facilitator guidance) before running it, and have your district's Indigenous Education
+        // staff review it.
         prompt:
-          'Thunderhead Mountain is on the territory of a First Nation that never gave it up. ' +
-          'The Nation\u2019s government proposes managing the forest as an equal partner: shared ' +
-          'board seats, shared decisions, a longer time horizon. It may cost flexibility and money ' +
-          'now. It may also be the most honest answer to the question: whose forest is it?',
+          'Thunderhead Mountain is in the territory of a First Nation that has cared for it for ' +
+          'thousands of years, and never gave it up. The Nation\u2019s government invites the board ' +
+          'into an equal partnership: shared board seats, shared decisions, and a plan written for ' +
+          'the next hundred years, not the next four. It means doing things differently, and it ' +
+          'may cost some flexibility and money at first. Whose forest is it?',
         chairNote:
           'Handle as a real governance decision, not a plot twist. Give the voiceless seat ' +
-          'explicit standing to speak first. Name option B for what it is: consultation ' +
-          'without power. If they decline, raise the legitimacy cost in the debrief: no meter ' +
-          'on this screen captures it. Nobody plays the Nation: it is a government and a rights ' +
-          'holder, not a stakeholder. Real parallels for the debrief: about half of BC\u2019s ' +
-          'community forests involve First Nations; the Cheakamus forest near Whistler has equal ' +
-          'board seats for two Nations and the municipality; near Golden, the Shuswap Band, the ' +
-          'Town and the regional district are working toward the Kenpesq\u2019t Community Forest.',
+          'explicit standing to speak first. The partner is a government and a rights holder, not ' +
+          'a stakeholder, and nobody in the room plays it. No homes or private land are part of ' +
+          'this: the forest is Crown land the Province licensed to the town. Name option B for what ' +
+          'it is: consultation without power. The partnership\u2019s benefits arrive in later years ' +
+          '(funding, and cultural burning that lowers fire risk); declining makes every permit ' +
+          'slower. Real parallels for the debrief: about half of BC\u2019s community forests involve ' +
+          'First Nations, and forests like Cheakamus (Whistler) and Williams Lake are run as equal ' +
+          'partnerships.',
         options: [
           {
             key: 'A',
-            label: 'Full co-management',
-            detail: 'Equal board seats and a shared plan, like the Cheakamus forest near Whistler.',
-            deltas: { treasury: -40000, recreation: 0, residents: -5, forestry: -5, forest: -6 },
-            consequence: 'Every future decision is now made on a longer horizon.',
+            label: 'Full partnership',
+            detail: 'Co-management: equal board seats and a shared plan, like the Cheakamus forest near Whistler.',
+            // The costs are setting up joint governance (money) and reopening harvest plans (Forestry).
+            deltas: { treasury: -40000, recreation: 0, residents: 0, forestry: -5, forest: -6 },
+            consequence: 'Every decision is now made on a longer horizon. New doors open: funding and knowledge that arrive in the years ahead.',
             variants: [
               {
                 when: { choice: { round: 'r2', option: 'A' } },
@@ -325,8 +330,8 @@
               {
                 when: { any: [{ meter: 'residents', below: 40 }, { meter: 'recreation', below: 35 }] },
                 note:
-                  'Trust burned earlier: council will not back a change this big without a ' +
-                  'public process you now have to pay for.',
+                  'The board burned community trust in earlier years, so it has to rebuild it: a ' +
+                  'public engagement process before the partnership starts, at the board\u2019s cost.',
                 deltas: { treasury: -70000 },
               },
             ],
@@ -342,9 +347,10 @@
             key: 'C',
             label: 'Decline',
             detail: 'Keep the board as it is.',
-            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: 10, forest: 0 },
+            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: 5, forest: 0 },
             consequence: 'Nothing on this screen moved much. That is not the same as no cost.',
-            // The cost is legitimacy, which no meter captures: raise it in the debrief.
+            // The costs come later (slower permits every year) and in legitimacy, which no meter
+            // captures: raise it in the debrief.
             freeOnPurpose: true,
             variants: [
               {
@@ -369,6 +375,21 @@
           'part of it? The reserve looks boring; do not tell them it pays back in fire season.',
         startEffects: [
           { label: 'Regular timber sales: a good year', deltas: { treasury: 180000, forest: -5 } },
+          {
+            when: { choice: { round: 'r3', option: 'A' } },
+            label: 'The partnership qualifies for joint stewardship funding',
+            deltas: { treasury: 40000 },
+          },
+          {
+            when: { choice: { round: 'r3', option: 'C' } },
+            label: 'No partnership: consultation on every cutting permit starts from scratch',
+            deltas: { treasury: -30000 },
+          },
+          {
+            when: { choice: { round: 'r3', option: 'B' } },
+            label: 'Advisory only: permits still need consultation on each cutblock',
+            deltas: { treasury: -15000 },
+          },
         ],
         options: [
           {
@@ -398,6 +419,18 @@
         id: 'mill',
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
+        startEffects: [
+          {
+            when: { choice: { round: 'r3', option: 'C' } },
+            label: 'No partnership: consultation on every cutting permit starts from scratch',
+            deltas: { treasury: -30000 },
+          },
+          {
+            when: { choice: { round: 'r3', option: 'B' } },
+            label: 'Advisory only: permits still need consultation on each cutblock',
+            deltas: { treasury: -15000 },
+          },
+        ],
         prompt:
           'Cedar Bend\u2019s mill, the town\u2019s biggest employer, says it will close unless it ' +
           'gets a guaranteed supply of logs for ten years. The same week, a carbon-offset buyer ' +
@@ -468,6 +501,16 @@
             when: { all: [{ choice: { round: 'r3', option: 'A' } }, { choice: { round: 'r2', option: 'A' } }] },
             label: 'Partnership funding, minus the leased block',
             deltas: { treasury: 50000, forest: -3 },
+          },
+          {
+            when: { choice: { round: 'r3', option: 'C' } },
+            label: 'No partnership: consultation on every cutting permit starts from scratch',
+            deltas: { treasury: -30000 },
+          },
+          {
+            when: { choice: { round: 'r3', option: 'B' } },
+            label: 'Advisory only: permits still need consultation on each cutblock',
+            deltas: { treasury: -15000 },
           },
           {
             when: { choice: { round: 'dividend', option: 'B' } },
@@ -606,7 +649,11 @@
       },
       {
         when: { choice: { round: 'r3', option: 'A' } },
-        text: 'The forest has been co-managed for two generations. Its plans are written in centuries, not years.',
+        text: 'The forest has been run as a partnership for two generations. Its plans are written in centuries, not years, and both governments sign them.',
+      },
+      {
+        when: { choice: { round: 'r3', option: 'B' } },
+        text: 'The Nation advised the board for fifty years. How often the board listened is still debated.',
       },
       {
         when: { choice: { round: 'r3', option: 'C' } },
@@ -646,6 +693,7 @@
       { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
       { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
       { term: 'Social entrepreneurship', line: 'A business run for a community, including First Nations communities.' },
+      { term: 'Partnership', line: 'About half of BC\u2019s community forests involve First Nations. Shared decisions, longer horizons, and more certainty for everyone.' },
       { term: 'This is not made up', line: 'In 2006 the Province set aside a community forest for Golden, about 4% of the local cut, and took it back in 2010. Today the Shuswap Band, the Town and the regional district are trying again.' },
     ],
 
@@ -654,6 +702,9 @@
       // One option key per round, per game length: the "cut nothing, protect it all" board.
       // It should go broke or burn.
       protectEverythingPath: { short: 'ABBC', full: 'ABCBBBC' },
+      // The partnership must stay the strongest choice in its round: fewest forests sold and
+      // most thriving endings, in both game lengths. The simulator warns if tuning breaks this.
+      favouredOption: { round: 'r3', option: 'A' },
     },
   };
 
