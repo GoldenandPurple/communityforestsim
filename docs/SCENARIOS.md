@@ -223,14 +223,24 @@ Any option can be closed off like C with a `locked: { when, note }` entry in the
 ### Where the Profit Goes (after The Partnership)
 
 A good timber year (automatic income and some harvest at the start of the round) leaves a
-surplus. The school, trail society and fire department all want it. Social enterprise in one
-question: who is the profit for?
+surplus. Social enterprise in one question: who is the profit for? The asks are ones a
+community forest really faces: local clubs and non-profits, the Town's aging assets, and fuel
+clearing around homes. (Schools are left out on purpose: they are the Province's
+responsibility.)
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
-|--------|----------|----------------|-----------|----------|--------------------|
-| **A. Community dividend** (grants to local groups) | - | + | + | + (small) | 0 |
-| **B. Rainy-day reserve** | - now, ++ back at the start of Fire Season | - (small) | - (small) | 0 | 0 |
+|--------|----------|----------------------|-----------|----------|--------------------|
+| **A. Community grants** (local clubs and non-profits) | - | + | + (small) | + (small) | 0 |
+| **B. Rainy-day reserve** | - now, same amount back at the start of Fire Season | 0 | 0 | 0 | 0 |
 | **C. Hire a FireSmart crew** | - | 0 | + | + (small) | toward thinned |
+| **D. Fund a Town capital project** (bring forward the unfunded water system upgrade) | - | + (small) | ++ | 0 | 0 |
+
+**Carry-forward:**
+- The reserve returns exactly what went in (no interest) when Fire Season starts. Its value is
+  insurance: boards that save go broke least often, while boards that spend the surplus thrive
+  more often but carry more risk. That trade-off is the lesson.
+- If the board salvaged in Cedar Creek in The Windfall (and fouled the town's water), the water
+  upgrade is the project everyone was asking for: Residents gain much more.
 
 ### The Mill or the Carbon (before Fire Season)
 

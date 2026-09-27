@@ -417,14 +417,16 @@
         fullGameOnly: true,
         title: 'Where the Profit Goes',
         prompt:
-          'A good year for timber prices: the regular harvest brought in more than planned. ' +
-          'The school, the trail society, and the fire department are all at the next board ' +
-          'meeting with their hands out. A private company would pay its owners. Who are yours?',
+          'A good year for timber prices left a surplus. Local clubs need a hand, the Town has ' +
+          'aging assets it cannot afford to replace, and the Hillside wants fuel cleared. A ' +
+          'private company would pay its owners. Who are yours?',
         chairNote:
           'Social enterprise in one question: the profit belongs to the community, but which ' +
-          'part of it? The reserve looks boring; do not tell them it pays back in fire season.',
+          'part of it? Grants are aimed at specific groups; the capital project is spread across ' +
+          'the whole town; the reserve looks boring. Do not tell them the reserve comes back when ' +
+          'fire season arrives: it is insurance, and that is the lesson.',
         startEffects: [
-          { label: 'Regular timber sales: a good year', deltas: { treasury: 180000, forest: -5 } },
+          { label: 'Regular timber sales: a good year', deltas: { treasury: 200000, forest: -5 } },
           {
             when: { choice: { round: 'r3', option: 'A' } },
             label: 'The partnership qualifies for joint stewardship funding',
@@ -444,16 +446,16 @@
         options: [
           {
             key: 'A',
-            label: 'Community dividend',
-            detail: 'Grants to the school, trail society, and local groups.',
-            deltas: { treasury: -80000, recreation: 10, residents: 10, forestry: 5, forest: 0 },
-            consequence: 'Everyone gets a thank-you letter. The bank balance drops.',
+            label: 'Community grants',
+            detail: 'Give local clubs and non-profits a hand.',
+            deltas: { treasury: -80000, recreation: 10, residents: 5, forestry: 5, forest: 0 },
+            consequence: 'The trail society, the ski club, and the food bank all send thank-you letters.',
           },
           {
             key: 'B',
             label: 'Rainy-day reserve',
-            detail: 'Lock the money away in a reserve fund.',
-            deltas: { treasury: -100000, recreation: -5, residents: -5, forestry: 0, forest: 0 },
+            detail: 'Put the money aside for a bad year.',
+            deltas: { treasury: -100000, recreation: 0, residents: 0, forestry: 0, forest: 0 },
             consequence: 'Nobody sees anything happen. Nobody thanks you.',
           },
           {
@@ -462,6 +464,20 @@
             detail: 'A local crew clearing fuel around the Hillside homes.',
             deltas: { treasury: -60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
             consequence: 'Local jobs, less fuel near the homes, less money in the bank.',
+          },
+          {
+            key: 'D',
+            label: 'Fund a Town capital project',
+            detail: 'Bring forward the Town\u2019s unfunded water system upgrade.',
+            deltas: { treasury: -100000, recreation: 5, residents: 15, forestry: 0, forest: 0 },
+            consequence: 'A real asset for the whole town, years early. Nobody gets a cheque; everybody gets clean water.',
+            variants: [
+              {
+                when: { choice: { round: 'r2', option: 'D' } },
+                note: 'After the boil-water advisory from the salvage road, this is the project everyone was asking for.',
+                deltas: { residents: 25 },
+              },
+            ],
           },
         ],
       },
@@ -564,8 +580,8 @@
           },
           {
             when: { choice: { round: 'dividend', option: 'B' } },
-            label: 'Reserve fund released, with interest',
-            deltas: { treasury: 130000 },
+            label: 'Rainy-day reserve released for fire season',
+            deltas: { treasury: 100000 },
           },
         ],
         options: [
