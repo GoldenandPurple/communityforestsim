@@ -244,15 +244,24 @@ responsibility.)
 
 ### The Mill or the Carbon (before Fire Season)
 
-The sawmill will close without a ten-year log contract; a carbon-offset buyer offers the same
-money to leave the trees standing. Same money, opposite forests.
+The town's mill will cut jobs without a ten-year log contract; a carbon-offset buyer offers the
+same money to leave the trees standing. Same money, opposite forests. A fourth option brings
+back the Year 2 question of who captures the value.
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
-|--------|----------|----------------|-----------|----------|--------------------|
+|--------|----------|----------------------|-----------|----------|--------------------|
 | **A. Guarantee the mill's supply** | ++ | - (small) | 0 | ++ | toward thinned |
 | **B. Sell carbon credits** | ++ | + (small) | - (small) | -- | toward lush (fire risk up) |
-| **C. Neither** | 0 | 0 | 0 | - | 0 |
+| **C. Neither** (the mill cuts a shift) | 0 | 0 | 0 | - | 0 |
+| **D. Sell to local makers** (timber-frame shop, posts and firewood) | + | 0 | + (small) | + (small) | slightly toward thinned |
 
-**Carry-forward:** carbon credits make Fire Season thinning expensive: emergency thinning or a
-controlled burn breaks the contract and costs a repayment. If the buyout was taken, the mill
-contract pays less (the leased block feeds the outside company's own mill).
+**Carry-forward:**
+- Carbon credits make Fire Season thinning expensive: emergency thinning or a controlled burn
+  breaks the contract and costs a repayment. **Exception:** if the board chose the full
+  partnership, its cultural burning plan is written into the carbon deal, so a controlled burn
+  carries no penalty. This is shown on screen when carbon is chosen.
+- If the buyout was taken, the mill contract pays less (the leased block feeds the outside
+  company's own mill).
+- If the board built trails with the trail groups, the mill contract costs Recreation more.
+- Without the mill contract (B, C or D), the mill cuts a shift rather than closing: a real cost,
+  not a catastrophe. Option D's local makers grow over the epilogue ("now employs thirty people").

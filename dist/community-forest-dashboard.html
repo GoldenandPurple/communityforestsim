@@ -779,13 +779,16 @@
           },
         ],
         prompt:
-          'Cedar Bend\u2019s mill, the town\u2019s biggest employer, says it will close unless it ' +
+          'Cedar Bend\u2019s mill, the town\u2019s biggest employer, says it will cut jobs unless it ' +
           'gets a guaranteed supply of logs for ten years. The same week, a carbon-offset buyer ' +
           'offers to pay you just as much to leave the trees standing. Same money. Opposite forests.',
         chairNote:
           'The carbon deal pays them to keep the forest dense, above the homes. Do not point ' +
           'that out; let the Residents find it. Carbon credits lock them in: thinning in fire ' +
-          'season will break the contract (a game rule, not a documented real case). Real ' +
+          'season will break the contract (a game rule, not a documented real case), unless the ' +
+          'board partnered in The Partnership: then cultural burning is written into the deal. ' +
+          'Option D is the value-capture point again: fewer logs, but more local jobs per tree. ' +
+          'Community forests really do create more jobs per cubic metre than the industry average. Real ' +
           'parallel: Whistler\u2019s Cheakamus Community Forest halved its harvest to sell carbon ' +
           'offsets, and is one of only two BC community forests that have.',
         options: [
@@ -814,13 +817,27 @@
             detail: 'Paid to leave the forest standing.',
             deltas: { treasury: 150000, recreation: 5, residents: -5, forestry: -20, forest: 10 },
             consequence: 'Paid to keep it dense. Directly above the Hillside homes.',
+            variants: [
+              {
+                when: { choice: { round: 'r3', option: 'A' } },
+                note: 'Your partnership\u2019s cultural burning plan is written into the carbon deal. Burning the understory will not breach it.',
+                deltas: {},
+              },
+            ],
           },
           {
             key: 'C',
             label: 'Neither',
             detail: 'Keep your options open.',
-            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: -15, forest: 0 },
-            consequence: 'The mill closes. Nobody pays you anything.',
+            deltas: { treasury: 0, recreation: 0, residents: 0, forestry: -10, forest: 0 },
+            consequence: 'The mill cuts a shift. Forty jobs go. Nobody pays you anything.',
+          },
+          {
+            key: 'D',
+            label: 'Sell to local makers',
+            detail: 'Supply a timber-frame shop and a post-and-firewood business in town.',
+            deltas: { treasury: 70000, recreation: 0, residents: 5, forestry: 5, forest: -5 },
+            consequence: 'Less money, and the mill still cuts a shift. But every log becomes something made in Cedar Bend: more local jobs per tree.',
           },
         ],
       },
@@ -888,7 +905,7 @@
             consequence: 'Smoke over town for a week. Less fuel on the hill.',
             variants: [
               {
-                when: { choice: { round: 'mill', option: 'B' } },
+                when: { all: [{ choice: { round: 'mill', option: 'B' } }, { not: { choice: { round: 'r3', option: 'A' } } }] },
                 note: 'Burning the understory breaches part of your carbon contract. You pay a penalty.',
                 deltas: { treasury: -110000 },
               },
@@ -1007,8 +1024,12 @@
         text: 'The partnership was offered once. Ask the voiceless seat what that cost.',
       },
       {
-        when: { choice: { round: 'mill', option: ['B', 'C'] } },
-        text: 'Cedar Bend\u2019s mill closed that year, and hundreds of jobs went with it.',
+        when: { choice: { round: 'mill', option: ['B', 'C', 'D'] } },
+        text: 'Without a guaranteed supply, the mill cut a shift that year. Some of those families left Cedar Bend.',
+      },
+      {
+        when: { choice: { round: 'mill', option: 'D' } },
+        text: 'The timber-frame shop that started with your logs now employs thirty people.',
       },
       {
         when: { all: [{ choice: { round: 'mill', option: 'B' } }, { fire: 'interface' }] },
