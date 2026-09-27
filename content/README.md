@@ -7,8 +7,8 @@ carry-forward conditions. It also holds the starting Treasury, the per-round fix
 forest growth, the fire tiers, the epilogues, the room vote question, and the debrief lines.
 The comment at the top of the file explains the delta keys and the condition syntax.
 
-**The figures are rounded classroom numbers based on real ones**: the forest is sized to the
-20,000 m³/yr Golden was allocated in 2006, and the money is modelled on Nakusp's community forest
+**The setting (Cedar Bend, Thunderhead Mountain) is fictional; the figures are rounded classroom
+numbers sized like a real small BC community forest**: 20,000 m³/yr, what Golden was allocated in 2006, and the money is modelled on Nakusp's community forest
 (see `reports/Golden community forest real numbers.md`). They were tuned with
 `node tools/simulate.mjs` so that:
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mount 7 Community Forest</title>
+<title>Community Forest Board</title>
 <style>
   :root {
     --bg: #0b1210;
@@ -165,6 +165,10 @@
   .title-q { font-size: 1.6em; color: var(--muted); font-weight: 700; }
   .setup-list { display: grid; gap: 1vh; margin: 0; padding: 0; list-style: none; font-size: 0.92em; }
   .setup-list b { color: var(--accent); }
+  .what-is { border-left: 0.3em solid var(--accent); padding-left: 0.9em; }
+  .what-is h3 { margin: 0 0 0.8vh; font-size: 1.15em; color: var(--accent); }
+  .what-is .setup-list li { padding-left: 1.1em; text-indent: -1.1em; }
+  .what-is .setup-list li::before { content: "\25B8  "; color: var(--accent); }
   .rule { font-weight: 800; font-size: 1.1em; border-left: 0.3em solid var(--danger); padding-left: 0.7em; }
 
   .outcome-title { font-size: 2.4em; font-weight: 900; line-height: 1.05; }
@@ -316,21 +320,22 @@
 <script>
 /* ../content/config.js */
 /*
- * Mount 7 Community Forest: scenario and meter configuration.
+ * Thunderhead Mountain Community Forest: scenario and meter configuration.
  *
  * This is the only file you should need to edit to tune the simulation. The dashboard
  * (app/dashboard.html) reads it; `node tools/build.mjs` inlines it into the single-file
  * classroom build in dist/; `node tools/simulate.mjs` plays every path through it.
  *
- * The dollar figures are rounded classroom numbers BASED ON real ones, not exact Golden figures.
- * The forest is sized to the 20,000 m3/yr Golden was allocated in 2006 (about 4% of the Golden
- * TSA cut), and the money is modelled on Nakusp's community forest of the same size. Every
- * anchor, its source and its confidence is in "reports/Golden community forest real numbers.md".
+ * The setting is fictional: the town of Cedar Bend under Thunderhead Mountain. The dollar figures
+ * are rounded classroom numbers sized like a real small BC community forest: 20,000 m3/yr (what
+ * Golden was allocated in 2006), with money modelled on Nakusp's community forest of the same
+ * size. Anchors, sources and confidence are in "reports/Golden community forest real numbers.md".
+ * The real Golden story is kept for the debrief reveal, not the premise.
  *
  * Meter keys used in `deltas`:
  *   treasury   dollars (+ adds cash)
  *   bikers     Bikers / Tourism sentiment, 0-100
- *   residents  Selkirk Hill Residents sentiment, 0-100
+ *   residents  Hillside Residents sentiment, 0-100
  *   forestry   Forestry Sector sentiment, 0-100
  *   forest     Forest Health / Wildfire Risk slider, 0-100
  *              100 = lush, high fuel load, high fire risk
@@ -354,8 +359,8 @@
  */
 (function (root) {
   var config = {
-    forestName: 'Mount 7 Community Forest',
-    place: 'Golden, BC',
+    forestName: 'Thunderhead Mountain Community Forest',
+    town: 'Cedar Bend',
 
     // Picked on the title screen with the G key, before Year 1 starts.
     gameLengths: [
@@ -366,21 +371,41 @@
 
     titleScreen: {
       // Shown under the forest name on the cold open screen. Set to '' to show nothing.
-      question: 'Who owns Mount 7?',
-      // Shown with the I key on the opening screens: the true hook, then how the game is built on it.
+      question: 'Who owns Thunderhead Mountain?',
+      // Shown with the I key on the opening screens.
       chairNote:
-        'Cold open: no introduction. Ask the question, let them guess, then introduce yourself. ' +
-        'The true hook, once they have guessed: "In 2006 the Province set aside 20,000 cubic ' +
-        'metres a year, about 4% of the Golden area\u2019s cut, for a community forest here. In ' +
-        '2010 it was taken back before a licence was ever issued. Today the Shuswap Band, the ' +
-        'Town and the regional district are trying again. The money in this game is modelled on ' +
-        'Nakusp, a village with a forest the same size. Our numbers are rounded, but they are the ' +
-        'right size." Do not say a Mount 7 Community Forest exists: it is the game\u2019s ' +
-        'what-if.',
+        'Cold open: no introduction. Ask the question and let them guess (the answer: the land is ' +
+        'provincial Crown land, on a First Nation\u2019s unceded territory, and the Province has ' +
+        'licensed it to the town\u2019s community forest). Then introduce yourself and move on to ' +
+        'the welcome screen. Cedar Bend and Thunderhead Mountain are made up, but modelled on a ' +
+        'real small BC community forest. Save the real local story for the debrief. Consider ' +
+        'opening with the real territorial acknowledgement for the land you are on.',
+    },
+
+    // The welcome screen, after the title: who the class is, and what a community forest is.
+    introScreen: {
+      kicker: 'Welcome to the board',
+      heading: 'You have been selected as the board of directors of the Thunderhead Mountain Community Forest.',
+      lines: [
+        'The company is owned by the Town of Cedar Bend. For the next {years} years, you run it.',
+      ],
+      whatIs: {
+        heading: 'What is a community forest?',
+        points: [
+          'The Province licenses a forest to a local community for the long term, instead of to a big outside company.',
+          'The community decides how it is logged, protected, and used, and keeps the profits.',
+          'It has to pay its own way like any business, but it exists for the whole town: jobs, trails, fire safety, and money back to the community.',
+          'BC has about 60 of them. About half involve First Nations.',
+        ],
+      },
+      chairNote:
+        'Keep this under two minutes. The point is the gap between "make money" and "why we ' +
+        'exist": a business that is not trying to get rich. Take the opening vote here if you ' +
+        'have not already (V).',
     },
 
     setupScreen: {
-      heading: 'You are the board.',
+      heading: 'How the board keeps score.',
       lines: [
         // {years} becomes the number of years in the chosen game length.
         '{years} years. {years} decisions. One forest.',
@@ -404,7 +429,7 @@
 
     meters: {
       bikers: { label: 'Bikers / Tourism', bloc: 'Left side of the room', start: 50 },
-      residents: { label: 'Selkirk Hill Residents', bloc: 'Middle of the room', start: 50 },
+      residents: { label: 'Hillside Residents', bloc: 'Middle of the room', start: 50 },
       forestry: { label: 'Forestry Sector', bloc: 'Right side of the room', start: 50 },
     },
 
@@ -433,7 +458,7 @@
         title: 'The First Harvest',
         prompt:
           'You have just taken over the forest. It needs to fund itself this year. The lower ' +
-          'stand, right above Selkirk Hill and beside a trail you have all ridden, is ready. ' +
+          'stand, right above the Hillside homes and beside the town\u2019s most popular trail, is ready. ' +
           'How hard do you cut?',
         chairNote:
           'After the first vote, surface the Residents knot: they want it cut so they do not ' +
@@ -474,12 +499,11 @@
           'forest for the next 15 years. Big money up front. But their crews, their mill, and ' +
           'their profits: the value, and the decisions, leave the community.',
         chairNote:
-          'Ask: who captures the value? Where does the money go after it leaves Golden? ' +
+          'Ask: who captures the value? Where does the money go after it leaves Cedar Bend? ' +
           '(Salvage alternative, if you prefer: a winter blowdown has killed a big block; ' +
           'salvaging it means roading into a sensitive area. Edit this round in content/config.js.) ' +
-          'Worth saying afterwards, because it really happened in a different form: Golden\u2019s ' +
-          '20,000 m\u00B3 community forest allocation went to BC Timber Sales in 2010, before a ' +
-          'licence was ever issued.',
+          'Hold the real parallel for the debrief: Golden\u2019s 20,000 m\u00B3 community forest ' +
+          'allocation went back to the Province in 2010, before a licence was ever issued.',
         options: [
           {
             key: 'A',
@@ -509,9 +533,9 @@
         fullGameOnly: true,
         title: 'The Trail Network',
         prompt:
-          'Mountain biking in Golden is booming. The bike club wants to build a new trail ' +
-          'network on the upper mountain, and riders are already parking all along the Selkirk ' +
-          'Hill streets. Trails bring visitors and money to town. They also take stands out of ' +
+          'Mountain biking in Cedar Bend is booming. The bike club wants to build a new trail ' +
+          'network on the upper mountain, and riders are already parking all along the ' +
+          'Hillside streets. Trails bring visitors and money to town. They also take stands out of ' +
           'the timber base, forever.',
         chairNote:
           'This is the pricing round: the forest has more than one product. Ask the Bikers ' +
@@ -551,24 +575,22 @@
       {
         id: 'r3',
         title: 'The Partnership',
-        // Wording follows the Town of Golden and SD6 acknowledgements; see the research report.
-        // Have SD6 Indigenous Education review this round before running it.
+        // The partner is deliberately unnamed: nobody in the room stands in for a real Nation.
+        // Have your district's Indigenous Education staff review this round before running it.
         prompt:
-          'Mount 7 sits on the unceded territory of the Ktunaxa and Secwépemc peoples, and the ' +
-          'chosen home of the Métis. A First Nation government whose territory includes this ' +
-          'forest proposes managing it as an equal partner: shared board seats, shared ' +
-          'decisions, a longer time horizon. It may cost flexibility and money now. It is also ' +
-          'a live question in Golden today: whose forest is it?',
+          'Thunderhead Mountain is on the territory of a First Nation that never gave it up. ' +
+          'The Nation\u2019s government proposes managing the forest as an equal partner: shared ' +
+          'board seats, shared decisions, a longer time horizon. It may cost flexibility and money ' +
+          'now. It may also be the most honest answer to the question: whose forest is it?',
         chairNote:
           'Handle as a real governance decision, not a plot twist. Give the voiceless seat ' +
           'explicit standing to speak first. Name option B for what it is: consultation ' +
           'without power. If they decline, raise the legitimacy cost in the debrief: no meter ' +
-          'on this screen captures it. This round is based on a real process: since a ' +
-          'November 21, 2022 agreement, the Shuswap Band (Kenpesq\u2019t, a Secwépemc community), ' +
-          'the Town of Golden and CSRD Area A have worked toward the Kenpesq\u2019t Community ' +
-          'Forest. Nobody in the room plays a real Nation: the partner is a generic First Nation ' +
-          'government. Treat it as government-to-government, and say "rights holders", not ' +
-          '"stakeholders".',
+          'on this screen captures it. Nobody plays the Nation: it is a government and a rights ' +
+          'holder, not a stakeholder. Real parallels for the debrief: about half of BC\u2019s ' +
+          'community forests involve First Nations; the Cheakamus forest near Whistler has equal ' +
+          'board seats for two Nations and the municipality; near Golden, the Shuswap Band, the ' +
+          'Town and the regional district are working toward the Kenpesq\u2019t Community Forest.',
         options: [
           {
             key: 'A',
@@ -609,7 +631,7 @@
             variants: [
               {
                 when: { meter: 'forestry', below: 30 },
-                note: 'Forestry wrote this board off in Round 1. Declining wins you nothing back.',
+                note: 'Forestry wrote this board off in The First Harvest. Declining wins you nothing back.',
                 deltas: { forestry: 0 },
               },
             ],
@@ -648,7 +670,7 @@
           {
             key: 'C',
             label: 'Hire a FireSmart crew',
-            detail: 'A local crew clearing fuel around Selkirk Hill.',
+            detail: 'A local crew clearing fuel around the Hillside homes.',
             deltas: { treasury: -60000, bikers: 0, residents: 10, forestry: 5, forest: -8 },
             consequence: 'Local jobs, less fuel near the homes, less money in the bank.',
           },
@@ -659,18 +681,15 @@
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
         prompt:
-          'In this story, Golden\u2019s veneer and LVL mill, the town\u2019s biggest industrial ' +
-          'employer, says it cannot plan without a guaranteed log supply for ten years. The same ' +
-          'week, a carbon-offset buyer offers to pay you just as much to leave the trees ' +
-          'standing. Same money. Opposite forests.',
+          'Cedar Bend\u2019s mill, the town\u2019s biggest employer, says it will close unless it ' +
+          'gets a guaranteed supply of logs for ten years. The same week, a carbon-offset buyer ' +
+          'offers to pay you just as much to leave the trees standing. Same money. Opposite forests.',
         chairNote:
           'The carbon deal pays them to keep the forest dense, above the homes. Do not point ' +
           'that out; let the Residents find it. Carbon credits lock them in: thinning in fire ' +
-          'season will break the contract (a game rule, not a documented real case). Real facts: ' +
-          'Golden has had no sawmill since the early 1970s; its mill is Pacific Woodtech\u2019s ' +
-          'LVL plant, with about 350 direct jobs plus about 200 contractors. Carbon offsets are ' +
-          'real but rare: Whistler\u2019s Cheakamus Community Forest halved its harvest to sell ' +
-          'them, and is one of only two BC community forests that have.',
+          'season will break the contract (a game rule, not a documented real case). Real ' +
+          'parallel: Whistler\u2019s Cheakamus Community Forest halved its harvest to sell carbon ' +
+          'offsets, and is one of only two BC community forests that have.',
         options: [
           {
             key: 'A',
@@ -696,14 +715,14 @@
             label: 'Sell carbon credits',
             detail: 'Paid to leave the forest standing.',
             deltas: { treasury: 150000, bikers: 5, residents: -5, forestry: -20, forest: 10 },
-            consequence: 'Paid to keep it dense. Directly above Selkirk Hill.',
+            consequence: 'Paid to keep it dense. Directly above the Hillside homes.',
           },
           {
             key: 'C',
             label: 'Neither',
             detail: 'Keep your options open.',
             deltas: { treasury: 0, bikers: 0, residents: 0, forestry: -15, forest: 0 },
-            consequence: 'The mill loses its guaranteed supply. Nobody pays you anything.',
+            consequence: 'The mill closes. Nobody pays you anything.',
           },
         ],
       },
@@ -714,11 +733,11 @@
         showFireZone: true,
         prompt:
           'A hot, dry summer. Lightning in the forecast. Your forest, the one your board built ' +
-          'year by year, sits directly above the Selkirk Hill homes. Look at the slider. ' +
+          'year by year, sits directly above the Hillside homes. Look at the slider. ' +
           'That is your starting position. What do you do?',
         chairNote:
           'Let the slider do the moralizing. The interface-fire zone is now drawn on it. If ' +
-          'they are in the zone, "do nothing" burns Selkirk Hill. No dice: the board they ran ' +
+          'they are in the zone, "do nothing" burns the Hillside homes. No dice: the board they ran ' +
           'decides.',
         // Extra effects when this round starts, on top of the bleed and the growth.
         startEffects: [
@@ -780,7 +799,7 @@
       },
     ],
 
-    // Resolved on the Fire Season Outcome screen, after the Round 4 decision.
+    // Resolved on the Fire Season Outcome screen, after the Fire Season decision.
     // The first tier whose `when` matches is used; it is deterministic, never luck.
     fire: {
       title: 'Fire Season: what happened',
@@ -788,7 +807,7 @@
         {
           id: 'interface',
           when: { meter: 'forest', atLeast: 65 },
-          title: 'The fire reached Selkirk Hill',
+          title: 'The fire reached the Hillside homes',
           text:
             'A lightning strike on the upper slope. The fuel load did the rest. Evacuation ' +
             'orders, homes lost at the interface, the trails closed for years.',
@@ -823,7 +842,7 @@
         title: 'Sold off and logged out',
         text:
           'The forest was sold to an outside company. They did not care about the trails or ' +
-          'the view. Fifty years later, the lower slopes of Mount 7 have been cut twice, and ' +
+          'the view. Fifty years later, the lower slopes of Thunderhead have been cut twice, and ' +
           'the money went somewhere else.',
       },
       {
@@ -831,7 +850,7 @@
         when: { fire: 'interface' },
         title: 'The fire year',
         text:
-          'Everyone in Golden still dates things from the fire. The houses were rebuilt. The ' +
+          'Everyone in Cedar Bend still dates things from the fire. The houses were rebuilt. The ' +
           'forest is coming back, fifty years young, and the kids who ride it now have never ' +
           'seen it old.',
       },
@@ -845,7 +864,7 @@
         title: 'A thriving community asset',
         text:
           'Fifty years later, the forest still pays its own way. The trails are busier than ' +
-          'ever, the mill still buys local logs, and Selkirk Hill sleeps through fire season.',
+          'ever, the mill still buys local logs, and the Hillside sleeps through fire season.',
       },
       {
         id: 'scarred',
@@ -873,15 +892,15 @@
       },
       {
         when: { choice: { round: 'mill', option: ['B', 'C'] } },
-        text: 'In this version of the story, the mill lost its local log supply that year, and hundreds of jobs went with it.',
+        text: 'Cedar Bend\u2019s mill closed that year, and hundreds of jobs went with it.',
       },
       {
         when: { all: [{ choice: { round: 'mill', option: 'B' } }, { fire: 'interface' }] },
-        text: 'The carbon you were paid to store went up in smoke over Selkirk Hill.',
+        text: 'The carbon you were paid to store went up in smoke over the Hillside.',
       },
       {
         when: { choice: { round: 'trails', option: 'B' } },
-        text: 'The trail network is famous. People move to Golden for it.',
+        text: 'The trail network is famous. People move to Cedar Bend for it.',
       },
     ],
 
@@ -892,7 +911,7 @@
 
     // Opening and closing vote, shown side by side on the reveal screen.
     roomVote: {
-      question: 'Should we log the lower slopes of Mount 7?',
+      question: 'Should we log the lower slopes of Thunderhead Mountain?',
       choices: ['Yes', 'No', 'Unsure'],
     },
 
@@ -905,7 +924,7 @@
       { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
       { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
       { term: 'Social entrepreneurship', line: 'A business run for a community, including First Nations communities.' },
-      { term: 'The real story', line: 'Golden was promised a community forest in 2006, lost it in 2010, and is trying again today as a partnership led under a First Nation\u2019s name.' },
+      { term: 'This is not made up', line: 'In 2006 the Province set aside a community forest for Golden, about 4% of the local cut, and took it back in 2010. Today the Shuswap Band, the Town and the regional district are trying again.' },
     ],
 
     // Used only by tools/simulate.mjs to check the tuning.
@@ -923,7 +942,7 @@
 <script>
 /* engine.js */
 /*
- * Mount 7 simulation engine: pure state transitions, no DOM.
+ * Community forest simulation engine: pure state transitions, no DOM.
  * Shared by the dashboard (app/dashboard.html) and the path simulator (tools/simulate.mjs).
  * Every function takes a state and returns a new state plus a list of the changes made,
  * so the dashboard can animate them and keep an undo history.
@@ -1214,7 +1233,7 @@
     if (screensLength === state.length) return;
     screensLength = state.length;
     rounds = E.activeRounds(cfg, state.length);
-    screens = [{ type: 'title' }, { type: 'setup' }];
+    screens = [{ type: 'title' }, { type: 'intro' }, { type: 'setup' }];
     rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
     screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
   }
@@ -1433,11 +1452,21 @@
 
   var RENDER = {
     title: function () {
-      return '<div class="center"><div class="title-name">' + esc(cfg.forestName) + '</div>' +
+      return '<div class="center"><div class="kicker">' + esc(cfg.town || '') + '</div><div class="title-name">' + esc(cfg.forestName) + '</div>' +
         (cfg.titleScreen.question ? '<div class="title-q">' + esc(cfg.titleScreen.question) + '</div>' : '') +
         roomVoteNote('opening') +
         '<p class="path">' + esc(lengthInfo().label) + ': ' + rounds.length + ' years, ' + esc(lengthInfo().note) +
         (Object.keys(state.started).length ? '' : ' \u00B7 G to change') + '</p></div>';
+    },
+    intro: function () {
+      var it = cfg.introScreen;
+      var years = function (t) { return esc(t.replace(/\{years\}/g, rounds.length)); };
+      return '<div class="center"><div class="kicker">' + esc(it.kicker) + '</div>' +
+        '<h2>' + esc(it.heading) + '</h2>' +
+        it.lines.map(function (l) { return '<p class="prompt">' + years(l) + '</p>'; }).join('') +
+        '<div class="what-is"><h3>' + esc(it.whatIs.heading) + '</h3><ul class="setup-list">' +
+        it.whatIs.points.map(function (pt) { return '<li>' + esc(pt) + '</li>'; }).join('') +
+        '</ul></div></div>';
     },
     setup: function () {
       var su = cfg.setupScreen;
@@ -1639,7 +1668,7 @@
       existing = state.votes[s.round.id] || {};
       $('#voteTitle').textContent = 'Votes: ' + s.round.title;
     } else {
-      var which = (s.type === 'title' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
+      var which = (s.type === 'title' || s.type === 'intro' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
       if (!which) return toast('Votes can be entered on round screens, the opening screens, or the reveal');
       voteTarget = { kind: 'room', id: which };
       cols = cfg.roomVote.choices;
@@ -1699,11 +1728,13 @@
         ro.notes.forEach(function (n) { body += '<tr><td colspan="6" style="text-align:left">&nbsp;&nbsp;↳ ' + esc(n) + '</td></tr>'; });
       });
       body += '</table><p class="small">Forest: + is toward lush and fire risk, − is toward thinned.</p>';
+    } else if (s.type === 'intro') {
+      body = '<p>' + esc(cfg.introScreen.chairNote || '') + '</p>';
     } else if (s.type === 'title' || s.type === 'setup') {
       body = '<p>' + esc(cfg.titleScreen.chairNote || 'Cold open: no introduction. Ask the question, let them guess, then introduce yourself.') + '</p>' +
         '<p>Take the opening vote on "' + esc(cfg.roomVote.question) + '" and press V to enter it.</p>';
     } else if (s.type === 'fire') {
-      body = '<p>The fire outcome is read straight off the slider after the Round 4 decision. Not luck: the board they ran decides.</p>';
+      body = '<p>The fire outcome is read straight off the slider after the Fire Season decision. Not luck: the board they ran decides.</p>';
     } else if (s.type === 'epilogue') {
       body = '<p>Read the outcome, then move to the reveal: opening vote beside closing vote.</p>';
     } else if (s.type === 'reveal') {
@@ -1764,7 +1795,7 @@
   // Game length can only change before Year 1 starts.
   function toggleLength() {
     var s = screens[screenIndex];
-    if (s.type !== 'title' && s.type !== 'setup') return toast('Change the game length on the title screen');
+    if (s.type !== 'title' && s.type !== 'intro' && s.type !== 'setup') return toast('Change the game length on the title screen');
     if (Object.keys(state.started).length) return toast('Reset first (R R) to change the game length');
     var ids = cfg.gameLengths.map(function (l) { return l.id; });
     var next = E.clone(state);

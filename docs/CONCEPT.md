@@ -28,16 +28,30 @@ ethical tradeoffs live, and it maps directly onto ADST content the students alre
 have (profit vs break-even, social entrepreneurship, renewable vs non-renewable). See
 `ADST-ALIGNMENT.md`.
 
-Setting it on Mount 7, abutting the Selkirk Hill neighbourhood, does two things a
-generic forest cannot:
+## The setting: a fictional town, with the real story as the reveal
 
-- It is **their** mountain. They have ridden it, hiked it, watched paragliders come
-  off it. They are being asked to decide the fate of a place they already care about,
-  which is most of the engagement battle won before the first scenario.
-- The Selkirk Hill adjacency hands us **wildfire** for free. A dense forest directly
-  uphill of homes is a real, current Kootenay fear, not a hypothetical. That turns the
-  simulation from a business puzzle into a safety question with houses attached, which
-  raises the stakes past anything a lecture could reach.
+The game is set in **Cedar Bend**, a fictional mountain town, on **Thunderhead Mountain**,
+whose lower slopes sit directly above the **Hillside** neighbourhood. It was first drafted on
+Golden's Mount 7 and Selkirk Hill, and moved to a fictional setting deliberately:
+
+- **The facilitator is a councillor.** A local game where students decide whether to log a
+  real mountain can be heard as a council position, while a real community forest process
+  (Kenpesq't) is under way near Golden.
+- **A fictional town cannot be fact-checked.** Most real figures could only be partly verified.
+- **The Partnership round is safer.** The partner is "the First Nation whose territory this is",
+  unnamed, so nobody in the room stands in for a real Nation's government.
+- **Students argue more freely** when it is not their neighbour's house or their parent's
+  employer on the line, and the game can run in any mountain town.
+
+What the fictional setting keeps: Cedar Bend is obviously *a place like ours* (a mountain
+town, a bike scene, a mill, homes under the forest), so **wildfire** still arrives for free: a
+dense forest directly uphill of homes is a real, current interior BC fear. And the local
+relevance returns as a payoff, not a premise: the debrief closes on the true story that
+Golden was allocated a community forest in 2006, lost it in 2010, and is trying again today.
+
+The session opens with a welcome screen: the class **has been selected as the corporate board
+of the town's community forest**, followed by a short "what is a community forest?"
+explanation, before the meters are introduced.
 
 ## The mechanic: four meters, no clean win
 
@@ -53,7 +67,7 @@ four healthy at once.
   gets sold to an outside company that does not care about the trails or the view. Game
   over.
 - **Segment sentiment**, as three separate bars so they can move in opposite
-  directions and force real tradeoffs: **Bikers / Tourism**, **Selkirk Hill
+  directions and force real tradeoffs: **Bikers / Tourism**, **Hillside
   Residents**, **Forestry Sector**. The ethics lesson lives in the fact that a move
   which fills one bar drains another. You cannot please all three.
 - **Forest Health / Wildfire Risk**, deliberately built as *one* slider with two ends
@@ -84,7 +98,7 @@ projector. The design engineers against it structurally, not by hoping. See
    abstract and becomes *them*. When the Residents bar tanks, an actual group of
    students feels it.
 2. **Assign the seat nobody volunteers for.** One small group speaks for what has no
-   bar and no vote: the forest itself, the wildlife, the people living on Selkirk Hill
+   bar and no vote: the forest itself, the wildlife, the people living on the Hillside
    in 50 years, and the Indigenous rights-holders whose territory this is. This is the
    ethics of the whole simulation hiding in a seating chart, and it guarantees the
    long-term view gets voiced even when the room wants quick money.

@@ -1,8 +1,12 @@
 # Open questions
 
 Everything still unresolved, split into real-world facts to pull, numbers to tune, and design
-decisions still open. Nothing in this repo invents Golden's figures; this file is where they get
-tracked until they are real.
+decisions still open.
+
+**Setting decision (made):** the game is set in the fictional town of Cedar Bend under
+Thunderhead Mountain (see `CONCEPT.md`). The real Golden facts below now matter in two places
+only: the debrief reveal ("this is not made up") and sizing the numbers like a real small BC
+community forest. Only the reveal is stated as fact in the room, so it is the part to confirm.
 
 ## Real-world facts to verify or pull
 

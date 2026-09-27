@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mount 7 Printables</title>
+<title>Community Forest Printables</title>
 <style>
   :root { --ink: #111; --muted: #555; --line: #999; --paper: #fff; --accent: #8a5a00; }
   * { box-sizing: border-box; }
@@ -37,7 +37,7 @@
 </head>
 <body>
 <div class="intro">
-  <h1>Mount 7: printables</h1>
+  <h1>Community forest: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
   ballot slips for each round and for the opening and closing vote, a sign for each third of the room, and the voiceless seat's card.</p>
   <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
@@ -76,7 +76,7 @@
   });
 
   var cares = {
-    bikers: 'Trails, the view, and the experience that brings visitors to Golden.',
+    bikers: 'Trails, the view, and the experience that brings visitors to ' + cfg.town + '.',
     residents: 'Your homes (fire), your view, and your property values. Yes, those conflict.',
     forestry: 'Harvest, jobs, and the mill. You want the forest worked.',
   };
@@ -89,7 +89,7 @@
   html += '<section class="page"><div class="card"><h3>The voiceless seat</h3>' +
     '<p style="font-size:14pt">You speak for everything in this room that has no bar on the screen and no vote:</p><ul>' +
     '<li>the forest itself, the wildlife, the watershed</li>' +
-    '<li>the people who will live on Selkirk Hill in 50 years</li>' +
+    '<li>the people who will live on the Hillside in 50 years</li>' +
     '<li>the Indigenous rights-holders whose territory this is</li></ul>' +
     '<p class="right">Your standing right: before any vote is called, you may object, and the chair must hear you.</p>' +
     '</div></section>';

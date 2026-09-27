@@ -15,7 +15,7 @@ and a full play-through has been watched. See `OPEN-QUESTIONS.md`.
 - **Treasury** ($): the board's cash. Bleeds each round from fixed costs before any
   decision is applied.
 - **Bikers / Tourism** (sentiment bar)
-- **Selkirk Hill Residents** (sentiment bar)
+- **Hillside Residents** (sentiment bar)
 - **Forestry Sector** (sentiment bar)
 - **Forest Health / Wildfire Risk** (one coupled slider: high forest health means high
   fuel load means high fire risk)
@@ -29,8 +29,8 @@ means lower fire risk and a more scarred, harvested look.
 ## Round 1: The First Harvest
 
 **Setup read to the room.** You have just taken over the forest. It needs to fund itself
-this year. The lower stand, right above Selkirk Hill and beside a trail you have all
-ridden, is ready. How hard do you cut?
+this year. The lower stand, right above the Hillside homes and beside the town's most popular
+trail, is ready. How hard do you cut?
 
 **Fixed-cost tick before the vote:** Treasury `-[tune]` (staff, insurance, roads, paid
 whether or not you act).
@@ -41,8 +41,7 @@ whether or not you act).
 | **B. Selective thin** (the boring, responsible option) | + | neutral | + | neutral | slightly toward thinned |
 | **C. Full harvest of the lower stand** | ++ | -- | mixed | ++ | hard toward thinned (fire risk down, but a scar visible from town) |
 
-**Note on Residents being "mixed":** this is deliberate and it is the knot. The Selkirk
-Hill homeowners want it cut so they do not burn, *and* want it left so they keep their
+**Note on Residents being "mixed":** this is deliberate and it is the knot. The Hillside homeowners want it cut so they do not burn, *and* want it left so they keep their
 view and property value. Same people, two incompatible demands. Surface this after the
 first vote, then make them vote again.
 
@@ -83,11 +82,11 @@ frame the deadwood as the fuel. Decide which when tuning.
 
 ## Round 3: The Partnership
 
-**Dilemma.** The Ktunaxa and/or Secwépemc propose a co-management partnership over the
-forest. This is the ethical center of the simulation. Handle it as a real governance
+**Dilemma.** The First Nation whose territory includes Thunderhead Mountain (deliberately
+unnamed; see `CONCEPT.md`) proposes a co-management partnership over the forest. This is the ethical center of the simulation. Handle it as a real governance
 decision with real tradeoffs, not a box to tick.
 
-Frame honestly: the land is and was their territory before Golden existed. Co-management
+Frame honestly: the land is their territory, never ceded, and was long before Cedar Bend existed. Co-management
 changes who decides, and can change the whole horizon the forest is managed on. It may cost
 short-term flexibility or revenue; it may also be the most legitimate answer to "whose
 forest is it?" and open access to different funding and relationships.
@@ -115,7 +114,7 @@ standing to speak here.
 **Dilemma.** It is a hot, dry summer. The board's accumulated Forest Health / Wildfire Risk
 slider now sets their exposure. This round is less a free choice than a reckoning with the
 earlier ones: the boards that preserved everything are sitting on the highest fuel load,
-directly above the Selkirk Hill homes.
+directly above the Hillside homes.
 
 Give them a real-time-ish choice under pressure (an emergency thinning, a controlled burn, a
 prevention spend) but let the *slider* they built determine how bad the starting position is.
@@ -151,7 +150,7 @@ Fire Season.
 ### The Trail Network (after The Windfall)
 
 Biking is booming; the club wants a new network on the upper mountain, and riders already park
-all along Selkirk Hill. Tests pricing and revenue diversification (ADST: pricing a product,
+all along the Hillside. Tests pricing and revenue diversification (ADST: pricing a product,
 the decision to seek profit or break even; optional 4 Ps).
 
 | Option | Treasury | Bikers/Tourism | Residents | Forestry | Health/Fire slider |

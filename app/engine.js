@@ -1,5 +1,5 @@
 /*
- * Mount 7 simulation engine: pure state transitions, no DOM.
+ * Community forest simulation engine: pure state transitions, no DOM.
  * Shared by the dashboard (app/dashboard.html) and the path simulator (tools/simulate.mjs).
  * Every function takes a state and returns a new state plus a list of the changes made,
  * so the dashboard can animate them and keep an undo history.

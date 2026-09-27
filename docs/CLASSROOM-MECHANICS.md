@@ -17,8 +17,8 @@ Divide the room into thirds by seating. Each third *is* one of the sentiment seg
 whole session:
 
 - **Left third: Bikers / Tourism.** They care about trails, the view, the experience that
-  brings visitors to Golden.
-- **Middle third: Selkirk Hill Residents.** They care about their homes (fire), their view,
+  brings visitors to Cedar Bend.
+- **Middle third: Hillside Residents.** They care about their homes (fire), their view,
   and their property values. Remember these interests conflict with each other, which is the
   knot in Round 1.
 - **Right third: Forestry Sector.** They care about harvest, jobs, and the mill. They want the
@@ -35,7 +35,7 @@ Assign one small group (four or five students, pulled a couple from each bloc, o
 to speak for everything that has no bar and no vote:
 
 - the forest itself, the wildlife, the watershed
-- the people who will live on Selkirk Hill in 50 years
+- the people who will live on the Hillside in 50 years
 - the Indigenous rights-holders whose territory this is (until Round 3 makes them a formal party)
 
 Give this group a **standing right to object** before any vote is called. This is the ethics of

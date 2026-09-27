@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mount 7 Community Forest</title>
+<title>Community Forest Board</title>
 <style>
   :root {
     --bg: #0b1210;
@@ -165,6 +165,10 @@
   .title-q { font-size: 1.6em; color: var(--muted); font-weight: 700; }
   .setup-list { display: grid; gap: 1vh; margin: 0; padding: 0; list-style: none; font-size: 0.92em; }
   .setup-list b { color: var(--accent); }
+  .what-is { border-left: 0.3em solid var(--accent); padding-left: 0.9em; }
+  .what-is h3 { margin: 0 0 0.8vh; font-size: 1.15em; color: var(--accent); }
+  .what-is .setup-list li { padding-left: 1.1em; text-indent: -1.1em; }
+  .what-is .setup-list li::before { content: "\25B8  "; color: var(--accent); }
   .rule { font-weight: 800; font-size: 1.1em; border-left: 0.3em solid var(--danger); padding-left: 0.7em; }
 
   .outcome-title { font-size: 2.4em; font-weight: 900; line-height: 1.05; }
@@ -343,7 +347,7 @@
     if (screensLength === state.length) return;
     screensLength = state.length;
     rounds = E.activeRounds(cfg, state.length);
-    screens = [{ type: 'title' }, { type: 'setup' }];
+    screens = [{ type: 'title' }, { type: 'intro' }, { type: 'setup' }];
     rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
     screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
   }
@@ -562,11 +566,21 @@
 
   var RENDER = {
     title: function () {
-      return '<div class="center"><div class="title-name">' + esc(cfg.forestName) + '</div>' +
+      return '<div class="center"><div class="kicker">' + esc(cfg.town || '') + '</div><div class="title-name">' + esc(cfg.forestName) + '</div>' +
         (cfg.titleScreen.question ? '<div class="title-q">' + esc(cfg.titleScreen.question) + '</div>' : '') +
         roomVoteNote('opening') +
         '<p class="path">' + esc(lengthInfo().label) + ': ' + rounds.length + ' years, ' + esc(lengthInfo().note) +
         (Object.keys(state.started).length ? '' : ' \u00B7 G to change') + '</p></div>';
+    },
+    intro: function () {
+      var it = cfg.introScreen;
+      var years = function (t) { return esc(t.replace(/\{years\}/g, rounds.length)); };
+      return '<div class="center"><div class="kicker">' + esc(it.kicker) + '</div>' +
+        '<h2>' + esc(it.heading) + '</h2>' +
+        it.lines.map(function (l) { return '<p class="prompt">' + years(l) + '</p>'; }).join('') +
+        '<div class="what-is"><h3>' + esc(it.whatIs.heading) + '</h3><ul class="setup-list">' +
+        it.whatIs.points.map(function (pt) { return '<li>' + esc(pt) + '</li>'; }).join('') +
+        '</ul></div></div>';
     },
     setup: function () {
       var su = cfg.setupScreen;
@@ -768,7 +782,7 @@
       existing = state.votes[s.round.id] || {};
       $('#voteTitle').textContent = 'Votes: ' + s.round.title;
     } else {
-      var which = (s.type === 'title' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
+      var which = (s.type === 'title' || s.type === 'intro' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
       if (!which) return toast('Votes can be entered on round screens, the opening screens, or the reveal');
       voteTarget = { kind: 'room', id: which };
       cols = cfg.roomVote.choices;
@@ -828,11 +842,13 @@
         ro.notes.forEach(function (n) { body += '<tr><td colspan="6" style="text-align:left">&nbsp;&nbsp;↳ ' + esc(n) + '</td></tr>'; });
       });
       body += '</table><p class="small">Forest: + is toward lush and fire risk, − is toward thinned.</p>';
+    } else if (s.type === 'intro') {
+      body = '<p>' + esc(cfg.introScreen.chairNote || '') + '</p>';
     } else if (s.type === 'title' || s.type === 'setup') {
       body = '<p>' + esc(cfg.titleScreen.chairNote || 'Cold open: no introduction. Ask the question, let them guess, then introduce yourself.') + '</p>' +
         '<p>Take the opening vote on "' + esc(cfg.roomVote.question) + '" and press V to enter it.</p>';
     } else if (s.type === 'fire') {
-      body = '<p>The fire outcome is read straight off the slider after the Round 4 decision. Not luck: the board they ran decides.</p>';
+      body = '<p>The fire outcome is read straight off the slider after the Fire Season decision. Not luck: the board they ran decides.</p>';
     } else if (s.type === 'epilogue') {
       body = '<p>Read the outcome, then move to the reveal: opening vote beside closing vote.</p>';
     } else if (s.type === 'reveal') {
@@ -893,7 +909,7 @@
   // Game length can only change before Year 1 starts.
   function toggleLength() {
     var s = screens[screenIndex];
-    if (s.type !== 'title' && s.type !== 'setup') return toast('Change the game length on the title screen');
+    if (s.type !== 'title' && s.type !== 'intro' && s.type !== 'setup') return toast('Change the game length on the title screen');
     if (Object.keys(state.started).length) return toast('Reset first (R R) to change the game length');
     var ids = cfg.gameLengths.map(function (l) { return l.id; });
     var next = E.clone(state);

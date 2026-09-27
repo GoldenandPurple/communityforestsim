@@ -24,7 +24,7 @@ version worth doing over a plain talk. Build it against this spec.
    deduction applied at the start of each round (the bleed). Reaching zero triggers the insolvency
    end state.
 2. **Bikers / Tourism** sentiment. A 0 to 100 bar.
-3. **Selkirk Hill Residents** sentiment. A 0 to 100 bar.
+3. **Hillside Residents** sentiment. A 0 to 100 bar.
 4. **Forestry Sector** sentiment. A 0 to 100 bar.
 5. **Forest Health / Wildfire Risk.** A single slider with two labeled ends: one end "lush /
    high fuel load / high fire risk," the other "thinned / scarred / low fire risk." One control,
@@ -51,7 +51,7 @@ by a key, so you are never guessing mid-session.
 
 ## Screens / states
 
-- **Title / cold open screen.** Minimal. The "who owns Mount 7?" question or just the forest name
+- **Title / cold open screen.** Minimal. The "who owns Thunderhead Mountain?" question or just the forest name
   and the four dormant meters. Nothing that pre-empts the cold open.
 - **Round screen.** Shows the four meters prominently and the current scenario title. The scenario
   prompt text can be on screen or read aloud (config should carry the text either way).

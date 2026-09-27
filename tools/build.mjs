@@ -17,8 +17,8 @@ if (problems.length) {
 }
 
 const pages = [
-  ['app/dashboard.html', 'dist/mount7-dashboard.html'],
-  ['app/printables.html', 'dist/mount7-printables.html'],
+  ['app/dashboard.html', 'dist/community-forest-dashboard.html'],
+  ['app/printables.html', 'dist/community-forest-printables.html'],
 ];
 
 mkdirSync(join(root, 'dist'), { recursive: true });
