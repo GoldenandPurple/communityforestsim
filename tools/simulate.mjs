@@ -30,11 +30,13 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
   const play = (path) => {
     let s = E.initialState(cfg, length);
     const treasuryByRound = [];
-    rounds.forEach((round, i) => {
-      s = E.startRound(s, round.id, cfg).state;
-      s = E.applyOption(s, round.id, path[i], cfg).state;
+    for (let i = 0; i < rounds.length; i++) {
+      s = E.startRound(s, rounds[i].id, cfg).state;
+      // Paths through an option that earlier choices closed off are not playable.
+      if (E.resolveOption(s, rounds[i].id, path[i], cfg).locked) return null;
+      s = E.applyOption(s, rounds[i].id, path[i], cfg).state;
       treasuryByRound.push(s.treasury);
-    });
+    }
     s = E.resolveFire(s, cfg).state;
     return { path: path.join(''), s, treasuryByRound, epilogue: E.epilogue(s, cfg).outcome.id };
   };
@@ -42,7 +44,7 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
   // Every combination of option keys across the rounds.
   let paths = [[]];
   for (const round of rounds) paths = paths.flatMap((p) => round.options.map((o) => [...p, o.key]));
-  const results = paths.map(play);
+  const results = paths.map(play).filter(Boolean);
 
   console.log(`\n=== ${length} game: ${rounds.length} rounds (${rounds.map((r) => r.id).join(', ')}) ===`);
 

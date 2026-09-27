@@ -163,19 +163,25 @@ Fire Season.
 
 ### The Trail Network (after The Windfall)
 
-Biking is booming; the club wants a new network on the upper mountain, and riders already park
-all along the Hillside. Tests pricing and revenue diversification (ADST: pricing a product,
-the decision to seek profit or break even; optional 4 Ps).
+Riders, hikers and paragliders are booming; the trail groups want a new network on the upper
+mountain, and visitors already park all along the Hillside streets. Tests pricing and revenue
+diversification (ADST: pricing a product, the decision to seek profit or break even; optional
+4 Ps).
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
-|--------|----------|----------------|-----------|----------|--------------------|
-| **A. Charge for access** (parking, trail pass) | + | - | + (small) | 0 | 0 |
-| **B. Build it with the club** | + (small) | ++ | - | - | slightly toward lush (stands leave the timber base) |
+|--------|----------|----------------------|-----------|----------|--------------------|
+| **A. Charge for access** (paid shuttle, parking fees) | + | - | + (small) | 0 | 0 |
+| **B. Build it with the trail groups** | + (small) | ++ | - | - | slightly toward lush (stands leave the timber base) |
 | **C. Keep it a working forest** | + (small) | - | 0 | + | slightly toward thinned |
 
-**Carry-forward:** if the buyout was taken, B means buying part of the lease back (costs money).
-B also makes the mill contract in Year 6 hurt Recreation more (the contract needs the trail-side
-stands).
+**Carry-forward:**
+- If the board cut the upper stand in The First Harvest (option D), **C is greyed out** ("Already
+  harvested"), and B is much cheaper because the logging road gets trail crews up the mountain.
+- If the buyout was taken, B means buying part of the lease back (costs money).
+- B makes the mill contract in Year 6 hurt Recreation more (the contract needs the trail-side
+  stands).
+
+Any option can be closed off like C with a `locked: { when, note }` entry in the config.
 
 ### Where the Profit Goes (after The Partnership)
 

@@ -159,6 +159,11 @@
   .options.decided .option:not(.chosen) .detail { display: none; }
   .options.decided .option:not(.chosen) .key { width: 1.5em; height: 1.5em; font-size: 1em; grid-row: auto; }
   .options.decided .option.chosen { opacity: 1; border-color: var(--chosen); }
+  /* Closed off by an earlier decision: struck through, with the reason in place of the detail */
+  .option.locked { opacity: 0.45; border-style: dashed; }
+  .option.locked .label { text-decoration: line-through; text-decoration-thickness: 0.08em; }
+  .option.locked .detail { color: var(--accent); font-style: italic; }
+  .locked-tag { font-size: 0.6em; font-weight: 900; letter-spacing: 0.1em; color: var(--muted); margin-left: 0.6em; vertical-align: middle; text-decoration: none; display: inline-block; }
   .option.chosen .key { background: var(--chosen); color: var(--bg); border-color: var(--chosen); }
   .chosen-tag { font-size: 0.6em; font-weight: 900; letter-spacing: 0.1em; color: var(--chosen); margin-left: 0.6em; vertical-align: middle; }
 
@@ -611,6 +616,7 @@
         '<div class="options' + (chosen ? ' decided' : '') + '">';
       r.options.forEach(function (o) {
         var isChosen = chosen === o.key;
+        var lock = E.resolveOption(state, r.id, o.key, cfg);
         var tally = '';
         if (votes) {
           var parts = [];
@@ -618,10 +624,12 @@
           if (votes.hands) parts.push('Hands ' + (votes.hands[o.key] || 0));
           tally = '<div class="tally">' + parts.join(' · ') + '</div>';
         }
-        html += '<div class="option' + (isChosen ? ' chosen' : '') + '">' +
+        var isLocked = lock.locked && !isChosen;
+        html += '<div class="option' + (isChosen ? ' chosen' : '') + (isLocked ? ' locked' : '') + '">' +
           '<div class="key">' + esc(o.key) + '</div>' +
-          '<div class="label">' + esc(o.label) + (isChosen ? '<span class="chosen-tag">BOARD DECISION</span>' : '') + '</div>' +
-          '<div class="detail">' + esc(o.detail || '') + '</div>' + tally;
+          '<div class="label">' + esc(o.label) + (isChosen ? '<span class="chosen-tag">BOARD DECISION</span>' : '') +
+          (isLocked ? '<span class="locked-tag">NOT AVAILABLE</span>' : '') + '</div>' +
+          '<div class="detail">' + esc(isLocked ? lock.lockedNote : (o.detail || '')) + '</div>' + tally;
         if (isChosen) {
           var applied = state._applied && state._applied[r.id];
           html += '<div class="after"><p>' + esc(o.consequence || '') + '</p>' +
@@ -739,6 +747,8 @@
     if (!state.started[s.round.id]) return toast('One moment: the year is still starting');
     if (!s.round.options.some(function (o) { return o.key === key; })) return;
     if (state.choices[s.round.id]) return toast('Already decided. Press U to undo first.');
+    var check = E.resolveOption(state, s.round.id, key, cfg);
+    if (check.locked) return toast('Not available: ' + check.lockedNote);
     var r = E.applyOption(state, s.round.id, key, cfg);
     r.state._applied = r.state._applied || {};
     r.state._applied[s.round.id] = r.option.notes;

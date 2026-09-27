@@ -149,12 +149,18 @@
       if (v.note) notes.push(v.note);
       Object.keys(v.deltas || {}).forEach(function (k) { deltas[k] = v.deltas[k]; });
     });
-    return { key: opt.key, label: opt.label, detail: opt.detail, consequence: opt.consequence, deltas: deltas, notes: notes };
+    // An option can be closed off by earlier decisions: shown greyed out with a note, not selectable.
+    var locked = !!(opt.locked && evalCond(opt.locked.when, state));
+    return {
+      key: opt.key, label: opt.label, detail: opt.detail, consequence: opt.consequence, deltas: deltas, notes: notes,
+      locked: locked, lockedNote: locked ? opt.locked.note : null,
+    };
   }
 
   function applyOption(state, roundId, key, cfg) {
     var opt = resolveOption(state, roundId, key, cfg);
     if (!opt) throw new Error('No option ' + key + ' in ' + roundId);
+    if (opt.locked) throw new Error('Option ' + key + ' in ' + roundId + ' is not available: ' + opt.lockedNote);
     var round = findRound(cfg, roundId);
     var r = applyDeltas(state, opt.deltas, round.title + ': ' + opt.label, cfg);
     r.state.choices[roundId] = key;
@@ -219,6 +225,10 @@
           problems.push(r.id + ' option key "' + o.key + '" must be a single letter not used by another control (A, B, C are safest)');
         }
         tryDeltas(o.deltas, r.id + ' ' + o.key);
+        if (o.locked) {
+          tryCond(o.locked.when, r.id + ' ' + o.key + ' locked');
+          if (!o.locked.note) problems.push(r.id + ' ' + o.key + ' is lockable but has no locked.note to show the room');
+        }
         (o.variants || []).forEach(function (v) {
           tryCond(v.when, r.id + ' ' + o.key + ' variant');
           tryDeltas(v.deltas, r.id + ' ' + o.key + ' variant');

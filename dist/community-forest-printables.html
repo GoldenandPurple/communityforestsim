@@ -283,32 +283,34 @@
         fullGameOnly: true,
         title: 'The Trail Network',
         prompt:
-          'Mountain biking in Cedar Bend is booming. The bike club wants to build a new trail ' +
-          'network on the upper mountain, and riders are already parking all along the ' +
-          'Hillside streets. Trails bring visitors and money to town. They also take stands out of ' +
-          'the timber base, forever.',
+          'Riders, hikers and paragliders are pouring into Cedar Bend. The trail groups want a ' +
+          'new trail network on the upper mountain, and visitors are already parking all along ' +
+          'the Hillside streets. Trails bring visitors and money to town. They also take stands ' +
+          'out of the timber base, forever.',
         chairNote:
           'This is the pricing round: the forest has more than one product. Ask Recreation ' +
-          'whether they would pay for what they now get free, and the Residents who pays for ' +
-          'the parking. Good slot for the optional 4 Ps exercise.',
+          'whether they would pay for a shuttle ride or a parking spot they now get free, and ' +
+          'the Residents who pays for the parking on their streets. Good slot for the optional ' +
+          '4 Ps exercise. If they cut the upper stand in The First Harvest, option C is closed: ' +
+          'point at it. Early choices close doors.',
         options: [
           {
             key: 'A',
             label: 'Charge for access',
-            detail: 'Paid parking and a trail pass.',
+            detail: 'A paid shuttle up the mountain, and parking fees.',
             deltas: { treasury: 120000, recreation: -10, residents: 5, forestry: 0, forest: 0 },
-            consequence: 'Riders pay. Some stop coming.',
+            consequence: 'Visitors pay. Some stop coming. The Hillside streets get quieter.',
           },
           {
             key: 'B',
-            label: 'Build it with the club',
+            label: 'Build it with the trail groups',
             detail: 'A grant-funded network, with a share of tourism revenue.',
             deltas: { treasury: 80000, recreation: 20, residents: -10, forestry: -10, forest: 3 },
             consequence: 'World-class riding. Those stands will never be logged.',
             variants: [
               {
                 when: { choice: { round: 'r1', option: 'D' } },
-                note: 'The logging road you built in The First Harvest gets the club\u2019s crews up the mountain. Cheaper to build.',
+                note: 'The logging road you built in The First Harvest gets the trail crews up the mountain. Cheaper to build.',
                 deltas: { treasury: 110000 },
               },
               {
@@ -323,7 +325,11 @@
             label: 'Keep it a working forest',
             detail: 'No new trails. Log the upper stands on schedule.',
             deltas: { treasury: 60000, recreation: -15, residents: 0, forestry: 10, forest: -6 },
-            consequence: 'The upper mountain stays a timber block. The riders notice.',
+            consequence: 'The upper mountain stays a timber block. The trail groups notice.',
+            locked: {
+              when: { choice: { round: 'r1', option: 'D' } },
+              note: 'Already harvested: the board cut the upper stand in The First Harvest.',
+            },
           },
         ],
       },
