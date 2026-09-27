@@ -34,8 +34,10 @@ clicker works for next and back.
 
 ## Tuning the numbers
 
-Every number in `content/config.js` is a placeholder chosen so the game plays well. None of them
-are real Golden figures yet (see `docs/OPEN-QUESTIONS.md`). After editing it:
+The numbers in `content/config.js` are rounded classroom figures based on real ones: the forest is
+sized to the 20,000 m³ a year Golden was allocated for a community forest in 2006, and the money is
+modelled on Nakusp's community forest of the same size. Sources and confidence levels are in
+`reports/Golden community forest real numbers.md`; open questions are in `docs/OPEN-QUESTIONS.md`. After editing it:
 
 ```sh
 node tools/simulate.mjs        # summary of endings, plus tuning warnings

@@ -5,8 +5,10 @@
  * (app/dashboard.html) reads it; `node tools/build.mjs` inlines it into the single-file
  * classroom build in dist/; `node tools/simulate.mjs` plays every path through it.
  *
- * ALL NUMBERS ARE PLACEHOLDERS chosen to make the game play well, not real Golden figures.
- * Replace them once the research items in docs/OPEN-QUESTIONS.md are pulled.
+ * The dollar figures are rounded classroom numbers BASED ON real ones, not exact Golden figures.
+ * The forest is sized to the 20,000 m3/yr Golden was allocated in 2006 (about 4% of the Golden
+ * TSA cut), and the money is modelled on Nakusp's community forest of the same size. Every
+ * anchor, its source and its confidence is in "reports/Golden community forest real numbers.md".
  *
  * Meter keys used in `deltas`:
  *   treasury   dollars (+ adds cash)
@@ -48,6 +50,16 @@
     titleScreen: {
       // Shown under the forest name on the cold open screen. Set to '' to show nothing.
       question: 'Who owns Mount 7?',
+      // Shown with the I key on the opening screens: the true hook, then how the game is built on it.
+      chairNote:
+        'Cold open: no introduction. Ask the question, let them guess, then introduce yourself. ' +
+        'The true hook, once they have guessed: "In 2006 the Province set aside 20,000 cubic ' +
+        'metres a year, about 4% of the Golden area\u2019s cut, for a community forest here. In ' +
+        '2010 it was taken back before a licence was ever issued. Today the Shuswap Band, the ' +
+        'Town and the regional district are trying again. The money in this game is modelled on ' +
+        'Nakusp, a village with a forest the same size. Our numbers are rounded, but they are the ' +
+        'right size." Do not say a Mount 7 Community Forest exists: it is the game\u2019s ' +
+        'what-if.',
     },
 
     setupScreen: {
@@ -65,7 +77,7 @@
       start: 300000,
       // Fixed costs deducted automatically at the start of every round.
       bleed: 90000,
-      bleedLabel: 'Fixed costs: staff, insurance, roads',
+      bleedLabel: 'Fixed costs: manager, planning, insurance, road upkeep',
       // Extra deduction on the T key, so the chair can lean on it mid-debate.
       manualTick: 10000,
       manualTickLabel: 'While you debate, you are paying staff',
@@ -110,7 +122,9 @@
           'After the first vote, surface the Residents knot: they want it cut so they do not ' +
           'burn, and left standing so they keep their view and property values. Same people, ' +
           'two incompatible demands. Then press U to undo and vote again. Do not warn them that ' +
-          'the trust they burn now narrows their options in The Partnership.',
+          'the trust they burn now narrows their options in The Partnership. Scale, if asked: the ' +
+          'full harvest is about a year\u2019s 20,000 m\u00B3 netting roughly $13 a cubic metre after ' +
+          'logging, hauling and stumpage; the selective thin is about 9,000 m\u00B3.',
         options: [
           {
             key: 'A',
@@ -129,7 +143,7 @@
           {
             key: 'C',
             label: 'Full harvest of the lower stand',
-            detail: 'Cut the whole block.',
+            detail: 'Cut the whole block: a full year\u2019s harvest.',
             deltas: { treasury: 260000, bikers: -20, residents: -5, forestry: 20, forest: -25 },
             consequence: 'Big cheque. Fire risk down. A scar you can see from town.',
           },
@@ -145,7 +159,10 @@
         chairNote:
           'Ask: who captures the value? Where does the money go after it leaves Golden? ' +
           '(Salvage alternative, if you prefer: a winter blowdown has killed a big block; ' +
-          'salvaging it means roading into a sensitive area. Edit this round in content/config.js.)',
+          'salvaging it means roading into a sensitive area. Edit this round in content/config.js.) ' +
+          'Worth saying afterwards, because it really happened in a different form: Golden\u2019s ' +
+          '20,000 m\u00B3 community forest allocation went to BC Timber Sales in 2010, before a ' +
+          'licence was ever issued.',
         options: [
           {
             key: 'A',
@@ -217,22 +234,29 @@
       {
         id: 'r3',
         title: 'The Partnership',
-        // Verify nations and terminology before running this round (docs/OPEN-QUESTIONS.md).
+        // Wording follows the Town of Golden and SD6 acknowledgements; see the research report.
+        // Have SD6 Indigenous Education review this round before running it.
         prompt:
-          'The Ktunaxa and Secwépemc, whose territory this was long before Golden existed, ' +
-          'propose co-managing the forest. Co-management changes who decides, and the time ' +
-          'horizon the forest is managed on. It may cost flexibility and money now. It may ' +
-          'also be the most honest answer to the question: whose forest is it?',
+          'Mount 7 sits on the unceded territory of the Ktunaxa and Secwépemc peoples, and the ' +
+          'chosen home of the Métis. A First Nation government whose territory includes this ' +
+          'forest proposes managing it as an equal partner: shared board seats, shared ' +
+          'decisions, a longer time horizon. It may cost flexibility and money now. It is also ' +
+          'a live question in Golden today: whose forest is it?',
         chairNote:
           'Handle as a real governance decision, not a plot twist. Give the voiceless seat ' +
           'explicit standing to speak first. Name option B for what it is: consultation ' +
           'without power. If they decline, raise the legitimacy cost in the debrief: no meter ' +
-          'on this screen captures it.',
+          'on this screen captures it. This round is based on a real process: since a ' +
+          'November 21, 2022 agreement, the Shuswap Band (Kenpesq\u2019t, a Secwépemc community), ' +
+          'the Town of Golden and CSRD Area A have worked toward the Kenpesq\u2019t Community ' +
+          'Forest. Nobody in the room plays a real Nation: the partner is a generic First Nation ' +
+          'government. Treat it as government-to-government, and say "rights holders", not ' +
+          '"stakeholders".',
         options: [
           {
             key: 'A',
             label: 'Full co-management',
-            detail: 'Shared decisions, shared board seats.',
+            detail: 'Equal board seats and a shared plan, like the Cheakamus forest near Whistler.',
             deltas: { treasury: -40000, bikers: 0, residents: -5, forestry: -5, forest: -6 },
             consequence: 'Every future decision is now made on a longer horizon.',
             variants: [
@@ -318,13 +342,18 @@
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
         prompt:
-          'Golden\u2019s sawmill says it will close unless it gets a guaranteed supply of logs ' +
-          'for ten years. The same week, a carbon-offset buyer offers to pay you just as much ' +
-          'to leave the trees standing. Same money. Opposite forests.',
+          'In this story, Golden\u2019s veneer and LVL mill, the town\u2019s biggest industrial ' +
+          'employer, says it cannot plan without a guaranteed log supply for ten years. The same ' +
+          'week, a carbon-offset buyer offers to pay you just as much to leave the trees ' +
+          'standing. Same money. Opposite forests.',
         chairNote:
           'The carbon deal pays them to keep the forest dense, above the homes. Do not point ' +
           'that out; let the Residents find it. Carbon credits lock them in: thinning in fire ' +
-          'season will break the contract.',
+          'season will break the contract (a game rule, not a documented real case). Real facts: ' +
+          'Golden has had no sawmill since the early 1970s; its mill is Pacific Woodtech\u2019s ' +
+          'LVL plant, with about 350 direct jobs plus about 200 contractors. Carbon offsets are ' +
+          'real but rare: Whistler\u2019s Cheakamus Community Forest halved its harvest to sell ' +
+          'them, and is one of only two BC community forests that have.',
         options: [
           {
             key: 'A',
@@ -357,7 +386,7 @@
             label: 'Neither',
             detail: 'Keep your options open.',
             deltas: { treasury: 0, bikers: 0, residents: 0, forestry: -15, forest: 0 },
-            consequence: 'The mill closes. Nobody pays you anything.',
+            consequence: 'The mill loses its guaranteed supply. Nobody pays you anything.',
           },
         ],
       },
@@ -527,7 +556,7 @@
       },
       {
         when: { choice: { round: 'mill', option: ['B', 'C'] } },
-        text: 'Golden\u2019s sawmill closed that year. Its site is condos now.',
+        text: 'In this version of the story, the mill lost its local log supply that year, and hundreds of jobs went with it.',
       },
       {
         when: { all: [{ choice: { round: 'mill', option: 'B' } }, { fire: 'interface' }] },
@@ -559,6 +588,7 @@
       { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
       { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
       { term: 'Social entrepreneurship', line: 'A business run for a community, including First Nations communities.' },
+      { term: 'The real story', line: 'Golden was promised a community forest in 2006, lost it in 2010, and is trying again today as a partnership led under a First Nation\u2019s name.' },
     ],
 
     // Used only by tools/simulate.mjs to check the tuning.

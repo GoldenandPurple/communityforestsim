@@ -10,30 +10,37 @@ These make the difference between "our forest" and "imagine a forest," and they 
 facilitator's credibility as a councillor in a room where a sharp student or the teacher might
 check.
 
-- [ ] **The 4% AAC set-aside.** Wesley recalls roughly 4% of the local Allowable Annual Cut was
-  once set aside for a Golden community forest. Verify: the figure, the source, when, and whether
-  it still stands. This is currently the framing hook, so it should not be stated as fact in the
-  room until confirmed.
-- [ ] **The actual AAC and Timber Supply Area** Golden sits in, so "4% of the AAC" can be
-  expressed as a real annual volume (cubic metres) and, roughly, a dollar figure. This feeds the
-  starting Treasury and the harvest options.
-- [ ] **Mount 7 specifics.** Land status and tenure of the relevant slopes, what actually grows
-  there, the trail network, and whether any of it is realistically harvestable. Enough to make the
-  scenario legible without overclaiming.
-- [ ] **Selkirk Hill wildfire interface.** The real wildland-urban interface picture: any FireSmart
-  or community wildfire protection plan context for Golden, fuel types, recent local fire history.
-  Round 4 rests on this being credible, not lurid.
-- [ ] **Comparable BC community forests** (for example, other Kootenay or interior community forest
-  agreements) for realistic revenue, cost, and governance numbers to anchor the Treasury and the
-  meter tuning. A real comparable forest's rough annual budget is the best source for a believable
-  starting Treasury and fixed-cost bleed.
-- [ ] **Round 3 terminology and framing.** Confirm the correct nations and terminology for the
-  territory (Ktunaxa, Secwépemc, others) and frame co-management accurately and respectfully.
-  Ideally ground it in a real BC example of Indigenous community forest partnership. Get this right
-  before the round is run.
+A research pass was done in September 2026: see `reports/Golden community forest real numbers.md`
+(notes in `research_notes/`). **Caveat:** the research could only read search-result excerpts, not
+the full pages, so each item below is marked "found" rather than checked off. Open the primary
+documents listed at the end of the report before stating any of it as fact in the room.
 
-Suggested next step: a focused research pass on the above, then feed the results into the Treasury
-starting value and the `[tune]` deltas in `SCENARIOS.md`.
+- [ ] **The 4% AAC set-aside.** *Found:* in 2006 the minister allocated 20,000 m³/yr to a
+  Golden-area community forest (about 4.1% of the Golden TSA's 485,000 m³ cut); in 2010 the
+  Province reallocated it to BC Timber Sales before any licence was issued. Revived as the
+  Kenpesq't Community Forest (Shuswap Band, Town of Golden, CSRD Area A; MOU 21 Nov 2022), no
+  licence confirmed. *To confirm:* the goldenareacf.com / Golden Star wording and date.
+- [ ] **The actual AAC and Timber Supply Area.** *Found:* Golden TSA, 485,000 m³/yr effective
+  3 June 2010. A new determination was due around 2025 and was not found. *To confirm:* the
+  current figure on the gov.bc.ca Golden TSA page. Dollar conversion is an estimate (about
+  $13/m³ net, anchored to Nakusp's dividends), not a sourced figure.
+- [ ] **Mount 7 specifics.** *Found:* mostly provincial Crown land with Town-owned and one private
+  parcel low down; a woodlot licence, a timber sale licence and a small-scale permit are active;
+  ICHmk1 zone, lodgepole pine with Douglas-fir and larch low down; Golden Cycling Club maintains
+  180+ km of trail; wildfire fuel mulching on Mount 7 (11 ha, then a $271,500 Phase 2 grant, June
+  2026). *To confirm:* the GCC Mount 7 Trail Plan (Nov 2023).
+- [ ] **Selkirk Hill wildfire interface.** *Found:* Town and CSRD Area A Community Wildfire
+  Resiliency Plans exist; 2024 Dogtooth fire (5,680 ha, at least 6 homes lost near Parson);
+  2026 Sea Lion Mountain fire (1,144 ha, no structures). *Gap:* Selkirk Hill risk ratings and fuel
+  types (the plans could not be opened).
+- [ ] **Comparable BC community forests.** *Found:* Nakusp (NACFOR, 20,000 m³/yr, village-owned)
+  paid its village $250k (2025) to $582k (2014) a year; grants of $50k–$77k/yr are typical
+  (Nakusp, Kaslo, Valemount). The game's money is modelled on this. *Gap:* no line-item operating
+  costs found, so the $90k fixed-cost bleed is the weakest number.
+- [ ] **Round 3 terminology and framing.** *Found:* local bodies name the unceded territory of the
+  Ktunaxa and Secwépemc peoples and the chosen home of the Métis; Round 3 now uses that wording and
+  a generic First Nation government as the partner, with Kenpesq't in the chair's note.
+  *To do:* have SD6 Indigenous Education review the round before it is run.
 
 ## Numbers to tune (after the dashboard runs)
 

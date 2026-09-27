@@ -829,7 +829,7 @@
       });
       body += '</table><p class="small">Forest: + is toward lush and fire risk, − is toward thinned.</p>';
     } else if (s.type === 'title' || s.type === 'setup') {
-      body = '<p>Cold open: no introduction. Ask the question, let them guess, then introduce yourself.</p>' +
+      body = '<p>' + esc(cfg.titleScreen.chairNote || 'Cold open: no introduction. Ask the question, let them guess, then introduce yourself.') + '</p>' +
         '<p>Take the opening vote on "' + esc(cfg.roomVote.question) + '" and press V to enter it.</p>';
     } else if (s.type === 'fire') {
       body = '<p>The fire outcome is read straight off the slider after the Round 4 decision. Not luck: the board they ran decides.</p>';
