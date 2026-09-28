@@ -19,13 +19,10 @@
   .slip .choice { display: flex; align-items: center; gap: 3mm; font-size: 11pt; }
   .slip .box { width: 6mm; height: 6mm; border: 2px solid var(--ink); flex: none; }
   .slip .k { font-weight: 900; width: 5mm; }
-  .sign { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 255mm; }
-  .sign .big { font-size: 64pt; font-weight: 900; line-height: 1; }
-  .sign .where { font-size: 18pt; color: var(--muted); margin-top: 8mm; }
-  .sign .cares { font-size: 16pt; margin-top: 12mm; max-width: 150mm; }
   .card { border: 3px solid var(--ink); padding: 10mm; }
   .card h3 { font-size: 26pt; margin: 0 0 4mm; }
   .card li { font-size: 14pt; margin: 2mm 0; }
+  .table-card { page-break-inside: avoid; break-inside: avoid; }
   .card .right { font-size: 15pt; font-weight: 800; border-left: 6px solid var(--accent); padding-left: 4mm; margin-top: 8mm; }
   @media print {
     body { background: none; }
@@ -39,7 +36,7 @@
 <div class="intro">
   <h1>Community forest: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
-  ballot slips for each round and for the opening and closing vote, a sign for each third of the room, and the voiceless seat's card.</p>
+  ballot slips for each round and for the opening and closing vote, and a card for each table of directors.</p>
   <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
   Running the short game? Skip the pages marked <em>full game only</em>.</p>
   <p><button onclick="window.print()">Print</button></p>
@@ -73,6 +70,10 @@
  *
  * Game length: rounds marked `fullGameOnly: true` are skipped in the short game. Conditions
  * about a skipped round's choice are simply false.
+ *
+ * Each round can carry `voices`: short public comments to the board from people in town,
+ * shown with the P key. The students play themselves (the directors); the community speaks
+ * through these comments and the meters, never through role-play.
  *
  * Option `variants` apply when their `when` matches: their note is shown after the vote, and
  * each key in their `deltas` REPLACES the option's value for that key.
@@ -137,8 +138,7 @@
       heading: 'How the board keeps score.',
       lines: [
         // {years} becomes the number of years in the chosen game length.
-        '{years} years. {years} decisions. One forest.',
-        'The forest has to pay its own way, and it exists for the whole community.',
+        '{years} years, {years} decisions, one forest. Every director decides as themselves. The bars show how the town feels about your board.',
       ],
       rule: 'One rule: if the Treasury hits zero, the Province takes the forest back. Game over.',
     },
@@ -147,6 +147,9 @@
     // sold. If the holder cannot meet its obligations, the Province cancels the agreement and the
     // timber goes back to the Crown, typically auctioned to outside companies, with the stumpage
     // going to general revenue. {cause} is replaced with what tipped the Treasury over.
+    // Asked by the chair before every vote, and shown under the public comments.
+    standingQuestion: 'Before you vote: who does this affect who is not in this room?',
+
     insolvency: {
       heading: 'The Province has taken the forest back.',
       text:
@@ -170,9 +173,9 @@
     },
 
     meters: {
-      recreation: { label: 'Recreation & Tourism', bloc: 'Left side', start: 50 },
-      residents: { label: 'Hillside Residents', bloc: 'Middle', start: 50 },
-      forestry: { label: 'Forestry Sector', bloc: 'Right side', start: 50 },
+      recreation: { label: 'Recreation & Tourism', about: 'Riders, hikers, paragliders, and visitor businesses.', start: 50 },
+      residents: { label: 'Hillside Residents', about: 'The homes right under the forest.', start: 50 },
+      forestry: { label: 'Forestry Sector', about: 'Loggers, truckers, and the mill.', start: 50 },
     },
 
     // Words shown beside each sentiment bar so its state never relies on colour alone.
@@ -202,10 +205,17 @@
           'You have just taken over the forest. It needs to fund itself this year. The lower ' +
           'stand, right above the Hillside homes and beside the Ridgeline trail, is ready. ' +
           'How hard do you cut?',
+        voices: [
+          { who: 'Hillside resident', text: 'Cut it. I watched the smoke last August from my kitchen window.' },
+          { who: 'Hillside resident, two doors down', text: 'Cut that stand and my view is a clearcut and my house is worth less.' },
+          { who: 'Rides Ridgeline every morning', text: 'That trail is the reason I moved here.' },
+          { who: 'Mill worker', text: 'Every year you don\u2019t harvest, my hours get cut.' },
+        ],
         chairNote:
-          'After the first vote, surface the Residents knot: they want it cut so they do not ' +
-          'burn, and left standing so they keep their view and property values. Same people, ' +
-          'two incompatible demands. Then press U to undo and vote again. Option D adds a new ' +
+          'Show the public comments (P) before the vote. The two Hillside comments are the knot: ' +
+          'same street, opposite demands (cut it so we do not burn; leave it so we keep the view ' +
+          'and our property values). After the first vote, point at that, then press U to undo ' +
+          'and vote again. Option D adds a new ' +
           'dimension: not just how much you cut, but where. It spares the view and the trail, ' +
           'but costs more to reach and does little for the homes. It also builds a road into the ' +
           'upper mountain, which matters later. Do not warn them that ' +
@@ -252,6 +262,11 @@
           'forest, long term: big money up front, but their crews, their mill, their profits. ' +
           'Or salvage the timber a windstorm flattened in Cedar Creek, where the town gets its ' +
           'drinking water, by building a road into the watershed.',
+        voices: [
+          { who: 'Logging contractor', text: 'A lump sum now keeps my crews working this winter.' },
+          { who: 'Hillside resident', text: 'Once they own the rights, who do we call when there\u2019s a problem?' },
+          { who: 'Cedar Bend water operator', text: 'Cedar Creek is what comes out of everyone\u2019s tap.' },
+        ],
         chairNote:
           'Ask: who captures the value? Where does the money go after it leaves Cedar Bend? ' +
           'Option D is the other kind of fast money: the cost lands on someone else, later. Do ' +
@@ -300,10 +315,15 @@
           'new trail network on the upper mountain, and visitors are already parking all along ' +
           'the Hillside streets. Trails bring visitors and money to town. They also take stands ' +
           'out of the timber base, forever.',
+        voices: [
+          { who: 'Visiting rider', text: 'Charge me for the shuttle, fine. Charge me to ride and I\u2019ll go to the next town.' },
+          { who: 'Hillside resident', text: 'There are forty cars on my street every Saturday.' },
+          { who: 'Mill worker', text: 'Every new trail is a stand we\u2019ll never log.' },
+        ],
         chairNote:
-          'This is the pricing round: the forest has more than one product. Ask Recreation ' +
+          'This is the pricing round: the forest has more than one product. Ask the room ' +
           'whether they would pay for a shuttle ride or a parking spot they now get free, and ' +
-          'the Residents who pays for the parking on their streets. Good slot for the optional ' +
+          'who should pay for the parking on the Hillside streets. Good slot for the optional ' +
           '4 Ps exercise. If they cut the upper stand in The First Harvest, option C is closed: ' +
           'point at it. Early choices close doors.',
         options: [
@@ -366,9 +386,14 @@
           'into an equal partnership: shared board seats, shared decisions, and a plan written for ' +
           'the next hundred years, not the next four. It means doing things differently, and it ' +
           'may cost some flexibility and money at first. Whose forest is it?',
+        voices: [
+          { who: 'Mill worker', text: 'If it means harvest plans that hold for a hundred years, I\u2019m in. What I can\u2019t plan around is not knowing.' },
+          { who: 'Hillside resident', text: 'Old-timers say this hill used to burn low and often, before we put every fire out.' },
+          { who: 'Trail builder', text: 'I care less about who sits at the table than whether they plan past the next election.' },
+        ],
         chairNote:
-          'Handle as a real governance decision, not a plot twist. Give the voiceless seat ' +
-          'explicit standing to speak first. The partner is a government and a rights holder, not ' +
+          'Handle as a real governance decision, not a plot twist. Ask the standing question ' +
+          'first, and give it time. The partner is a government and a rights holder, not ' +
           'a stakeholder, and nobody in the room plays it. No homes or private land are part of ' +
           'this: the forest is Crown land the Province licensed to the town. Name option B for what ' +
           'it is: consultation without power. The partnership\u2019s benefits arrive in later years ' +
@@ -433,6 +458,11 @@
           'A good year for timber prices left a surplus. Local clubs need a hand, the Town has ' +
           'aging assets it cannot afford to replace, and the Hillside wants fuel cleared. A ' +
           'private company would pay its owners. Who are yours?',
+        voices: [
+          { who: 'Youth ski club coach', text: 'Five thousand dollars keeps our program running for a whole year.' },
+          { who: 'Town public works manager', text: 'The water main under the Hillside is sixty years old. It is not in anyone\u2019s budget.' },
+          { who: 'Hillside resident', text: 'Clear the fuel around our homes first. Then we can talk about everything else.' },
+        ],
         chairNote:
           'Social enterprise in one question: the profit belongs to the community, but which ' +
           'part of it? Grants are aimed at specific groups; the capital project is spread across ' +
@@ -524,9 +554,14 @@
           'Cedar Bend\u2019s mill, the town\u2019s biggest employer, says it will cut jobs unless it ' +
           'gets a guaranteed supply of logs for ten years. The same week, a carbon-offset buyer ' +
           'offers to pay you just as much to leave the trees standing. Same money. Opposite forests.',
+        voices: [
+          { who: 'Mill shift supervisor', text: 'Forty families depend on that shift.' },
+          { who: 'Hillside resident', text: 'Paid to keep the trees standing sounds good until you remember what\u2019s under them.' },
+          { who: 'Timber-frame builder', text: 'Give me a few hundred logs a year and I\u2019ll hire two apprentices.' },
+        ],
         chairNote:
           'The carbon deal pays them to keep the forest dense, above the homes. Do not point ' +
-          'that out; let the Residents find it. Carbon credits lock them in: thinning in fire ' +
+          'that out; let the room find it. Carbon credits lock them in: thinning in fire ' +
           'season will break the contract (a game rule, not a documented real case), unless the ' +
           'board partnered in The Partnership: then cultural burning is written into the deal. ' +
           'Option D is the value-capture point again: fewer logs, but more local jobs per tree. ' +
@@ -592,6 +627,11 @@
           'A hot, dry summer. Lightning in the forecast. Your forest, the one your board built ' +
           'year by year, sits directly above the Hillside homes. Look at the slider. ' +
           'That is your starting position. What do you do?',
+        voices: [
+          { who: 'Cedar Bend fire chief', text: 'If it goes up in that fuel, we cannot hold it at the Hillside.' },
+          { who: 'Hillside resident', text: 'Just tell us what the plan is.' },
+          { who: 'Tour operator', text: 'Smoke in August again means empty bookings again.' },
+        ],
         chairNote:
           'Let the slider do the moralizing. The interface-fire zone is now drawn on it. If ' +
           'they are in the zone, "do nothing" burns the Hillside homes. No dice: the board they ran ' +
@@ -766,7 +806,7 @@
       },
       {
         when: { choice: { round: 'r3', option: 'C' } },
-        text: 'The partnership was offered once. Ask the voiceless seat what that cost.',
+        text: 'The partnership was offered once. The board never found out what it might have become.',
       },
       {
         when: { choice: { round: 'r2', option: 'A' } },
@@ -811,7 +851,7 @@
       { term: 'Who captures the value', line: 'The Windfall: when the outsider buys in, the money leaves town.' },
       { term: 'Pricing and revenue streams', line: 'Timber, shuttle rides, parking, carbon credits: what does a forest sell, and to whom?', when: { length: 'full' } },
       { term: 'Where the profit goes', line: 'A social enterprise decides who its surplus is for.', when: { length: 'full' } },
-      { term: 'Market segmentation', line: 'Three blocs, three sets of needs. You could not please all of them.' },
+      { term: 'Market segmentation', line: 'Three groups in town, three sets of needs. You could not please all of them.' },
       { term: 'Renewable vs non-renewable', line: 'A forest cut greedily is as gone as a mine.' },
       { term: 'Social entrepreneurship', line: 'A business run for a community, including First Nations communities.' },
       { term: 'Partnership', line: 'About half of BC\u2019s community forests involve First Nations. Shared decisions, longer horizons, and more certainty for everyone.' },
@@ -861,24 +901,20 @@
       r.options.map(function (o) { return { key: o.key, label: o.label }; }));
   });
 
-  var cares = {
-    recreation: 'Trails, the view, and the outdoors: riders, hikers, paragliders, hunters, and the businesses that bring visitors to ' + cfg.town + '.',
-    residents: 'Your homes (fire), your view, and your property values. Yes, those conflict.',
-    forestry: 'Harvest, jobs, and the mill. You want the forest worked.',
-  };
-  ['recreation', 'residents', 'forestry'].forEach(function (k) {
-    var m = cfg.meters[k];
-    html += '<section class="page"><div class="sign"><div class="big">' + esc(m.label) + '</div>' +
-      '<div class="where">' + esc(m.bloc) + ' of the room</div><div class="cares">' + esc(cares[k]) + '</div></div></section>';
-  });
-
-  html += '<section class="page"><div class="card"><h3>The voiceless seat</h3>' +
-    '<p style="font-size:14pt">You speak for everything in this room that has no bar on the screen and no vote:</p><ul>' +
-    '<li>the forest itself, the wildlife, the watershed</li>' +
-    '<li>the people who will live on the Hillside in 50 years</li>' +
-    '<li>the Indigenous rights-holders whose territory this is</li></ul>' +
-    '<p class="right">Your standing right: before any vote is called, you may object, and the chair must hear you.</p>' +
-    '</div></section>';
+  // One card per table of directors: how each year runs, and the standing question.
+  // Two cards per page; print one per table.
+  var tableCard = '<div class="card table-card"><h3>Board table</h3>' +
+    '<p style="font-size:13pt;margin:0 0 3mm">You are a director of the ' + esc(cfg.forestName) + '. You decide as yourself.</p>' +
+    '<ol>' +
+    '<li>Listen to the year\u2019s dilemma and the public comments.</li>' +
+    '<li>Talk it over at your table (about a minute).</li>' +
+    '<li>Agree on one recommendation and one reason. Your spokesperson changes every year.</li>' +
+    '<li>Vote on your own ballot first. Then vote with your hand.</li>' +
+    '</ol>' +
+    '<p class="right">' + esc(cfg.standingQuestion) + '</p>' +
+    '<p style="font-size:11pt;color:#555;margin-top:3mm">The forest itself. The people who will live here in fifty years. ' +
+    'The Nation whose territory this is.</p></div>';
+  html += '<section class="page">' + tableCard + '<div style="height:12mm"></div>' + tableCard + '</section>';
 
   out.innerHTML = html;
 })();

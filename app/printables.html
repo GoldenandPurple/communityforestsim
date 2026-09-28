@@ -19,13 +19,10 @@
   .slip .choice { display: flex; align-items: center; gap: 3mm; font-size: 11pt; }
   .slip .box { width: 6mm; height: 6mm; border: 2px solid var(--ink); flex: none; }
   .slip .k { font-weight: 900; width: 5mm; }
-  .sign { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 255mm; }
-  .sign .big { font-size: 64pt; font-weight: 900; line-height: 1; }
-  .sign .where { font-size: 18pt; color: var(--muted); margin-top: 8mm; }
-  .sign .cares { font-size: 16pt; margin-top: 12mm; max-width: 150mm; }
   .card { border: 3px solid var(--ink); padding: 10mm; }
   .card h3 { font-size: 26pt; margin: 0 0 4mm; }
   .card li { font-size: 14pt; margin: 2mm 0; }
+  .table-card { page-break-inside: avoid; break-inside: avoid; }
   .card .right { font-size: 15pt; font-weight: 800; border-left: 6px solid var(--accent); padding-left: 4mm; margin-top: 8mm; }
   @media print {
     body { background: none; }
@@ -39,7 +36,7 @@
 <div class="intro">
   <h1>Community forest: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
-  ballot slips for each round and for the opening and closing vote, a sign for each third of the room, and the voiceless seat's card.</p>
+  ballot slips for each round and for the opening and closing vote, and a card for each table of directors.</p>
   <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
   Running the short game? Skip the pages marked <em>full game only</em>.</p>
   <p><button onclick="window.print()">Print</button></p>
@@ -75,24 +72,20 @@
       r.options.map(function (o) { return { key: o.key, label: o.label }; }));
   });
 
-  var cares = {
-    recreation: 'Trails, the view, and the outdoors: riders, hikers, paragliders, hunters, and the businesses that bring visitors to ' + cfg.town + '.',
-    residents: 'Your homes (fire), your view, and your property values. Yes, those conflict.',
-    forestry: 'Harvest, jobs, and the mill. You want the forest worked.',
-  };
-  ['recreation', 'residents', 'forestry'].forEach(function (k) {
-    var m = cfg.meters[k];
-    html += '<section class="page"><div class="sign"><div class="big">' + esc(m.label) + '</div>' +
-      '<div class="where">' + esc(m.bloc) + ' of the room</div><div class="cares">' + esc(cares[k]) + '</div></div></section>';
-  });
-
-  html += '<section class="page"><div class="card"><h3>The voiceless seat</h3>' +
-    '<p style="font-size:14pt">You speak for everything in this room that has no bar on the screen and no vote:</p><ul>' +
-    '<li>the forest itself, the wildlife, the watershed</li>' +
-    '<li>the people who will live on the Hillside in 50 years</li>' +
-    '<li>the Indigenous rights-holders whose territory this is</li></ul>' +
-    '<p class="right">Your standing right: before any vote is called, you may object, and the chair must hear you.</p>' +
-    '</div></section>';
+  // One card per table of directors: how each year runs, and the standing question.
+  // Two cards per page; print one per table.
+  var tableCard = '<div class="card table-card"><h3>Board table</h3>' +
+    '<p style="font-size:13pt;margin:0 0 3mm">You are a director of the ' + esc(cfg.forestName) + '. You decide as yourself.</p>' +
+    '<ol>' +
+    '<li>Listen to the year\u2019s dilemma and the public comments.</li>' +
+    '<li>Talk it over at your table (about a minute).</li>' +
+    '<li>Agree on one recommendation and one reason. Your spokesperson changes every year.</li>' +
+    '<li>Vote on your own ballot first. Then vote with your hand.</li>' +
+    '</ol>' +
+    '<p class="right">' + esc(cfg.standingQuestion) + '</p>' +
+    '<p style="font-size:11pt;color:#555;margin-top:3mm">The forest itself. The people who will live here in fifty years. ' +
+    'The Nation whose territory this is.</p></div>';
+  html += '<section class="page">' + tableCard + '<div style="height:12mm"></div>' + tableCard + '</section>';
 
   out.innerHTML = html;
 })();

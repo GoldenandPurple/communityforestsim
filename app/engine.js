@@ -222,7 +222,7 @@
       ids[r.id] = true;
       if (!r.options || !r.options.length) problems.push(r.id + ' has no options');
       (r.options || []).forEach(function (o) {
-        if (!/^[A-Z]$/.test(o.key) || 'FGHIKLRTUV'.indexOf(o.key) !== -1) {
+        if (!/^[A-Z]$/.test(o.key) || 'FGHIKLPRTUV'.indexOf(o.key) !== -1) {
           problems.push(r.id + ' option key "' + o.key + '" must be a single letter not used by another control (A, B, C are safest)');
         }
         tryDeltas(o.deltas, r.id + ' ' + o.key);

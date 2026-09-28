@@ -224,6 +224,13 @@
   .vote-form input:focus { outline: 3px solid var(--accent); }
   .vote-form .h { font-weight: 800; text-align: center; }
   .notes-body p { margin: 0.5em 0; max-width: 40em; font-size: 0.85em; }
+  .voices-sheet { width: min(90vw, 70em); }
+  #voicesBody { display: grid; gap: 2vh; margin: 2vh 0; }
+  .voice { border-left: 0.3em solid var(--accent); padding-left: 0.9em; }
+  .voice q { display: block; font-size: 1.25em; font-weight: 700; line-height: 1.25; quotes: "\201C" "\201D"; }
+  .voice span { display: block; color: var(--muted); font-size: 0.75em; margin-top: 0.3em; }
+  .standing { font-weight: 800; color: var(--accent); font-size: 1em; margin: 1vh 0 0; }
+  .voices-hint { font-size: 0.72em; color: var(--muted); }
   .notes-body table { border-collapse: collapse; font-size: 0.7em; font-family: var(--num); margin-top: 1vh; }
   .notes-body td, .notes-body th { border: 1px solid var(--panel-edge); padding: 0.2em 0.5em; text-align: right; }
   .notes-body td:first-child, .notes-body th:first-child { text-align: left; }
@@ -299,6 +306,7 @@
     <kbd>T</kbd><span>Tick the Treasury down by hand: "while you debate, you are paying staff"</span>
     <kbd>V</kbd><span>Enter votes: the round's ballot and hands, or the opening / closing room vote</span>
     <kbd>H</kbd><span>Hide or show the scenario text, to put the focus on the meters</span>
+    <kbd>P</kbd><span>Public comments to the board for this year, and the standing question</span>
     <kbd>I</kbd><span>Chair's notes for this screen (the room can see them too)</span>
     <kbd>L</kbd><span>Light / dark theme, for a bright room</span>
     <kbd>F</kbd><span>Fullscreen</span>
@@ -319,6 +327,12 @@
   <h2 id="voteTitle"></h2>
   <form id="voteForm" class="vote-form" autocomplete="off"></form>
   <p class="small">Type the counts. Tab moves between boxes. Enter saves, Esc cancels. Leave a row blank to clear it.</p>
+</div></div>
+
+<div class="overlay" id="voicesOverlay"><div class="sheet voices-sheet">
+  <div class="kicker">Public comments to the board</div>
+  <div id="voicesBody"></div>
+  <p class="standing" id="standingQ"></p>
 </div></div>
 
 <div class="overlay" id="notesOverlay"><div class="sheet">
@@ -440,7 +454,7 @@
     $('#m-treasury .meter-name').textContent = cfg.treasury.label;
     SENT.forEach(function (k) {
       $('#m-' + k + ' .meter-name').textContent = cfg.meters[k].label;
-      $('#m-' + k + ' .meter-bloc').textContent = cfg.meters[k].bloc;
+      $('#m-' + k + ' .meter-bloc').textContent = '';
     });
     $('#m-forest .meter-name').textContent = cfg.forest.label;
     $('#lushEnd').textContent = cfg.forest.lushEnd.health + ' · ' + cfg.forest.lushEnd.risk;
@@ -600,13 +614,13 @@
         '<li><b>' + esc(cfg.treasury.label) + '.</b> The board’s cash. Fixed costs come out every year, whatever you decide.</li>'
       ];
       SENT.forEach(function (k) {
-        items.push('<li><b>' + esc(cfg.meters[k].label) + '.</b> The ' + esc(cfg.meters[k].bloc.toLowerCase()) + ' of the room. That is you.</li>');
+        items.push('<li><b>' + esc(cfg.meters[k].label) + '.</b> ' + esc(cfg.meters[k].about || '') + '</li>');
       });
       items.push('<li><b>' + esc(cfg.forest.label) + '.</b> One slider. Lush forest means high fire risk. Thinned forest means low fire risk.</li>');
       return '<div class="center"><h1>' + esc(su.heading) + '</h1>' +
         su.lines.map(function (l) { return '<p class="prompt">' + esc(l.replace(/\{years\}/g, rounds.length)) + '</p>'; }).join('') +
         '<ul class="setup-list">' + items.join('') + '</ul>' +
-        '<div class="rule">' + esc(su.rule) + '</div>' + roomVoteNote('opening') + '</div>';
+        '<div class="rule">' + esc(su.rule) + '</div></div>';
     },
     round: function (s) {
       var r = s.round;
@@ -615,6 +629,8 @@
       var html = '<div class="kicker">Year ' + (s.index + 1) + ' of ' + rounds.length +
         (state.sold ? ' · post-mortem: what would you have done?' : '') + '</div>' +
         '<h1>' + esc(r.title) + '</h1><p class="prompt">' + esc(r.prompt) + '</p>' +
+        (r.voices && r.voices.length && !chosen
+          ? '<div class="voices-hint">\u25B8 ' + r.voices.length + ' public comments to the board (P)</div>' : '') +
         '<div class="options' + (chosen ? ' decided' : '') + '">';
       r.options.forEach(function (o) {
         var isChosen = chosen === o.key;
@@ -842,6 +858,17 @@
     render();
   }
 
+  function openVoices() {
+    var s = screens[screenIndex];
+    var voices = s.type === 'round' ? (s.round.voices || []) : [];
+    if (!voices.length) return toast('No public comments on this screen');
+    $('#voicesBody').innerHTML = voices.map(function (v) {
+      return '<div class="voice"><q>' + esc(v.text) + '</q><span>' + esc(v.who) + '</span></div>';
+    }).join('');
+    $('#standingQ').textContent = cfg.standingQuestion || '';
+    showOverlay('voicesOverlay');
+  }
+
   function openNotes() {
     var s = screens[screenIndex];
     var body = '';
@@ -892,7 +919,7 @@
       return;
     }
     if (overlayOpen()) {
-      if (k === 'Escape' || k === '?' || k === 'i' || k === 'I' || k === 'k' || k === 'K') { hideAllOverlays(); e.preventDefault(); }
+      if (k === 'Escape' || k === '?' || k === 'i' || k === 'I' || k === 'k' || k === 'K' || k === 'p' || k === 'P') { hideAllOverlays(); e.preventDefault(); }
       return;
     }
     var upper = k.length === 1 ? k.toUpperCase() : k;
@@ -904,6 +931,7 @@
       case 'V': openVotes(); break;
       case 'H': textHidden = !textHidden; render(); break;
       case 'I': openNotes(); break;
+      case 'P': openVoices(); break;
       case '?': case 'K': showOverlay('keysOverlay'); break;
       case 'L': toggleTheme(); break;
       case 'G': toggleLength(); break;
