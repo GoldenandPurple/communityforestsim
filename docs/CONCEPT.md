@@ -63,9 +63,10 @@ four healthy at once.
   road maintenance) whether or not the board acts, so the treasury bleeds every round.
   This makes "leave everything untouched, protect it all" a live financial threat
   rather than the safe default teenagers reach for. It quietly teaches that a business
-  dies from inaction, not just from bad ideas. Hit zero and the forest is insolvent and
-  gets sold to an outside company that does not care about the trails or the view. Game
-  over.
+  dies from inaction, not just from bad ideas. Hit zero and the board cannot meet its obligations:
+  the Province cancels the community forest agreement and the timber goes back to the
+  Crown, to be auctioned to outside companies, with the profits going to Victoria. (A
+  Community Forest Agreement is a Crown tenure; it cannot be sold.) Game over.
 - **Segment sentiment**, as three separate bars so they can move in opposite
   directions and force real tradeoffs: **Recreation & Tourism**, **Hillside
   Residents**, **Forestry Sector**. The ethics lesson lives in the fact that a move

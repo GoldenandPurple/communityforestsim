@@ -125,7 +125,7 @@ governance, and reopening harvest plans.
   partnership costs more: the board must rebuild trust through public engagement first. The
   cause is the board's own earlier conduct, not the partnership.
 - `tuning.favouredOption` in the config makes the simulator warn if tuning ever stops the
-  partnership being the strongest choice (fewest forests sold, most thriving endings).
+  partnership being the strongest choice (fewest forests handed back to the Province, most thriving endings).
 
 ### Facilitator guidance (read before running this round)
 
@@ -209,7 +209,7 @@ they built is what decides, not luck. That is the point: the past comes home.
 
 Read a short outcome off their **final** meter state, especially the Forest Health slider and
 whether the Treasury survived. Two or three canned outcomes are enough (thriving community
-asset / sold-off and logged out / scarred but standing). This is where the 80-year frame
+asset / handed back to the Province / scarred but standing). This is where the 80-year frame
 lands: the trees cut this year were planted before they were born.
 
 ---

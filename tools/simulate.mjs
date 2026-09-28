@@ -59,7 +59,7 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
           [m.recreation, m.residents, m.forestry].map((v) => String(v).padStart(3)).join(' ') +
           String(r.s.forest).padStart(7) + '  ' +
           pad(r.s.fire, 10) + ' ' +
-          r.epilogue + (r.s.sold ? ` (sold during: ${r.s.soldDuring})` : '')
+          r.epilogue + (r.s.sold ? ` (Treasury hit zero during: ${r.s.soldDuring})` : '')
       );
     }
   }
@@ -116,7 +116,7 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
     };
     for (const o of rounds[favIndex].options) {
       if (o.key === fav.option) continue;
-      if (rate(o.key, 'sold') <= rate(fav.option, 'sold')) warn(`${fav.round} ${o.key} goes broke no more often than favoured option ${fav.option}.`);
+      if (rate(o.key, 'reverted') <= rate(fav.option, 'reverted')) warn(`${fav.round} ${o.key} goes broke no more often than favoured option ${fav.option}.`);
       if (rate(o.key, 'thriving') >= rate(fav.option, 'thriving')) warn(`${fav.round} ${o.key} thrives at least as often as favoured option ${fav.option}.`);
     }
   }

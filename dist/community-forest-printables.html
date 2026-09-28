@@ -81,7 +81,7 @@
  *   { choice: { round: 'r2', option: 'A' } }      option may also be an array ['A', 'C']
  *   { meter: 'residents', below: 40 }             or atLeast: 40; meter may also be treasury,
  *                                                 forest, or sentiment (average of the three bars)
- *   { sold: true }                                the forest went insolvent
+ *   { sold: true }                                the Treasury hit zero and the Province took the forest back
  *   { fire: 'interface' }                         id of the fire tier that happened
  *   { length: 'full' }                            the game length the chair picked
  *   { all: [ ... ] }, { any: [ ... ] }, { not: { ... } }
@@ -140,7 +140,20 @@
         '{years} years. {years} decisions. One forest.',
         'The forest has to pay its own way, and it exists for the whole community.',
       ],
-      rule: 'One rule: if the Treasury hits zero, the forest is sold. Game over.',
+      rule: 'One rule: if the Treasury hits zero, the Province takes the forest back. Game over.',
+    },
+
+    // When the Treasury hits zero. A Community Forest Agreement is a Crown tenure: it cannot be
+    // sold. If the holder cannot meet its obligations, the Province cancels the agreement and the
+    // timber goes back to the Crown, typically auctioned to outside companies, with the stumpage
+    // going to general revenue. {cause} is replaced with what tipped the Treasury over.
+    insolvency: {
+      heading: 'The Province has taken the forest back.',
+      text:
+        'The Treasury hit zero ({cause}). The Province cancelled the community forest agreement. ' +
+        'The timber goes back to the Crown, to be auctioned to outside companies, and the profits ' +
+        'go to Victoria, not Cedar Bend.',
+      status: 'Licence cancelled',
     },
 
     treasury: {
@@ -698,13 +711,15 @@
     // The first outcome whose `when` matches is shown.
     epilogues: [
       {
-        id: 'sold',
+        id: 'reverted',
         when: { sold: true },
-        title: 'Sold off and logged out',
+        // The community's story ended when the Province took the forest back: no addenda.
+        noAddenda: true,
+        title: 'Handed back to the Province',
         text:
-          'The forest was sold to an outside company. They did not care about the trails or ' +
-          'the view. Fifty years later, the lower slopes of Thunderhead have been cut twice, and ' +
-          'the money went somewhere else.',
+          'The community forest agreement was cancelled and the timber went back to the Crown. ' +
+          'Outside companies bid on it, and the money went to Victoria. Fifty years later, the ' +
+          'lower slopes of Thunderhead have been cut twice, and Cedar Bend had no say either time.',
       },
       {
         id: 'burned',
@@ -737,16 +752,10 @@
       },
     ],
 
-    // Extra lines appended to the epilogue when their condition matches.
+    // Extra lines appended to the epilogue when their condition matches, in this order of
+    // priority. At most epilogueAddendaMax are shown, so the screen stays readable.
+    epilogueAddendaMax: 3,
     epilogueAddenda: [
-      {
-        when: { choice: { round: 'r2', option: 'A' } },
-        text: 'The timber lease is a line in the history books. The profits never came back to town.',
-      },
-      {
-        when: { choice: { round: 'r2', option: 'D' } },
-        text: 'Cedar Creek still runs brown after every big rain. The salvage road is still there.',
-      },
       {
         when: { choice: { round: 'r3', option: 'A' } },
         text: 'The forest has been run as a partnership for two generations. Its plans are written in centuries, not years, and both governments sign them.',
@@ -760,12 +769,20 @@
         text: 'The partnership was offered once. Ask the voiceless seat what that cost.',
       },
       {
-        when: { choice: { round: 'mill', option: ['B', 'C', 'D'] } },
-        text: 'Without a guaranteed supply, the mill cut a shift that year. Some of those families left Cedar Bend.',
+        when: { choice: { round: 'r2', option: 'A' } },
+        text: 'The timber lease is a line in the history books. The profits never came back to town.',
+      },
+      {
+        when: { choice: { round: 'r2', option: 'D' } },
+        text: 'Cedar Creek still runs brown after every big rain. The salvage road is still there.',
       },
       {
         when: { choice: { round: 'mill', option: 'D' } },
         text: 'The timber-frame shop that started with your logs now employs thirty people.',
+      },
+      {
+        when: { choice: { round: 'mill', option: ['B', 'C', 'D'] } },
+        text: 'Without a guaranteed supply, the mill cut a shift that year. Some of those families left Cedar Bend.',
       },
       {
         when: { all: [{ choice: { round: 'mill', option: 'B' } }, { fire: 'interface' }] },
@@ -806,7 +823,7 @@
       // One option key per round, per game length: the "cut nothing, protect it all" board.
       // It should go broke or burn.
       protectEverythingPath: { short: 'ABBC', full: 'ABCBBBC' },
-      // The partnership must stay the strongest choice in its round: fewest forests sold and
+      // The partnership must stay the strongest choice in its round: fewest forests lost and
       // most thriving endings, in both game lengths. The simulator warns if tuning breaks this.
       favouredOption: { round: 'r3', option: 'A' },
     },

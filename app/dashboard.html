@@ -67,6 +67,8 @@
 
   /* Top bar */
   #topbar { display: flex; align-items: baseline; gap: 1.2em; min-height: 2.2em; }
+  #topbar > * { white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  #status { flex-shrink: 0; }
   #brand { font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85em; color: var(--muted); }
   #roundLabel { font-weight: 800; font-size: 1.15em; }
   #status { margin-left: auto; font-weight: 800; font-size: 0.8em; letter-spacing: 0.08em; text-transform: uppercase;
@@ -308,7 +310,7 @@
 </div></div>
 
 <div class="overlay" id="soldOverlay"><div class="sheet">
-  <h1>The forest has been sold.</h1>
+  <h1 id="soldHeading"></h1>
   <p id="soldText"></p>
   <p class="small" style="color:#fcc">Space: carry on as a post-mortem &nbsp;&middot;&nbsp; U: undo</p>
 </div></div>
@@ -561,7 +563,7 @@
 
     var status = $('#status');
     status.classList.toggle('on', state.sold);
-    status.textContent = 'Sold · post-mortem';
+    status.textContent = cfg.insolvency.status;
 
     var label = '';
     if (s.type === 'round') label = 'Year ' + (s.index + 1) + ' of ' + rounds.length + ' · ' + s.round.title;
@@ -770,8 +772,8 @@
 
   function showSold() {
     if (!state.sold) return;
-    $('#soldText').textContent = 'The Treasury hit zero (' + state.soldDuring + '). An outside company bought ' +
-      cfg.forestName + '. It does not care about the trails or the view.';
+    $('#soldHeading').textContent = cfg.insolvency.heading;
+    $('#soldText').textContent = cfg.insolvency.text.replace('{cause}', state.soldDuring);
     showOverlay('soldOverlay');
   }
 

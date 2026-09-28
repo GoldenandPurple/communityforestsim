@@ -57,7 +57,7 @@ by a key, so you are never guessing mid-session.
   prompt text can be on screen or read aloud (config should carry the text either way).
 - **Apply / reaction.** After a vote, applying the option animates the meters. This is the money
   moment, give it room.
-- **Insolvency end state.** If treasury hits zero at any point, a clear "the forest has been sold"
+- **Insolvency end state.** If treasury hits zero at any point, a clear "the Province has taken the forest back"
   screen. The simulation can continue as a post-mortem or stop, facilitator's call.
 - **Epilogue screen.** Reads the final meter state into one of a few canned "50 years later"
   outcomes (see `SCENARIOS.md`).

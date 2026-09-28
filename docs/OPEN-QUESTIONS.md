@@ -71,9 +71,11 @@ documents listed at the end of the report before stating any of it as fact in th
   clumsy to run votes against. Consider round, legible figures that are clearly *based on* the real
   ones, and say so. Decide the balance.
 - [ ] **Insolvency behaviour:** does hitting zero Treasury stop the sim, or continue it as a
-  post-mortem with the forest now owned by an outside company? The latter is arguably a better
-  lesson. *v1 default: "The forest has been sold" screen, then Space continues as a post-mortem
-  (or U undoes). The epilogue is always "Sold off and logged out".*
+  post-mortem? The latter is arguably a better lesson. *Decided: a community forest agreement
+  is a Crown tenure and cannot be sold, so insolvency means the Province cancels the agreement
+  and the timber reverts to the Crown (auctioned to outside companies, profits to Victoria).
+  "The Province has taken the forest back" screen, then Space continues as a post-mortem (or U
+  undoes). The epilogue is always "Handed back to the Province".*
 - [ ] **Whether to show the ballot count on screen** or keep votes as hands only. Showing a private
   ballot count next to the public show of hands is a nice touch but adds operator load.
   *v1: optional. V opens the entry form; if nothing is entered, nothing is shown.*

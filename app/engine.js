@@ -186,9 +186,10 @@
 
   function epilogue(state, cfg) {
     var outcome = cfg.epilogues.filter(function (e) { return evalCond(e.when, state); })[0];
-    var addenda = (cfg.epilogueAddenda || [])
+    var addenda = outcome.noAddenda ? [] : (cfg.epilogueAddenda || [])
       .filter(function (a) { return evalCond(a.when, state); })
-      .map(function (a) { return a.text; });
+      .map(function (a) { return a.text; })
+      .slice(0, cfg.epilogueAddendaMax || Infinity);
     return { outcome: outcome, addenda: addenda };
   }
 
