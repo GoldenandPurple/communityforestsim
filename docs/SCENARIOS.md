@@ -32,8 +32,8 @@ means lower fire risk and a more scarred, harvested look.
 this year. The lower stand, right above the Hillside homes and beside the Ridgeline
 trail, is ready. How hard do you cut?
 
-**Fixed-cost tick before the vote:** Treasury `-[tune]` (staff, insurance, roads, paid
-whether or not you act).
+**Fixed-cost tick before the vote:** Treasury -$90,000 (manager, planning, insurance, road
+upkeep, paid whether or not you act).
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
@@ -44,14 +44,17 @@ whether or not you act).
 
 **Option D adds a dimension:** not just how much you cut, but where. It spares the view and the
 Ridgeline trail, costs more to reach, and does little for the Hillside homes' fire risk. Its new
-logging road carries forward: in the full game it makes building trails with the club cheaper.
+logging road carries forward: in the full game it makes building trails cheaper, and closes
+off "keep it a working forest" in The Trail Network (already harvested).
 
-**Note on Residents being "mixed":** this is deliberate and it is the knot. The Hillside homeowners want it cut so they do not burn, *and* want it left so they keep their
-view and property value. Same people, two incompatible demands. Surface this after the
-first vote, then make them vote again.
+**Note on Residents being "mixed":** this is deliberate and it is the knot. The public comments
+carry it: two Hillside neighbours, one who wants the stand cut so they do not burn, one who
+wants it left for the view and property values. Same street, two incompatible demands. Point at
+it after the first vote, then press U and vote again.
 
-**Carry-forward consequence:** whatever they did to any sentiment bar in Round 1 changes
-what is available to them in Round 3. Burn trust early and options narrow later. Do not
+**Carry-forward consequence:** trust burned here (Residents below 40 or Recreation below 35)
+makes the partnership cost more in The Partnership, and a Forestry bar below 30 means declining
+it wins nothing back. Burn trust early and options narrow later. Do not
 tell them this in advance. That is the intergenerational lesson in miniature: decisions
 made by people who could not see the whole board.
 
@@ -59,14 +62,13 @@ made by people who could not see the whole board.
 
 ## Round 2: The Windfall
 
-**Dilemma.** Pick one framing (or offer both and let the board choose which offer to
-entertain):
+**Dilemma.** Two offers of fast money, both on the table:
 
-- **Salvage.** A beetle infestation or a winter blowdown has killed a big block of timber.
-  Salvage-logging it now is a cash windfall, but it means roading into a sensitive area and
-  taking more than a normal year.
-- **Buyout.** An outside forestry company offers a lump sum for the timber rights for a
-  term of years. Big money up front, but the value (and the decisions) leave the community.
+- **Buyout.** An outside forestry company offers a lump sum for the timber rights to part of
+  the forest, long term. Big money up front, but the value (and the decisions) leave the
+  community.
+- **Salvage.** A windstorm flattened timber in Cedar Creek, the town's drinking-water
+  watershed. Salvaging it is quick money, but means building a road into the watershed.
 
 **What it tests.** Whether they trade the long game for fast money, and "who captures the
 value" when an outsider wants in. The buyout framing is the sharper one for the ADST
@@ -74,8 +76,8 @@ value" when an outsider wants in. The buyout framing is the sharper one for the 
 
 | Option | Treasury | Recreation & Tourism | Residents | Forestry | Health/Fire slider |
 |--------|----------|----------------|-----------|----------|--------------------|
-| **A. Take the windfall / buyout** | ++ `[tune]` | - | neutral | ++ | toward thinned, but ecological cost `[tune]` |
-| **B. Decline, stay the course** | -/0 | + | neutral | - | little change |
+| **A. Take the buyout** | ++ | - | - (small) | ++ | toward thinned |
+| **B. Decline, stay the course** | 0 | + | neutral | - | little change |
 | **C. Partial / negotiated** | + | neutral | neutral | + | small move |
 | **D. Salvage the blowdown** (road into the Cedar Creek watershed) | ++ | - (small) | - (small), then -- later | + | toward thinned (dead fuel removed) |
 
@@ -87,10 +89,9 @@ Partnership, runoff down the new road fouls the town's drinking water (boil-wate
 repairs: Treasury down, Residents down hard). This can also tip Residents' trust low enough to
 make co-management cost more.
 
-**Carry-forward:** a buyout accepted here should visibly constrain Round 3 (harder to
-partner on land whose rights you have already leased out). Salvage accepted here should
-raise the starting fire exposure going into Round 4 in the roaded area, or lower it if you
-frame the deadwood as the fuel. Decide which when tuning.
+**Buyout carry-forward:** the leased block stays outside the partnership and halves its later
+funding; in the full game it also makes building trails cost money (buying part of the lease
+back) and cuts what the mill contract pays.
 
 ---
 
@@ -140,23 +141,14 @@ and emotional in BC, and some students will have heard strong views at home.
   conversation in BC, say this scenario is about a forest licence rather than title to private
   land, and that partnerships like this are one way communities and Nations build certainty
   together. Do not speculate about legal outcomes; offer to follow up if needed.
-- **Nobody plays the Nation.** The partner is a government and a rights holder, not a stakeholder
-  or a bloc. The voiceless seat may speak to the long view and to the fact that this is someone's
-  territory, but does not speak *as* a Nation.
+- **Nobody plays the Nation, or anyone else.** Every student decides as themselves. The partner
+  is a government and a rights holder, not a stakeholder. The standing question ("who does this
+  affect who is not in this room?") is where the long view and the fact that this is someone's
+  territory get spoken, without anyone speaking *as* a Nation.
 - **Name option B for what it is:** consultation without power. The screen says so; that is
   intended.
 - **Get a review first.** Have your district's Indigenous Education staff look at this round
   before you run it.
-
---------|----------|----------------|-----------|----------|--------------------|-------|
-| **A. Full co-management** | - short / + long `[tune]` | neutral | mixed | mixed | toward better long-term stewardship | changes the horizon of every later decision |
-| **B. Advisory role only** | 0 | neutral | neutral | neutral | small | the "consultation without power" option, worth naming as such |
-| **C. Decline** | 0 | neutral | mixed | + | neutral | has a legitimacy cost that no meter fully captures, raise this in debrief |
-
-**Facilitator caution.** This must be handled with care and not as a plot twist. Get the
-framing right (see `OPEN-QUESTIONS.md`, which flags checking terminology and, ideally, real
-local context before running this round). The voiceless-seat group should be given explicit
-standing to speak here.
 
 ---
 
@@ -192,16 +184,6 @@ Hillside homes.
 
 "Homes damaged" (not "lost") is deliberate: some students will have lived through recent
 evacuations, such as the 2024 Dogtooth fire near Golden.
-
---------|----------|----------------|-----------|----------|--------------------|
-| **A. Emergency thin / fuel break now** | -- | - | ++ | + | toward thinned fast |
-| **B. Controlled burn** | - | mixed | + | neutral | toward thinned, some risk |
-| **C. Do nothing, hope** | 0 | + | -- if it burns | neutral | unchanged, high exposure |
-
-**Outcome logic.** If the slider sits in the high-fire-risk zone entering this round, the
-"do nothing" path should trigger a bad epilogue (a fire that reaches the interface). If they
-spent earlier rounds thinning, they can afford to protect the view now. Either way, the meter
-they built is what decides, not luck. That is the point: the past comes home.
 
 ---
 

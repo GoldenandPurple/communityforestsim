@@ -95,14 +95,16 @@ twenty-five spectate. Left unaddressed, this is just five kids talking with a ni
 projector. The design engineers against it structurally, not by hoping. See
 `CLASSROOM-MECHANICS.md` for the full treatment. The three defences:
 
-1. **Give the three sentiment segments to thirds of the room.** Sentiment stops being
-   abstract and becomes *them*. When the Residents bar tanks, an actual group of
-   students feels it.
-2. **Assign the seat nobody volunteers for.** One small group speaks for what has no
-   bar and no vote: the forest itself, the wildlife, the people living on the Hillside
-   in 50 years, and the Indigenous rights-holders whose territory this is. This is the
-   ethics of the whole simulation hiding in a seating chart, and it guarantees the
-   long-term view gets voiced even when the room wants quick money.
+1. **Table groups, with a rotating spokesperson.** Directors sit in tables of four or five.
+   Each year every table sends up one recommendation and one reason, through a different
+   spokesperson each time, so everyone speaks. Students decide **as themselves**, never in a
+   role: the question is always "what would you do?"
+2. **The community speaks through the screen.** Each year brings short public comments to the
+   board from people in town, and the three support meters move in front of everyone. The
+   segments (recreation, residents, forestry) are heard, not played.
+   **The standing question** is asked before every vote: "who does this affect who is not in
+   this room?" It guarantees the long view (the forest, people fifty years from now, the Nation
+   whose territory this is) gets voiced even when the room wants quick money.
 3. **Private ballots before public hands** on the big votes, to kill the
    follow-the-loud-kid effect and give a real number to put on screen.
 

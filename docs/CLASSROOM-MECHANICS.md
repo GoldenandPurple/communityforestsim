@@ -4,43 +4,52 @@ How thirty students stay involved instead of five. This is the make-or-break lay
 beautiful dashboard with a passive room is a failure. Everything here exists to force
 participation structurally rather than hope for it.
 
-## The room is one committee, you are the chair
+## The room is the board, and everyone is themselves
 
 You are not the teacher and not the lecturer. You chair the meeting: you put motions to the
-floor, you call the votes, you keep order. The reframe matters. Students are not answering a
-grown-up's questions, they are governing. The dashboard behind you is the single source of
-truth everyone watches.
+floor, you call the votes, you keep order. Every student is a director of the community forest,
+**deciding as themselves**. Nobody plays a Hillside resident, a logger, or a rider. The question
+is always "what would *you* do?", which is the whole point of an ethics session. The dashboard
+behind you is the single source of truth everyone watches.
 
-## The three blocs
+## The community speaks through the screen, not through roles
 
-Divide the room into thirds by seating. Each third *is* one of the sentiment segments for the
-whole session:
+The town is heard two ways:
 
-- **Left third: Recreation & Tourism.** They care about trails, the view, the experience that
-  brings visitors to Cedar Bend.
-- **Middle third: Hillside Residents.** They care about their homes (fire), their view,
-  and their property values. Remember these interests conflict with each other, which is the
-  knot in Round 1.
-- **Right third: Forestry Sector.** They care about harvest, jobs, and the mill. They want the
-  forest worked.
+- **The meters.** Recreation & Tourism, Hillside Residents, and the Forestry Sector are the
+  community's support for the board. The directors watch them move; they do not act them out.
+- **Public comments to the board.** Each year has two to four short comments from people in
+  Cedar Bend (press **P**). Read them aloud, or let the room read them. Year 1's two Hillside
+  comments are the knot: same street, opposite demands.
 
-Now the matching sentiment bar on the dashboard is not abstract. When the Residents bar tanks,
-an actual group of students feels it. Before each vote, give each bloc about 60 seconds to
-caucus and send up one argument. That single structural move manufactures most of the
-participation.
+This keeps the market-segmentation lesson (three groups, conflicting needs) without asking
+teenagers to wear a costume.
 
-## The voiceless seat
+## Table groups
 
-Assign one small group (four or five students, pulled a couple from each bloc, or volunteers)
-to speak for everything that has no bar and no vote:
+Seat the class in tables of four or five. Each year:
 
-- the forest itself, the wildlife, the watershed
-- the people who will live on the Hillside in 50 years
-- the Indigenous rights-holders whose territory this is (until Round 3 makes them a formal party)
+1. Read the dilemma and show the public comments.
+2. Tables talk it over for about a minute.
+3. Each table sends up **one recommendation and one reason**, through a spokesperson who
+   **changes every year**, so everyone speaks at least once.
+4. Short floor debate, then the vote.
 
-Give this group a **standing right to object** before any vote is called. This is the ethics of
-the entire simulation hiding in a seating chart. It guarantees the long-horizon view gets
-spoken even when the room wants the quick money, and it sets up Round 3 and the 80-year close.
+That single structural move manufactures most of the participation. The printables include a
+card for each table with these steps.
+
+## The standing question
+
+Before every vote, ask:
+
+> **"Who does this affect who is not in this room?"**
+
+It is on every table card and under the public comments. It stands in for everything that has
+no bar and no vote: the forest itself and the watershed, the people who will live on the
+Hillside in fifty years, and the Nation whose territory this is. Give it a real pause. Any
+director may raise a "long-view objection" before a vote is called, and the chair hears it.
+This is the ethics of the whole simulation, and it sets up the Partnership year and the
+80-year close.
 
 ## Voting
 
@@ -56,19 +65,20 @@ spoken even when the room wants the quick money, and it sets up Round 3 and the 
 
 ## Managing energy
 
-- **Plant a job before you start.** Quietly ask one or two confident students to argue hard for
-  a position (usually "cut nothing, ever"). A primed first voice breaks the silence and the rest
-  follow.
-- **Fast finishers / the minority report.** When a bloc settles quickly, task one member with
-  writing the single-sentence case for why the board is about to make a mistake. Read a couple of
-  these in the debrief. Keeps quick students busy and feeds the closing discussion.
-- **Call on interests, not individuals.** "Forestry, are you really going to let that thin pass?"
-  is easier to answer than cold-calling a name, and it keeps the bloc frame alive.
+- **Plant a first voice.** Quietly ask one or two confident students to make their honest case
+  early and strongly. A primed first voice breaks the silence and the rest follow.
+- **Fast finishers / the minority report.** When a table settles quickly, ask one member to
+  write the single-sentence case for why the board is about to make a mistake. Read a couple of
+  these in the debrief.
+- **Call on tables, not individuals.** "Table three, you're about to cut the Ridgeline stand:
+  what's your reason?" is easier to answer than cold-calling a name.
+- **Point at the comments.** "The mill worker says every year you don't harvest, their hours
+  get cut. Does that change anything?" brings the town into the room without anyone playing it.
 
 ## What to prep physically
 
 - Ballot slips (or a decision on phones) for the big votes.
-- Three bloc labels for the room thirds, visible from the front.
+- One table card per table (in the printables).
 - A way to gather the opening vote so it can be shown against the closing vote at the end.
 - The laptop and projector, dashboard loaded and tested from the back of the room for
   legibility before the students arrive.

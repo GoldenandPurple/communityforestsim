@@ -58,7 +58,7 @@ documents listed at the end of the report before stating any of it as fact in th
 - [ ] The carry-forward links (Round 1 sentiment into Round 3 options; Round 2 choice into Round 3
   and Round 4 exposure). Decide the exact rules when tuning. *v1 placeholders, all in
   `content/config.js`: taking the buyout weakens co-management and its Round 4 dividend; low
-  Residents or Recreation trust makes co-management cost more (a public process); a Forestry bloc
+  Residents or Recreation trust makes co-management cost more (a public process); a Forestry bar
   already below 30 gains nothing when the board declines; co-management pays funding and a
   cultural burning program into Round 4. The forest grows every round, so fuel builds on its own.*
 
@@ -87,7 +87,7 @@ documents listed at the end of the report before stating any of it as fact in th
 - [ ] Confirmed: 50-minute period, one classroom, projector, whole class as one committee. The whole
   design assumes this. If it turns into an assembly or loses the projector, the mechanic needs a
   rethink (a marker-on-whiteboard fallback exists but is much flatter).
-- [ ] Class size and room layout (can the room actually be split into three blocs?).
+- [ ] Class size and room layout (can the room be seated in tables of four or five?).
 - [ ] Whether student phones are allowed for the private ballots, or paper only.
 - [ ] Which grade(s), so the ADST strand emphasis can be aimed (6-7 vs 8 vs 9 have different
   standards, see `ADST-ALIGNMENT.md`).
