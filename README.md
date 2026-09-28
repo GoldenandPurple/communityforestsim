@@ -13,8 +13,8 @@ meter. That is the lesson.
 2. Put it on the projector, press **F** for fullscreen, and **?** to see the keys. On the title
    screen, **G** switches between the full game (7 years, about 75 minutes) and the short game
    (4 years, fits a 50-minute period).
-3. Print **`dist/community-forest-printables.html`**: ballot slips and a card for each table
-   of directors.
+3. Print **`dist/community-forest-printables.html`**: ballot slips and a poster of the
+   standing question for the front of the room.
 
 Chair's keys: **Space** next · **←** back · **A/B/C** apply the room's vote · **U** undo
 (for re-votes) · **T** tick the Treasury down · **V** enter votes · **H** hide text ·

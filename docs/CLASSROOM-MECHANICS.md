@@ -25,27 +25,14 @@ The town is heard two ways:
 This keeps the market-segmentation lesson (three groups, conflicting needs) without asking
 teenagers to wear a costume.
 
-## Table groups
-
-Seat the class in tables of four or five. Each year:
-
-1. Read the dilemma and show the public comments.
-2. Tables talk it over for about a minute.
-3. Each table sends up **one recommendation and one reason**, through a spokesperson who
-   **changes every year**, so everyone speaks at least once.
-4. Short floor debate, then the vote.
-
-That single structural move manufactures most of the participation. The printables include a
-card for each table with these steps.
-
-## The standing question
+## The voiceless seat: the standing question
 
 Before every vote, ask:
 
 > **"Who does this affect who is not in this room?"**
 
-It is on every table card and under the public comments. It stands in for everything that has
-no bar and no vote: the forest itself and the watershed, the people who will live on the
+It is under the public comments on screen, and on a poster for the front of the room (in the
+printables). It stands in for everything that has no bar and no vote: the forest itself and the watershed, the people who will live on the
 Hillside in fifty years, and the Nation whose territory this is. Give it a real pause. Any
 director may raise a "long-view objection" before a vote is called, and the chair hears it.
 This is the ethics of the whole simulation, and it sets up the Partnership year and the
@@ -67,18 +54,16 @@ This is the ethics of the whole simulation, and it sets up the Partnership year 
 
 - **Plant a first voice.** Quietly ask one or two confident students to make their honest case
   early and strongly. A primed first voice breaks the silence and the rest follow.
-- **Fast finishers / the minority report.** When a table settles quickly, ask one member to
-  write the single-sentence case for why the board is about to make a mistake. Read a couple of
+- **Fast finishers / the minority report.** When the room settles quickly, ask a student or two
+  to write the single-sentence case for why the board is about to make a mistake. Read a couple of
   these in the debrief.
-- **Call on tables, not individuals.** "Table three, you're about to cut the Ridgeline stand:
-  what's your reason?" is easier to answer than cold-calling a name.
 - **Point at the comments.** "The mill worker says every year you don't harvest, their hours
   get cut. Does that change anything?" brings the town into the room without anyone playing it.
 
 ## What to prep physically
 
 - Ballot slips (or a decision on phones) for the big votes.
-- One table card per table (in the printables).
+- The standing-question poster, up at the front (in the printables).
 - A way to gather the opening vote so it can be shown against the closing vote at the end.
 - The laptop and projector, dashboard loaded and tested from the back of the room for
   legibility before the students arrive.

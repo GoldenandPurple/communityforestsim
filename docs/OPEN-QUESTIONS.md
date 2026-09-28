@@ -87,7 +87,7 @@ documents listed at the end of the report before stating any of it as fact in th
 - [ ] Confirmed: 50-minute period, one classroom, projector, whole class as one committee. The whole
   design assumes this. If it turns into an assembly or loses the projector, the mechanic needs a
   rethink (a marker-on-whiteboard fallback exists but is much flatter).
-- [ ] Class size and room layout (can the room be seated in tables of four or five?).
+- [ ] Class size and room layout (can everyone see the screen and the ballot box?).
 - [ ] Whether student phones are allowed for the private ballots, or paper only.
 - [ ] Which grade(s), so the ADST strand emphasis can be aimed (6-7 vs 8 vs 9 have different
   standards, see `ADST-ALIGNMENT.md`).

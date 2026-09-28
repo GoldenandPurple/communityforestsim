@@ -21,8 +21,8 @@ every dashboard change with a key press (see `DASHBOARD-SPEC.md`).
 | Time | Beat | What happens |
 |------|------|--------------|
 | 0:00-0:03 | **Cold open** | No introduction. Ask: "Above the town of Cedar Bend is Thunderhead Mountain. There is timber on its lower slopes, right above people's homes. I am going to make you decide whether we cut it. But first: who owns it?" Let them answer. Most will be wrong, and being wrong out loud is engaging. Only after they have guessed do you give your one-line introduction. |
-| 0:03-0:06 | **Welcome and setup** | Welcome screen: the class has been selected as the corporate board of the Thunderhead Mountain Community Forest, owned by the Town of Cedar Bend; then, in a minute, what a community forest is. Then the setup screen. Explain the four meters in under two minutes (if it takes longer, the dashboard is too complicated, fix the dashboard not the explanation). Seat the class in tables of four or five, and introduce the standing question (see `CLASSROOM-MECHANICS.md`). State the one rule: if the treasury hits zero, the Province takes the forest back, game over. |
-| 0:06-0:13 | **Round 1: The First Harvest** | The forest has to fund itself. How hard do you cut this year? Public comments (P), table talk, one recommendation per table, floor debate, private ballot, public vote. Apply result live. Name the carry-forward consequence out loud. |
+| 0:03-0:06 | **Welcome and setup** | Welcome screen: the class has been selected as the corporate board of the Thunderhead Mountain Community Forest, owned by the Town of Cedar Bend; then, in a minute, what a community forest is. Then the setup screen. Explain the four meters in under two minutes (if it takes longer, the dashboard is too complicated, fix the dashboard not the explanation). Introduce the standing question, the voiceless seat (see `CLASSROOM-MECHANICS.md`). State the one rule: if the treasury hits zero, the Province takes the forest back, game over. |
+| 0:06-0:13 | **Round 1: The First Harvest** | The forest has to fund itself. How hard do you cut this year? Public comments (P), floor debate, the standing question, private ballot, public vote. Apply result live. Name the carry-forward consequence out loud. |
 | 0:13-0:21 | **Round 2: The Windfall** | A salvage-logging opportunity or an outside buyout offer. Tests whether they trade the long game for fast money, and introduces "who captures the value" when an outsider wants in. |
 | 0:21-0:31 | **Round 3: The Partnership** | The Ktunaxa and/or Secwépemc propose co-management. This is a real decision with real tradeoffs, not a footnote. It reframes the word "community": whose forest is it? Give it the most air. |
 | 0:31-0:38 | **Round 4: Fire Season** | Their accumulated Forest Health / Wildfire Risk determines their exposure. The boards that preserved everything now face the highest fuel load above the homes. The past comes home and the meter does the moralizing. |
@@ -36,9 +36,8 @@ every dashboard change with a key press (see `DASHBOARD-SPEC.md`).
 - **Every reveal is a chance to move the meters visibly.** The reaction of the room to
   the dashboard reacting is a good chunk of the energy. Do not rush the apply-and-animate
   moment; let them watch the bar move.
-- **If a table goes quiet**, call on the table, not a name, and point at a public comment:
-  "Table two, the mill worker says their hours get cut every year you don't harvest. Does that
-  change your vote?"
+- **If the room goes quiet**, point at a public comment: "The mill worker says their hours get
+  cut every year you don't harvest. Does that change anyone's vote?"
 - **Fast votes early, slower votes later.** Round 1 can move quickly. Rounds 3 and 4
   deserve the debate. Do not spend your debate budget on the easy round.
 

@@ -22,7 +22,10 @@
   .card { border: 3px solid var(--ink); padding: 10mm; }
   .card h3 { font-size: 26pt; margin: 0 0 4mm; }
   .card li { font-size: 14pt; margin: 2mm 0; }
-  .table-card { page-break-inside: avoid; break-inside: avoid; }
+  .poster { min-height: 250mm; display: flex; flex-direction: column; justify-content: center; text-align: center; gap: 12mm; }
+  .poster-kicker { font-size: 16pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .poster-q { font-size: 40pt; font-weight: 900; line-height: 1.15; }
+  .poster-list { font-size: 18pt; line-height: 1.6; color: var(--muted); }
   .card .right { font-size: 15pt; font-weight: 800; border-left: 6px solid var(--accent); padding-left: 4mm; margin-top: 8mm; }
   @media print {
     body { background: none; }
@@ -36,7 +39,7 @@
 <div class="intro">
   <h1>Community forest: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
-  ballot slips for each round and for the opening and closing vote, and a card for each table of directors.</p>
+  ballot slips for each round and for the opening and closing vote, and a poster of the standing question for the front of the room.</p>
   <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
   Running the short game? Skip the pages marked <em>full game only</em>.</p>
   <p><button onclick="window.print()">Print</button></p>
@@ -901,20 +904,12 @@
       r.options.map(function (o) { return { key: o.key, label: o.label }; }));
   });
 
-  // One card per table of directors: how each year runs, and the standing question.
-  // Two cards per page; print one per table.
-  var tableCard = '<div class="card table-card"><h3>Board table</h3>' +
-    '<p style="font-size:13pt;margin:0 0 3mm">You are a director of the ' + esc(cfg.forestName) + '. You decide as yourself.</p>' +
-    '<ol>' +
-    '<li>Listen to the year\u2019s dilemma and the public comments.</li>' +
-    '<li>Talk it over at your table (about a minute).</li>' +
-    '<li>Agree on one recommendation and one reason. Your spokesperson changes every year.</li>' +
-    '<li>Vote on your own ballot first. Then vote with your hand.</li>' +
-    '</ol>' +
-    '<p class="right">' + esc(cfg.standingQuestion) + '</p>' +
-    '<p style="font-size:11pt;color:#555;margin-top:3mm">The forest itself. The people who will live here in fifty years. ' +
-    'The Nation whose territory this is.</p></div>';
-  html += '<section class="page">' + tableCard + '<div style="height:12mm"></div>' + tableCard + '</section>';
+  // The voiceless seat on the wall: a poster of the standing question for the front of the room.
+  html += '<section class="page"><div class="poster">' +
+    '<div class="poster-kicker">The voiceless seat</div>' +
+    '<div class="poster-q">' + esc(cfg.standingQuestion) + '</div>' +
+    '<div class="poster-list">The forest itself and the watershed.<br>The people who will live here in fifty years.<br>' +
+    'The Nation whose territory this is.</div></div></section>';
 
   out.innerHTML = html;
 })();
