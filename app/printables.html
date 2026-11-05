@@ -39,7 +39,7 @@
 <div class="intro">
   <h1>Community forest: printables</h1>
   <p>Everything to print before the session, generated from <code>content/config.js</code> so it always matches the dashboard:
-  ballot slips for each round and for the opening and closing vote, and a poster of the standing question for the front of the room.</p>
+  ballot slips for the practice vote, each round, and the opening and closing vote, and a poster of the standing question for the front of the room.</p>
   <p>Each ballot page has eight slips. Print enough pages for your class, then cut along the dashed lines.
   Running the short game? Skip the pages marked <em>full game only</em>.</p>
   <p><button onclick="window.print()">Print</button></p>
@@ -69,6 +69,10 @@
   var html = '';
   var roomChoices = cfg.roomVote.choices.map(function (c) { return { label: c }; });
   html += slipPage('Opening and closing vote', cfg.forestName, cfg.roomVote.question, roomChoices);
+  if (cfg.practice) {
+    html += slipPage('Practice vote', 'Practice \u00B7 nothing is at stake', cfg.practice.title,
+      cfg.practice.options.map(function (o) { return { key: o.key, label: o.label }; }));
+  }
   // Ballots for every round; rounds only played in the full game are marked, so you can skip printing them.
   cfg.rounds.forEach(function (r) {
     html += slipPage('Ballot: ' + r.title + (r.fullGameOnly ? ' (full game only)' : ''), 'Private ballot', r.title,

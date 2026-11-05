@@ -73,6 +73,15 @@ for (const length of cfg.gameLengths.map((l) => l.id)) {
     console.log(`  ${pad(e.id, 10)} ${String(list.length).padStart(5)} ${pct}%  e.g. ${list.slice(0, 5).join(' ')}`);
   }
 
+  // The headline score: how much each board gave back to the community.
+  const given = results.map((r) => r.s.givenBack).sort((a, b) => a - b);
+  const avg = given.reduce((a, b) => a + b, 0) / given.length;
+  console.log(`\nGiven back: average ${k(avg).trim()}, median ${k(given[Math.floor(given.length / 2)]).trim()}, best ${k(given[given.length - 1]).trim()}`);
+  for (const m of cfg.milestones || []) {
+    const pct = ((given.filter((g) => g >= m.at).length / given.length) * 100).toFixed(0);
+    console.log(`  ${pct.padStart(3)}% of boards reach the ${k(m.at).trim()} milestone (${m.title})`);
+  }
+
   console.log('\nFire outcomes:');
   const byFire = {};
   for (const r of results) byFire[r.s.fire] = (byFire[r.s.fire] || 0) + 1;

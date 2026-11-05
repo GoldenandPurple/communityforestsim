@@ -60,9 +60,28 @@ This is the ethics of the whole simulation, and it sets up the Partnership year 
 - **Point at the comments.** "The mill worker says every year you don't harvest, their hours
   get cut. Does that change anything?" brings the town into the room without anyone playing it.
 
+## Practice first
+
+Before Year 1, run the two-minute practice vote (the logo for the forest trucks) exactly like a
+real year: private ballot, enter the counts (V), hands, then press the winning letter. Nothing
+moves. With fifteen students, every vote is visible, so the mechanics need to be smooth before
+anything matters.
+
+## The debrief
+
+Open on what worked, not on what went wrong.
+
+1. **What worked?** The screen shows everything the forest gave back. Ask two or three
+   directors which decision they are proudest of, and why.
+2. **So what?** Press Space to reveal each business concept. One sentence each, tied to a
+   moment from their own game. End on the true story: this is not made up.
+3. **Now what?** Exit ticket on a slip: one idea from this board they would use in their own
+   business or town. Collect them at the door. Then the 80-year close.
+
 ## What to prep physically
 
-- Ballot slips (or a decision on phones) for the big votes.
+- Ballot slips (or a decision on phones) for the big votes, plus one for the practice vote.
+- Blank slips for the exit ticket.
 - The standing-question poster, up at the front (in the printables).
 - A way to gather the opening vote so it can be shown against the closing vote at the end.
 - The laptop and projector, dashboard loaded and tested from the back of the room for

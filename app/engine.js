@@ -36,6 +36,8 @@
       soldDuring: null,
       fire: null, // id of the fire tier that happened
       ledger: [], // treasury movements: { label, amount, balance }
+      givenBack: 0, // dollars the forest has returned to the community
+      gifts: [], // what the given-back money went to: { label, amount }
       votes: {}, // roundId -> { ballot: {A,B,C}, hands: {A,B,C} }
       roomVote: { opening: null, closing: null },
     };
@@ -44,6 +46,7 @@
   function meterValue(state, name) {
     if (name === 'treasury') return state.treasury;
     if (name === 'forest') return state.forest;
+    if (name === 'givenBack') return state.givenBack;
     if (name === 'sentiment') {
       return SENTIMENTS.reduce(function (sum, k) { return sum + state.meters[k]; }, 0) / SENTIMENTS.length;
     }
@@ -89,6 +92,13 @@
         var fb = s.forest;
         s.forest = clamp(k === 'forestTo' ? d : s.forest + d, 0, 100);
         if (s.forest !== fb) changes.push({ meter: 'forest', from: fb, to: s.forest });
+      } else if (k === 'givenBack') {
+        // Money returned to the community. The Treasury side is a separate treasury delta.
+        if (!d) return;
+        var gb = s.givenBack;
+        s.givenBack += d;
+        s.gifts.push({ label: label, amount: d });
+        changes.push({ meter: 'givenBack', from: gb, to: s.givenBack });
       } else if (SENTIMENTS.indexOf(k) !== -1) {
         if (!d) return;
         var mb = s.meters[k];
@@ -122,13 +132,30 @@
     throw new Error('Unknown round: ' + roundId);
   }
 
-  // Start-of-round effects: fixed-cost bleed, forest growth, and any conditional start effects.
+  // The standing community dividend: a share of everything above the reserve goes to the town.
+  // Returns a step for chain(), or null when nothing is owed (or the Province has the forest).
+  function dividendStep(state, cfg) {
+    var p = cfg.dividendPolicy;
+    if (!p || state.sold) return null;
+    var excess = state.treasury - p.reserve;
+    if (excess <= 0) return null;
+    var amount = Math.round(excess * p.share / 1000) * 1000;
+    if (amount <= 0) return null;
+    return { label: p.label, deltas: { treasury: -amount, givenBack: amount } };
+  }
+
+  // Start-of-round effects, in order: last year's community dividend, any breaking news, the
+  // fixed-cost bleed, forest growth, and any conditional start effects.
   function startRound(state, roundId, cfg) {
     var round = findRound(cfg, roundId);
-    var steps = [
+    var steps = [];
+    var div = dividendStep(state, cfg);
+    if (div) steps.push(div);
+    if (round.news && round.news.deltas) steps.push({ label: round.news.headline, deltas: round.news.deltas });
+    steps.push(
       { label: cfg.treasury.bleedLabel, deltas: { treasury: -cfg.treasury.bleed } },
-      { label: cfg.forest.growthLabel, deltas: { forest: cfg.forest.growthPerRound } },
-    ];
+      { label: cfg.forest.growthLabel, deltas: { forest: cfg.forest.growthPerRound } }
+    );
     (round.startEffects || []).forEach(function (e) {
       if (evalCond(e.when, state)) steps.push({ label: e.label, deltas: e.deltas });
     });
@@ -181,6 +208,13 @@
     var r = applyDeltas(state, tier.deltas, 'Fire season: ' + tier.title, cfg);
     r.state.fire = tier.id;
     r.tier = tier;
+    // The final year's community dividend, paid once the season is over.
+    var div = dividendStep(r.state, cfg);
+    if (div) {
+      var d = applyDeltas(r.state, div.deltas, cfg.dividendPolicy.finalLabel || div.label, cfg);
+      r.state = d.state;
+      r.changes = r.changes.concat(d.changes);
+    }
     return r;
   }
 
@@ -239,10 +273,20 @@
         tryCond(e.when, r.id + ' start effect');
         tryDeltas(e.deltas, r.id + ' start effect');
       });
+      if (r.news) {
+        if (!r.news.headline) problems.push(r.id + ' news has no headline');
+        tryDeltas(r.news.deltas, r.id + ' news');
+      }
     });
     cfg.fire.tiers.forEach(function (t) { tryCond(t.when, 'fire tier ' + t.id); tryDeltas(t.deltas, 'fire tier ' + t.id); });
     cfg.epilogues.forEach(function (e) { tryCond(e.when, 'epilogue ' + e.id); });
     (cfg.epilogueAddenda || []).forEach(function (a, i) { tryCond(a.when, 'epilogue addendum ' + (i + 1)); });
+    (cfg.milestones || []).forEach(function (m, i) {
+      if (!(m.at > 0) || !m.text) problems.push('milestone ' + (i + 1) + ' needs a positive "at" and a "text"');
+    });
+    if (cfg.dividendPolicy && !(cfg.dividendPolicy.share > 0 && cfg.dividendPolicy.share <= 1)) {
+      problems.push('dividendPolicy.share must be between 0 and 1');
+    }
     var last = cfg.epilogues[cfg.epilogues.length - 1];
     if (!last || JSON.stringify(last.when) !== JSON.stringify({ meter: 'forest', atLeast: 0 })) {
       problems.push('The last epilogue should be a catch-all ({ meter: "forest", atLeast: 0 }) so every game gets an ending');
@@ -258,6 +302,7 @@
     evalCond: evalCond,
     applyDeltas: applyDeltas,
     startRound: startRound,
+    dividendStep: dividendStep,
     resolveOption: resolveOption,
     applyOption: applyOption,
     manualTick: manualTick,

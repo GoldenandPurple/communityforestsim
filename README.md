@@ -28,7 +28,7 @@ clicker works for next and back.
 | `docs/` | The design: start with `CONCEPT.md`, then `RUN-OF-SHOW.md` and `CLASSROOM-MECHANICS.md` |
 | `content/config.js` | **Every number and every word on screen.** Edit this to tune the game |
 | `app/dashboard.html`, `app/engine.js` | The dashboard source (opens directly from the repo too) |
-| `app/printables.html` | Printable ballots and signs, generated from the config |
+| `app/printables.html` | Printable ballots and the voiceless seat poster, generated from the config |
 | `tools/simulate.mjs` | Plays every path through both game lengths and flags tuning problems |
 | `tools/build.mjs` | Rebuilds the single-file classroom versions in `dist/` |
 

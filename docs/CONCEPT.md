@@ -53,11 +53,27 @@ The session opens with a welcome screen: the class **has been selected as the co
 of the town's community forest**, followed by a short "what is a community forest?"
 explanation, before the meters are introduced.
 
+## The headline score: what the forest gives back
+
+The lesson is the *success* of social enterprise, so the most prominent number on the
+dashboard is not the bank balance. It is **Given back to Cedar Bend**: every dollar the forest
+returns to the town. Most of it comes from a standing **community dividend policy**, modelled on
+real ones (Kaslo, Sechelt): once a year, half of everything above a reserve goes back to the
+town. The rest comes from choices (grants, a FireSmart crew, a capital project). So the tally
+grows *because* the board runs a healthy business, which is exactly the point: a community
+forest makes a profit so it can give it away. Milestones name real BC equivalents (Clinton's
+$40,000 Zamboni for the youth hockey club; Sechelt's grants to local groups), and the debrief
+opens on "What worked?" with the full list.
+
+Real events arrive as **breaking news** at the start of some years (the 2021 lumber price
+record, US duties, a mill closing in the next valley, a wildfire prevention grant), each with a
+"this really happened" line. They make setbacks feel like the world, not the game, and they are
+all recoverable.
+
 ## The mechanic: four meters, no clean win
 
-The class is the board. They run the forest across four rounds (four years), watching
-four things on the projected dashboard. The entire lesson is that they cannot keep all
-four healthy at once.
+The class is the board. Alongside the given-back tally, they watch four things on the projected
+dashboard. The lesson inside the game is that they cannot keep all four healthy at once.
 
 - **Treasury ($).** The engine of urgency. A forest has fixed costs (staff, insurance,
   road maintenance) whether or not the board acts, so the treasury bleeds every round.
@@ -77,8 +93,9 @@ four healthy at once.
   tinderbox" to "thinned but scarred." The coupling is itself the teaching point: the
   intuitive "protect the trees" move is also the "endanger the homes" move.
 
-No path scores perfectly. That is the design, and the debrief reveals it: every board
-sacrificed something, which is what ethics actually is.
+No path scores perfectly on the meters. That is the design, and the debrief reveals it: every
+board sacrificed something, which is what ethics actually is. But every board that stayed
+solvent also gave something back, and the debrief starts there.
 
 ## The urgency rule for the treasury
 

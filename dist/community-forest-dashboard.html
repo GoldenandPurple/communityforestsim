@@ -82,15 +82,15 @@
   #content { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 1.4vh; }
 
   /* Meters */
-  #meters { display: flex; flex-direction: column; gap: 1.6vh; min-height: 0; transition: opacity 0.8s; }
+  #meters { display: flex; flex-direction: column; gap: 1.1vh; min-height: 0; transition: opacity 0.8s; }
   #meters.dormant { opacity: 0.28; filter: grayscale(0.7); }
   #meters.dormant .value, #meters.dormant .mood, #meters.dormant .ledger { visibility: hidden; }
-  .meter { background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 0.5em; padding: 1vh 1vw 1.1vh; position: relative; }
+  .meter { background: var(--panel); border: 2px solid var(--panel-edge); border-radius: 0.5em; padding: 0.8vh 1vw 0.9vh; position: relative; }
   .meter-head { display: flex; align-items: baseline; gap: 0.6em; }
   .meter-name { font-weight: 800; font-size: 0.95em; }
   .meter-bloc { color: var(--muted); font-size: 0.65em; text-transform: uppercase; letter-spacing: 0.06em; }
   .value { margin-left: auto; font-family: var(--num); font-weight: 800; font-size: 1.15em; font-variant-numeric: tabular-nums; }
-  .bar { position: relative; height: clamp(22px, 4.2vh, 56px); background: var(--track); border-radius: 0.3em; margin-top: 0.6vh; overflow: hidden; }
+  .bar { position: relative; height: clamp(18px, 3.6vh, 48px); background: var(--track); border-radius: 0.3em; margin-top: 0.6vh; overflow: hidden; }
   .fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 0.3em; transition: width 1.8s cubic-bezier(.2,.8,.2,1); }
   /* Quarter ticks so bar length reads without colour */
   .bar::after { content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -105,6 +105,10 @@
   .delta.up { color: var(--good); }
   .delta.down { color: var(--bad); }
 
+  #m-givenBack { border-color: var(--good); }
+  #m-givenBack .meter-name { color: var(--good); }
+  #m-givenBack .value { font-size: 1.6em; color: var(--good); }
+  #m-givenBack .gifts { font-size: 0.6em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #m-treasury .value { font-size: 1.9em; color: var(--money); }
   #m-treasury.negative .value { color: var(--danger); }
   #m-treasury .fill { background: var(--money); }
@@ -215,6 +219,22 @@
   .keys { display: grid; grid-template-columns: auto 1fr; gap: 0.5em 1.2em; font-size: 0.85em; }
   .keys kbd { font-family: var(--num); font-weight: 800; border: 2px solid var(--text); border-radius: 0.25em; padding: 0 0.4em; white-space: nowrap; }
   .sheet .small { font-size: 0.7em; color: var(--muted); margin-top: 2vh; }
+  #newsOverlay .sheet, #milestoneOverlay .sheet { width: min(88vw, 60em); text-align: center; padding: 4vh 4vw; }
+  #newsOverlay .sheet { border-color: var(--accent); }
+  .news-tag { display: inline-block; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.8em;
+    background: var(--danger); color: #fff; padding: 0.15em 0.6em; border-radius: 0.2em; }
+  .news-headline { font-size: 2.6em; font-weight: 900; line-height: 1.08; margin: 2.5vh 0 1.5vh; }
+  .news-text { font-size: 1.15em; margin: 0 auto; max-width: 36em; }
+  .news-real { font-size: 0.8em; color: var(--muted); margin: 3vh auto 0; max-width: 44em; border-top: 2px solid var(--panel-edge); padding-top: 1.5vh; }
+  #milestoneOverlay .sheet { border-color: var(--good); }
+  .milestone-tag { font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.8em; color: var(--good); }
+  .milestone-title { font-size: 2.8em; font-weight: 900; line-height: 1.05; margin: 2vh 0; color: var(--good); }
+  .milestone-text { font-size: 1.15em; margin: 0 auto; max-width: 36em; }
+  .given-big { font-size: 3.4em; font-weight: 900; color: var(--good); line-height: 1; font-family: var(--num); }
+  .gift-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6vh; font-size: 0.95em; }
+  .gift-list li { display: flex; gap: 1em; justify-content: space-between; max-width: 36em; border-bottom: 1px solid var(--panel-edge); padding-bottom: 0.3vh; }
+  .gift-list li span:last-child { font-family: var(--num); font-weight: 800; color: var(--good); }
+  .given-line { font-size: 1em; font-weight: 800; color: var(--good); margin: 0; }
   #soldOverlay { background: rgba(80, 0, 0, 0.88); }
   #soldOverlay .sheet { text-align: center; border-color: var(--danger); background: #1a0806; color: #fff; }
   #soldOverlay h1 { font-size: 3.4em; color: #ff6a4d; }
@@ -259,6 +279,11 @@
   <main id="stage">
     <section id="content"></section>
     <aside id="meters">
+      <div class="meter" id="m-givenBack">
+        <div class="meter-head"><span class="meter-name"></span><span class="value"></span></div>
+        <div class="gifts"></div>
+        <div class="delta"></div>
+      </div>
       <div class="meter" id="m-treasury">
         <div class="meter-head"><span class="meter-name"></span><span class="value"></span></div>
         <div class="bar"><div class="fill"></div></div>
@@ -311,10 +336,26 @@
     <kbd>L</kbd><span>Light / dark theme, for a bright room</span>
     <kbd>F</kbd><span>Fullscreen</span>
     <kbd>G</kbd><span>Game length, on the title screen: full (7 years) or short (4 years, fits 50 minutes)</span>
+    <kbd>Space</kbd><span>Also closes a Breaking News or Milestone screen and carries on</span>
     <kbd>R R</kbd><span>Reset everything for the next class (press twice). Keeps the game length.</span>
     <kbd>Esc</kbd><span>Close any overlay</span>
   </div>
   <p class="small">Nothing is saved: reloading the page also resets the simulation.</p>
+</div></div>
+
+<div class="overlay" id="newsOverlay"><div class="sheet">
+  <span class="news-tag">Breaking news</span>
+  <div class="news-headline" id="newsHeadline"></div>
+  <p class="news-text" id="newsText"></p>
+  <p class="news-real" id="newsReal"></p>
+  <p class="small">Space to continue</p>
+</div></div>
+
+<div class="overlay" id="milestoneOverlay"><div class="sheet">
+  <div class="milestone-tag">Milestone</div>
+  <div class="milestone-title" id="milestoneTitle"></div>
+  <p class="milestone-text" id="milestoneText"></p>
+  <p class="small">Space to continue</p>
 </div></div>
 
 <div class="overlay" id="soldOverlay"><div class="sheet">
@@ -367,9 +408,14 @@
  *              100 = lush, high fuel load, high fire risk
  *                0 = thinned, scarred, low fire risk
  *   forestTo   (optional) set the forest slider to an absolute value, e.g. after a burn
+ *   givenBack  dollars returned to the community (the "Given back to Cedar Bend" tally). Pair it
+ *              with a matching negative treasury delta: the money leaves the business.
  *
  * Game length: rounds marked `fullGameOnly: true` are skipped in the short game. Conditions
  * about a skipped round's choice are simply false.
+ *
+ * Each round can carry `news`: a breaking-news headline shown full-screen when the year opens,
+ * from a real event, with optional deltas applied before the fixed costs.
  *
  * Each round can carry `voices`: short public comments to the board from people in town,
  * shown with the P key. The students play themselves (the directors); the community speaks
@@ -450,6 +496,38 @@
     // Asked by the chair before every vote, and shown under the public comments.
     standingQuestion: 'Before you vote: who does this affect who is not in this room?',
 
+    // The forest's standing community dividend, modelled on real policies (Kaslo, Sechelt): once
+    // a year, a share of everything above the reserve goes back to the town. It is paid at the
+    // start of each year from last year's money, and once more after Fire Season.
+    dividendPolicy: {
+      reserve: 350000,
+      share: 0.5,
+      label: 'Annual community dividend',
+      finalLabel: 'Final community dividend',
+    },
+
+    // Shown full-screen when the "Given back to Cedar Bend" tally first passes each amount.
+    // Real BC community forest equivalents (see reports/BC community forest decisions and outcomes.md).
+    milestones: [
+      { at: 40000, title: 'A Zamboni', text: 'Your forest has given $40,000 back to Cedar Bend. In 2020, Clinton\u2019s community forest gave $40,000 to buy the youth hockey club a new Zamboni.' },
+      { at: 100000, title: 'Five local groups', text: 'Your forest has given $100,000 back to Cedar Bend. In 2021, the Sunshine Coast\u2019s community forest gave $100,000 to five local groups.' },
+      { at: 150000, title: 'A salmon hatchery and six more', text: 'Your forest has given $150,000 back to Cedar Bend. In 2022, the Sunshine Coast\u2019s community forest gave $144,000 to seven local groups, including a new water intake for a salmon hatchery.' },
+      { at: 250000, title: 'A whole town\u2019s year', text: 'Your forest has given $250,000 back to Cedar Bend: as much as Clinton\u2019s community forest gave away in all of 2020.' },
+    ],
+
+    // A no-stakes warm-up before Year 1, to teach the ballot and the reveal. Nothing on the
+    // meters moves.
+    practice: {
+      title: 'Practice vote',
+      prompt: 'Before the real decisions: the forest company needs a logo for its trucks. Vote on it, and watch how the board works. Nothing is at stake.',
+      options: [
+        { key: 'A', label: 'A tree' },
+        { key: 'B', label: 'Thunderhead Mountain' },
+        { key: 'C', label: 'A thunderhead cloud' },
+      ],
+      chairNote: 'Two minutes. Run it exactly like a real year: private ballot, then press V to enter the counts, then hands, then press the winning letter. Nothing on the meters moves.',
+    },
+
     insolvency: {
       heading: 'The Province has taken the forest back.',
       text:
@@ -493,8 +571,9 @@
       // The forest keeps growing whether or not you act: fuel builds up every round.
       growthPerRound: 4,
       growthLabel: 'The forest grew. Fuel load builds.',
-      lushEnd: { health: 'Lush, dense, healthy-looking', risk: 'High fuel load, high fire risk' },
-      thinEnd: { health: 'Thinned, scarred, logged', risk: 'Low fuel load, low fire risk' },
+      // `short` is what the dashboard shows under the slider.
+      lushEnd: { health: 'Lush, dense, healthy-looking', risk: 'High fuel load, high fire risk', short: 'Lush: high fire risk' },
+      thinEnd: { health: 'Thinned, scarred, logged', risk: 'Low fuel load, low fire risk', short: 'Thinned: low fire risk' },
     },
 
     rounds: [
@@ -557,6 +636,12 @@
       {
         id: 'r2',
         title: 'The Windfall',
+        news: {
+          headline: 'Lumber prices hit a record',
+          text: 'Mills are paying more for logs than anyone can remember. This year\u2019s regular sales bring in an extra $50,000.',
+          real: 'This really happened: in April 2021, lumber hit a record of about US$1,600 per thousand board feet. A community forest near Hope paid each of its partners $150,000, its biggest cheque ever.',
+          deltas: { treasury: 50000, forestry: 5 },
+        },
         prompt:
           'Two offers of fast money. An outside company wants the timber rights to part of the ' +
           'forest, long term: big money up front, but their crews, their mill, their profits. ' +
@@ -610,6 +695,12 @@
         id: 'trails',
         fullGameOnly: true,
         title: 'The Trail Network',
+        news: {
+          headline: 'US duties on Canadian lumber climb again',
+          text: 'Mills cut back, and log prices drop. A lean year: regular sales bring in $30,000 less than planned.',
+          real: 'This really happened: by 2025, combined US duties on Canadian softwood lumber had climbed to about 35%, and BC lost thousands of forestry jobs.',
+          deltas: { treasury: -30000, forestry: -10 },
+        },
         prompt:
           'Riders, hikers and paragliders are pouring into Cedar Bend. The trail groups want a ' +
           'new trail network on the upper mountain, and visitors are already parking all along ' +
@@ -769,7 +860,7 @@
           'the whole town; the reserve looks boring. Do not tell them the reserve comes back when ' +
           'fire season arrives: it is insurance, and that is the lesson.',
         startEffects: [
-          { label: 'Regular timber sales: a good year', deltas: { treasury: 200000, forest: -5 } },
+          { label: 'Regular timber sales: a good year', deltas: { treasury: 240000, forest: -5 } },
           {
             when: { choice: { round: 'r3', option: 'A' } },
             label: 'The partnership qualifies for joint stewardship funding',
@@ -796,7 +887,7 @@
             key: 'A',
             label: 'Community grants',
             detail: 'Give local clubs and non-profits a hand.',
-            deltas: { treasury: -80000, recreation: 10, residents: 5, forestry: 5, forest: 0 },
+            deltas: { treasury: -80000, givenBack: 80000, recreation: 10, residents: 5, forestry: 5, forest: 0 },
             consequence: 'The trail society, the ski club, and the food bank all send thank-you letters.',
           },
           {
@@ -810,14 +901,14 @@
             key: 'C',
             label: 'Hire a FireSmart crew',
             detail: 'A local crew clearing fuel around the Hillside homes.',
-            deltas: { treasury: -60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
+            deltas: { treasury: -60000, givenBack: 60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
             consequence: 'Local jobs, less fuel near the homes, less money in the bank.',
           },
           {
             key: 'D',
             label: 'Fund a Town capital project',
             detail: 'Bring forward the Town\u2019s unfunded water system upgrade.',
-            deltas: { treasury: -100000, recreation: 5, residents: 15, forestry: 0, forest: 0 },
+            deltas: { treasury: -100000, givenBack: 100000, recreation: 5, residents: 15, forestry: 0, forest: 0 },
             consequence: 'A real asset for the whole town, years early. Nobody gets a cheque; everybody gets clean water.',
             variants: [
               {
@@ -833,6 +924,12 @@
         id: 'mill',
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
+        news: {
+          headline: 'A mill in the next valley closes',
+          text: 'Over the pass, a big company shuts its mill for good. Cedar Bend\u2019s mill workers are watching your board very closely.',
+          real: 'This really happened: in 2024 the Fraser Lake mill closed. About 175 people lost their jobs, in a village of about 965.',
+          deltas: { forestry: -5 },
+        },
         startEffects: [
           {
             when: { choice: { round: 'r3', option: 'A' } },
@@ -921,6 +1018,12 @@
       {
         id: 'r4',
         title: 'Fire Season',
+        news: {
+          headline: 'Wildfire prevention grant approved',
+          text: 'The Province approves your application for wildfire prevention funding: $30,000 toward this year\u2019s work.',
+          real: 'This really happened: Logan Lake\u2019s community forest received $512,000 for wildfire fuel reduction, and BC\u2019s Forest Enhancement Society has funded 201 community wildfire projects since 2016.',
+          deltas: { treasury: 30000 },
+        },
         // Draws the interface-fire zone on the slider from this round on.
         showFireZone: true,
         prompt:
@@ -1145,9 +1248,18 @@
       choices: ['Yes', 'No', 'Unsure'],
     },
 
-    // Debrief screen: revealed one at a time with the Next key. Name, then move on.
+    // The debrief runs: What worked? (the given-back tally), then So what? (these concepts,
+    // revealed one at a time with the Next key), then Now what? (the exit ticket and the close).
+    workedScreen: {
+      heading: 'What worked?',
+      prompt: 'Look at what your forest gave back. Which decision are you proudest of, and why?',
+    },
+    nowWhatScreen: {
+      heading: 'Now what?',
+      prompt: 'On a slip of paper: one idea from this board you would use in your own business, or your own town.',
+    },
     debrief: [
-      { term: 'Profit vs break-even', line: 'You were never trying to get rich. You were trying not to die.' },
+      { term: 'Profit vs break-even', line: 'A community forest makes a profit so it can give it away. Look at your given-back tally.' },
       { term: 'Who captures the value', line: 'The Windfall: when the outsider buys in, the money leaves town.' },
       { term: 'Pricing and revenue streams', line: 'Timber, shuttle rides, parking, carbon credits: what does a forest sell, and to whom?', when: { length: 'full' } },
       { term: 'Where the profit goes', line: 'A social enterprise decides who its surplus is for.', when: { length: 'full' } },
@@ -1213,6 +1325,8 @@
       soldDuring: null,
       fire: null, // id of the fire tier that happened
       ledger: [], // treasury movements: { label, amount, balance }
+      givenBack: 0, // dollars the forest has returned to the community
+      gifts: [], // what the given-back money went to: { label, amount }
       votes: {}, // roundId -> { ballot: {A,B,C}, hands: {A,B,C} }
       roomVote: { opening: null, closing: null },
     };
@@ -1221,6 +1335,7 @@
   function meterValue(state, name) {
     if (name === 'treasury') return state.treasury;
     if (name === 'forest') return state.forest;
+    if (name === 'givenBack') return state.givenBack;
     if (name === 'sentiment') {
       return SENTIMENTS.reduce(function (sum, k) { return sum + state.meters[k]; }, 0) / SENTIMENTS.length;
     }
@@ -1266,6 +1381,13 @@
         var fb = s.forest;
         s.forest = clamp(k === 'forestTo' ? d : s.forest + d, 0, 100);
         if (s.forest !== fb) changes.push({ meter: 'forest', from: fb, to: s.forest });
+      } else if (k === 'givenBack') {
+        // Money returned to the community. The Treasury side is a separate treasury delta.
+        if (!d) return;
+        var gb = s.givenBack;
+        s.givenBack += d;
+        s.gifts.push({ label: label, amount: d });
+        changes.push({ meter: 'givenBack', from: gb, to: s.givenBack });
       } else if (SENTIMENTS.indexOf(k) !== -1) {
         if (!d) return;
         var mb = s.meters[k];
@@ -1299,13 +1421,30 @@
     throw new Error('Unknown round: ' + roundId);
   }
 
-  // Start-of-round effects: fixed-cost bleed, forest growth, and any conditional start effects.
+  // The standing community dividend: a share of everything above the reserve goes to the town.
+  // Returns a step for chain(), or null when nothing is owed (or the Province has the forest).
+  function dividendStep(state, cfg) {
+    var p = cfg.dividendPolicy;
+    if (!p || state.sold) return null;
+    var excess = state.treasury - p.reserve;
+    if (excess <= 0) return null;
+    var amount = Math.round(excess * p.share / 1000) * 1000;
+    if (amount <= 0) return null;
+    return { label: p.label, deltas: { treasury: -amount, givenBack: amount } };
+  }
+
+  // Start-of-round effects, in order: last year's community dividend, any breaking news, the
+  // fixed-cost bleed, forest growth, and any conditional start effects.
   function startRound(state, roundId, cfg) {
     var round = findRound(cfg, roundId);
-    var steps = [
+    var steps = [];
+    var div = dividendStep(state, cfg);
+    if (div) steps.push(div);
+    if (round.news && round.news.deltas) steps.push({ label: round.news.headline, deltas: round.news.deltas });
+    steps.push(
       { label: cfg.treasury.bleedLabel, deltas: { treasury: -cfg.treasury.bleed } },
-      { label: cfg.forest.growthLabel, deltas: { forest: cfg.forest.growthPerRound } },
-    ];
+      { label: cfg.forest.growthLabel, deltas: { forest: cfg.forest.growthPerRound } }
+    );
     (round.startEffects || []).forEach(function (e) {
       if (evalCond(e.when, state)) steps.push({ label: e.label, deltas: e.deltas });
     });
@@ -1358,6 +1497,13 @@
     var r = applyDeltas(state, tier.deltas, 'Fire season: ' + tier.title, cfg);
     r.state.fire = tier.id;
     r.tier = tier;
+    // The final year's community dividend, paid once the season is over.
+    var div = dividendStep(r.state, cfg);
+    if (div) {
+      var d = applyDeltas(r.state, div.deltas, cfg.dividendPolicy.finalLabel || div.label, cfg);
+      r.state = d.state;
+      r.changes = r.changes.concat(d.changes);
+    }
     return r;
   }
 
@@ -1416,10 +1562,20 @@
         tryCond(e.when, r.id + ' start effect');
         tryDeltas(e.deltas, r.id + ' start effect');
       });
+      if (r.news) {
+        if (!r.news.headline) problems.push(r.id + ' news has no headline');
+        tryDeltas(r.news.deltas, r.id + ' news');
+      }
     });
     cfg.fire.tiers.forEach(function (t) { tryCond(t.when, 'fire tier ' + t.id); tryDeltas(t.deltas, 'fire tier ' + t.id); });
     cfg.epilogues.forEach(function (e) { tryCond(e.when, 'epilogue ' + e.id); });
     (cfg.epilogueAddenda || []).forEach(function (a, i) { tryCond(a.when, 'epilogue addendum ' + (i + 1)); });
+    (cfg.milestones || []).forEach(function (m, i) {
+      if (!(m.at > 0) || !m.text) problems.push('milestone ' + (i + 1) + ' needs a positive "at" and a "text"');
+    });
+    if (cfg.dividendPolicy && !(cfg.dividendPolicy.share > 0 && cfg.dividendPolicy.share <= 1)) {
+      problems.push('dividendPolicy.share must be between 0 and 1');
+    }
     var last = cfg.epilogues[cfg.epilogues.length - 1];
     if (!last || JSON.stringify(last.when) !== JSON.stringify({ meter: 'forest', atLeast: 0 })) {
       problems.push('The last epilogue should be a catch-all ({ meter: "forest", atLeast: 0 }) so every game gets an ending');
@@ -1435,6 +1591,7 @@
     evalCond: evalCond,
     applyDeltas: applyDeltas,
     startRound: startRound,
+    dividendStep: dividendStep,
     resolveOption: resolveOption,
     applyOption: applyOption,
     manualTick: manualTick,
@@ -1470,6 +1627,7 @@
 
   var $ = function (sel, el) { return (el || document).querySelector(sel); };
   var SENT = E.SENTIMENTS;
+  var ALL_METERS = SENT.concat(['treasury', 'forest', 'givenBack']);
 
   // ---- Screens ---------------------------------------------------------------------------
   // Rebuilt whenever the game length changes (the short game skips fullGameOnly rounds).
@@ -1479,8 +1637,10 @@
     screensLength = state.length;
     rounds = E.activeRounds(cfg, state.length);
     screens = [{ type: 'title' }, { type: 'intro' }, { type: 'setup' }];
+    if (cfg.practice) screens.push({ type: 'practice' });
     rounds.forEach(function (r, i) { screens.push({ type: 'round', round: r, index: i }); });
-    screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' }, { type: 'debrief' });
+    screens.push({ type: 'fire' }, { type: 'epilogue' }, { type: 'reveal' },
+      { type: 'worked' }, { type: 'debrief' }, { type: 'nowwhat' });
   }
   function lastRound() { return rounds[rounds.length - 1]; }
   function debriefItems() { return cfg.debrief.filter(function (d) { return E.evalCond(d.when, state); }); }
@@ -1497,17 +1657,23 @@
     debriefStep = 0;
     textHidden = false;
     // What the meters currently display, so animations run from the old value to the new one.
-    shown = { treasury: state.treasury, forest: state.forest, meters: E.clone(state.meters) };
-    SENT.concat(['treasury', 'forest']).forEach(hideDelta);
+    shown = { treasury: state.treasury, forest: state.forest, givenBack: state.givenBack, meters: E.clone(state.meters) };
+    ALL_METERS.forEach(hideDelta);
   }
 
   // undoScreen: where Undo should land (defaults to the current screen).
   function commit(result, label, undoScreen) {
     history.push({ state: state, screenIndex: undoScreen == null ? screenIndex : undoScreen, label: label });
     var wasSold = state.sold;
+    var givenBefore = state.givenBack;
     state = result.state;
     animateChanges(result.changes);
     if (!wasSold && state.sold) setTimeout(showSold, 1900);
+    else {
+      // Celebrate the highest milestone the given-back tally just passed.
+      var passed = (cfg.milestones || []).filter(function (m) { return givenBefore < m.at && state.givenBack >= m.at; });
+      if (passed.length) setTimeout(function () { showMilestone(passed[passed.length - 1]); }, 2000);
+    }
   }
 
   function undo() {
@@ -1528,6 +1694,7 @@
     var c = [];
     if (shown.treasury !== state.treasury) c.push({ meter: 'treasury', from: shown.treasury, to: state.treasury });
     if (shown.forest !== state.forest) c.push({ meter: 'forest', from: shown.forest, to: state.forest });
+    if (shown.givenBack !== state.givenBack) c.push({ meter: 'givenBack', from: shown.givenBack, to: state.givenBack });
     SENT.forEach(function (k) {
       if (shown.meters[k] !== state.meters[k]) c.push({ meter: k, from: shown.meters[k], to: state.meters[k] });
     });
@@ -1557,13 +1724,14 @@
   function setupMeters() {
     $('#brand').textContent = cfg.forestName;
     $('#m-treasury .meter-name').textContent = cfg.treasury.label;
+    $('#m-givenBack .meter-name').textContent = 'Given back to ' + cfg.town;
     SENT.forEach(function (k) {
       $('#m-' + k + ' .meter-name').textContent = cfg.meters[k].label;
       $('#m-' + k + ' .meter-bloc').textContent = '';
     });
     $('#m-forest .meter-name').textContent = cfg.forest.label;
-    $('#lushEnd').textContent = cfg.forest.lushEnd.health + ' · ' + cfg.forest.lushEnd.risk;
-    $('#thinEnd').textContent = cfg.forest.thinEnd.health + ' · ' + cfg.forest.thinEnd.risk;
+    $('#lushEnd').textContent = cfg.forest.lushEnd.short || (cfg.forest.lushEnd.health + ' · ' + cfg.forest.lushEnd.risk);
+    $('#thinEnd').textContent = cfg.forest.thinEnd.short || (cfg.forest.thinEnd.health + ' · ' + cfg.forest.thinEnd.risk);
     var tier = cfg.fire.tiers[0];
     var zoneFrom = tier.when && tier.when.meter === 'forest' ? tier.when.atLeast : null;
     if (zoneFrom != null) $('#fireZone').style.width = (100 - zoneFrom) + '%';
@@ -1573,7 +1741,9 @@
   function forestLeft(v) { return (100 - v) + '%'; }
 
   function drawMeter(meter, value) {
-    if (meter === 'treasury') {
+    if (meter === 'givenBack') {
+      $('#m-givenBack .value').textContent = money(value);
+    } else if (meter === 'treasury') {
       $('#m-treasury .value').textContent = money(value);
       $('#m-treasury .fill').style.width = Math.max(0, Math.min(100, value / cfg.treasury.barMax * 100)) + '%';
       $('#m-treasury').classList.toggle('negative', value <= 0);
@@ -1588,7 +1758,10 @@
   }
 
   function drawLedger() {
-    var rows = state.ledger.slice(-3).reverse();
+    var last = state.gifts[state.gifts.length - 1];
+    $('#m-givenBack .gifts').textContent = last ? 'Latest: ' + last.label + ' (' + money(last.amount) + ')' :
+      'Nothing yet. Half of everything above the reserve goes back each year.';
+    var rows = state.ledger.slice(-2).reverse();
     $('#m-treasury .ledger').innerHTML = rows.map(function (r) {
       return '<div><span>' + esc(r.label) + '</span><span>' + signedMoney(r.amount) + '</span></div>';
     }).join('');
@@ -1597,9 +1770,10 @@
   function drawAllMeters() {
     drawMeter('treasury', state.treasury);
     drawMeter('forest', state.forest);
+    drawMeter('givenBack', state.givenBack);
     SENT.forEach(function (k) { drawMeter(k, state.meters[k]); });
-    SENT.concat(['treasury', 'forest']).forEach(function (m) { tweenIds[m] = (tweenIds[m] || 0) + 1; });
-    shown = { treasury: state.treasury, forest: state.forest, meters: E.clone(state.meters) };
+    ALL_METERS.forEach(function (m) { tweenIds[m] = (tweenIds[m] || 0) + 1; });
+    shown = { treasury: state.treasury, forest: state.forest, givenBack: state.givenBack, meters: E.clone(state.meters) };
     drawLedger();
   }
 
@@ -1628,7 +1802,7 @@
     var d = $('#m-' + meter + ' .delta');
     var up = amount > 0;
     var txt;
-    if (meter === 'treasury') txt = signedMoney(amount);
+    if (meter === 'treasury' || meter === 'givenBack') txt = signedMoney(amount);
     else if (meter === 'forest') txt = (up ? 'denser' : 'thinner');
     else txt = (up ? '+' : '−') + Math.abs(amount);
     // The forest delta is neither good nor bad; show direction only.
@@ -1646,15 +1820,14 @@
       if (!net[c.meter]) net[c.meter] = { from: c.from, to: c.to };
       else net[c.meter].to = c.to;
     });
-    SENT.concat(['treasury', 'forest']).forEach(function (m) { if (!net[m]) hideDelta(m); });
+    ALL_METERS.forEach(function (m) { if (!net[m]) hideDelta(m); });
     Object.keys(net).forEach(function (m) {
-      var from = m === 'treasury' ? shown.treasury : m === 'forest' ? shown.forest : shown.meters[m];
+      var from = (m === 'treasury' || m === 'forest' || m === 'givenBack') ? shown[m] : shown.meters[m];
       var to = net[m].to;
       if (from === to) return;
       showDelta(m, to - from);
       tween(m, from, to, 1800, function (v) { drawMeter(m, v); });
-      if (m === 'treasury') shown.treasury = to;
-      else if (m === 'forest') shown.forest = to;
+      if (m === 'treasury' || m === 'forest' || m === 'givenBack') shown[m] = to;
       else shown.meters[m] = to;
     });
     drawLedger();
@@ -1673,7 +1846,7 @@
     var s = screens[screenIndex];
     var stage = $('#stage');
     var content = $('#content');
-    stage.classList.toggle('full', s.type === 'reveal' || s.type === 'debrief');
+    stage.classList.toggle('full', ['reveal', 'worked', 'debrief', 'nowwhat'].indexOf(s.type) !== -1);
     $('#meters').classList.toggle('dormant', s.type === 'title');
     content.classList.toggle('hidden-text', textHidden);
     var zoneOn = fireZoneOn();
@@ -1689,7 +1862,10 @@
     else if (s.type === 'fire') label = cfg.fire.title;
     else if (s.type === 'epilogue') label = '50 years later';
     else if (s.type === 'reveal') label = 'Did the room change its mind?';
-    else if (s.type === 'debrief') label = 'What you just did';
+    else if (s.type === 'practice') label = cfg.practice.title;
+    else if (s.type === 'worked') label = 'Debrief \u00B7 What worked?';
+    else if (s.type === 'debrief') label = 'Debrief \u00B7 So what?';
+    else if (s.type === 'nowwhat') label = 'Debrief \u00B7 Now what?';
     $('#roundLabel').textContent = label;
 
     content.innerHTML = RENDER[s.type](s);
@@ -1715,17 +1891,43 @@
     },
     setup: function () {
       var su = cfg.setupScreen;
-      var items = [
-        '<li><b>' + esc(cfg.treasury.label) + '.</b> The board’s cash. Fixed costs come out every year, whatever you decide.</li>'
-      ];
+      var items = [];
+      if (cfg.dividendPolicy) {
+        items.push('<li><b>Given back to ' + esc(cfg.town) + '.</b> Your real score. Half of everything above a ' +
+          money(cfg.dividendPolicy.reserve) + ' reserve goes back to the town each year, plus anything you choose to give.</li>');
+      }
+      items.push('<li><b>' + esc(cfg.treasury.label) + '.</b> The board’s cash. Fixed costs come out every year.</li>');
       SENT.forEach(function (k) {
         items.push('<li><b>' + esc(cfg.meters[k].label) + '.</b> ' + esc(cfg.meters[k].about || '') + '</li>');
       });
-      items.push('<li><b>' + esc(cfg.forest.label) + '.</b> One slider. Lush forest means high fire risk. Thinned forest means low fire risk.</li>');
+      items.push('<li><b>' + esc(cfg.forest.label) + '.</b> One slider: lush means high fire risk, thinned means low.</li>');
       return '<div class="center"><h1>' + esc(su.heading) + '</h1>' +
         su.lines.map(function (l) { return '<p class="prompt">' + esc(l.replace(/\{years\}/g, rounds.length)) + '</p>'; }).join('') +
         '<ul class="setup-list">' + items.join('') + '</ul>' +
         '<div class="rule">' + esc(su.rule) + '</div></div>';
+    },
+    practice: function () {
+      var pr = cfg.practice;
+      var chosen = state._practice;
+      var votes = state.votes.practice;
+      var html = '<div class="kicker">Practice \u00B7 nothing is at stake</div><h1>' + esc(pr.title) + '</h1>' +
+        '<p class="prompt">' + esc(pr.prompt) + '</p><div class="options' + (chosen ? ' decided' : '') + '">';
+      pr.options.forEach(function (o) {
+        var isChosen = chosen === o.key;
+        var tally = '';
+        if (votes) {
+          var parts = [];
+          if (votes.ballot) parts.push('Ballot ' + (votes.ballot[o.key] || 0));
+          if (votes.hands) parts.push('Hands ' + (votes.hands[o.key] || 0));
+          tally = '<div class="tally">' + parts.join(' \u00B7 ') + '</div>';
+        }
+        html += '<div class="option' + (isChosen ? ' chosen' : '') + '"><div class="key">' + esc(o.key) + '</div>' +
+          '<div class="label">' + esc(o.label) + (isChosen ? '<span class="chosen-tag">BOARD DECISION</span>' : '') + '</div>' +
+          '<div class="detail"></div>' + tally +
+          (isChosen ? '<div class="after"><p>That is how every year works: ballot, hands, then the chair applies the decision. This time, nothing on the meters moved.</p></div>' : '') +
+          '</div>';
+      });
+      return html + '</div>';
     },
     round: function (s) {
       var r = s.round;
@@ -1786,6 +1988,7 @@
       return '<div class="center"><div class="kicker">50 years later</div>' +
         '<div class="outcome-title">' + esc(ep.outcome.title) + '</div>' +
         '<p class="outcome-text">' + esc(ep.outcome.text) + '</p>' +
+        '<p class="given-line">Given back to ' + esc(cfg.town) + ' over ' + rounds.length + ' years: ' + money(state.givenBack) + '</p>' +
         '<div class="addenda">' + ep.addenda.map(function (a) { return '<p>' + esc(a) + '</p>'; }).join('') + '</div>' +
         '<div class="path">' + path + '</div></div>';
     },
@@ -1795,12 +1998,30 @@
         voteColumn('Now', state.roomVote.closing) + '</div>' +
         (state.roomVote.closing ? '' : '<p class="empty">Take the closing vote, then press V to enter it.</p>') + '</div>';
     },
+    worked: function () {
+      var w = cfg.workedScreen;
+      // Group what the given-back money went to, biggest first.
+      var byLabel = {};
+      state.gifts.forEach(function (g) { byLabel[g.label] = (byLabel[g.label] || 0) + g.amount; });
+      var rows = Object.keys(byLabel).sort(function (a, b) { return byLabel[b] - byLabel[a]; });
+      return '<div class="center"><div class="kicker">' + esc(w.heading) + '</div>' +
+        '<div class="given-big">' + money(state.givenBack) + '</div>' +
+        '<p class="prompt">given back to ' + esc(cfg.town) + ' by your board' + (state.sold ? ', before the Province took the forest back' : '') + '.</p>' +
+        (rows.length ? '<ul class="gift-list">' + rows.map(function (l) {
+          return '<li><span>' + esc(l) + '</span><span>' + money(byLabel[l]) + '</span></li>';
+        }).join('') + '</ul>' : '<p class="empty">Nothing this time. What would it have taken?</p>') +
+        '<h2>' + esc(w.prompt) + '</h2></div>';
+    },
     debrief: function () {
       var items = debriefItems().map(function (d, i) {
         return '<li class="' + (i < debriefStep ? 'on' : '') + '"><b>' + esc(d.term) + '</b><span>' + esc(d.line) + '</span></li>';
       }).join('');
-      return '<div class="center"><ul class="debrief">' + items + '</ul>' +
-        '<p class="closing' + (debriefStep > debriefItems().length ? ' on' : '') + '">' + esc(cfg.closing) + '</p></div>';
+      return '<div class="center"><div class="kicker">So what? The business ideas you just used</div><ul class="debrief">' + items + '</ul></div>';
+    },
+    nowwhat: function () {
+      var n = cfg.nowWhatScreen;
+      return '<div class="center"><div class="kicker">' + esc(n.heading) + '</div><h1>' + esc(n.prompt) + '</h1>' +
+        '<p class="closing on">' + esc(cfg.closing) + '</p></div>';
     },
   };
 
@@ -1824,7 +2045,7 @@
   // ---- Navigation ------------------------------------------------------------------------
   function go(delta) {
     var s = screens[screenIndex];
-    if (s.type === 'debrief' && delta > 0 && debriefStep <= debriefItems().length) {
+    if (s.type === 'debrief' && delta > 0 && debriefStep < debriefItems().length) {
       debriefStep++;
       render();
       return;
@@ -1845,6 +2066,12 @@
   function onEnter(s) {
     // A short pause so the room sees the new screen before the meters move.
     // Undoing these lands on the previous screen, so the effects are not immediately re-applied.
+    if (s.type === 'round' && !state.started[s.round.id] && s.round.news) {
+      // Breaking news first; the year starts when the chair closes it.
+      pendingNews = s;
+      setTimeout(function () { if (screens[screenIndex] === s && !state.started[s.round.id]) showNews(s.round.news); }, 400);
+      return;
+    }
     if (s.type === 'round' && !state.started[s.round.id]) {
       setTimeout(function () {
         if (screens[screenIndex] !== s || state.started[s.round.id]) return;
@@ -1864,10 +2091,36 @@
     }
   }
 
+  // Close the breaking-news screen, then start the year (dividend, news effects, fixed costs...).
+  var pendingNews = null;
+  function closeNews() {
+    hideOverlay('newsOverlay');
+    var s = pendingNews;
+    pendingNews = null;
+    if (!s || screens[screenIndex] !== s || state.started[s.round.id]) return;
+    setTimeout(function () {
+      if (screens[screenIndex] !== s || state.started[s.round.id]) return;
+      var r = E.startRound(state, s.round.id, cfg);
+      r.state._events = r.state._events || {};
+      r.state._events[s.round.id] = r.events;
+      commit(r, s.round.title + ' start', screenIndex - 1);
+      render();
+    }, 300);
+  }
+
   function applyOption(key) {
     var s = screens[screenIndex];
+    if (s.type === 'practice') {
+      if (!cfg.practice.options.some(function (o) { return o.key === key; })) return;
+      var next = E.clone(state);
+      next._practice = key;
+      history.push({ state: state, screenIndex: screenIndex, label: 'practice vote' });
+      state = next;
+      render();
+      return;
+    }
     if (s.type !== 'round') return;
-    if (!state.started[s.round.id]) return toast('One moment: the year is still starting');
+    if (!state.started[s.round.id]) return toast(pendingNews ? 'Press Space to close the news first' : 'One moment: the year is still starting');
     if (!s.round.options.some(function (o) { return o.key === key; })) return;
     if (state.choices[s.round.id]) return toast('Already decided. Press U to undo first.');
     var check = E.resolveOption(state, s.round.id, key, cfg);
@@ -1881,7 +2134,7 @@
 
   function tick() {
     var s = screens[screenIndex];
-    if (s.type === 'title' || s.type === 'reveal' || s.type === 'debrief') return;
+    if (s.type !== 'round' && s.type !== 'fire') return;
     commit(E.manualTick(state, cfg), 'Treasury tick');
   }
 
@@ -1890,6 +2143,20 @@
   function showOverlay(id) { document.getElementById(id).classList.add('on'); }
   function hideOverlay(id) { document.getElementById(id).classList.remove('on'); }
   function hideAllOverlays() { document.querySelectorAll('.overlay.on').forEach(function (o) { o.classList.remove('on'); }); }
+
+  function showNews(news) {
+    $('#newsHeadline').textContent = news.headline;
+    $('#newsText').textContent = news.text || '';
+    $('#newsReal').textContent = news.real || '';
+    showOverlay('newsOverlay');
+  }
+
+  function showMilestone(m) {
+    if (overlayOpen()) return setTimeout(function () { showMilestone(m); }, 800);
+    $('#milestoneTitle').textContent = m.title || money(m.at);
+    $('#milestoneText').textContent = m.text;
+    showOverlay('milestoneOverlay');
+  }
 
   function showSold() {
     if (!state.sold) return;
@@ -1913,12 +2180,14 @@
     var s = screens[screenIndex];
     var form = $('#voteForm');
     var rows, cols, existing;
-    if (s.type === 'round') {
-      voteTarget = { kind: 'round', id: s.round.id };
-      cols = s.round.options.map(function (o) { return o.key; });
+    if (s.type === 'round' || s.type === 'practice') {
+      var vid = s.type === 'practice' ? 'practice' : s.round.id;
+      var opts = s.type === 'practice' ? cfg.practice.options : s.round.options;
+      voteTarget = { kind: 'round', id: vid };
+      cols = opts.map(function (o) { return o.key; });
       rows = [['ballot', 'Private ballot'], ['hands', 'Public hands']];
-      existing = state.votes[s.round.id] || {};
-      $('#voteTitle').textContent = 'Votes: ' + s.round.title;
+      existing = state.votes[vid] || {};
+      $('#voteTitle').textContent = 'Votes: ' + (s.type === 'practice' ? cfg.practice.title : s.round.title);
     } else {
       var which = (s.type === 'title' || s.type === 'intro' || s.type === 'setup') ? 'opening' : (s.type === 'reveal' ? 'closing' : null);
       if (!which) return toast('Votes can be entered on round screens, the opening screens, or the reveal');
@@ -2002,8 +2271,14 @@
       body = '<p>Read the outcome, then move to the reveal: opening vote beside closing vote.</p>';
     } else if (s.type === 'reveal') {
       body = '<p>Take the closing vote and press V to enter it. Let them see the room changed its own mind (or did not).</p>';
+    } else if (s.type === 'practice') {
+      body = '<p>' + esc(cfg.practice.chairNote || '') + '</p>';
+    } else if (s.type === 'worked') {
+      body = '<p>Open the debrief on what worked, not on what went wrong. Ask two or three people which decision they are proudest of, and why. Point at the biggest line on the list.</p>';
+    } else if (s.type === 'nowwhat') {
+      body = '<p>Hand out slips. Give them a minute to write one idea they would use in their own business or town. Collect them on the way out. Then read the closing line.</p>';
     } else {
-      body = '<p>Press Space to reveal each concept. One sentence each, then move on. End on the 80-year close.</p>';
+      body = '<p>Press Space to reveal each concept. One sentence each, connected to a moment from their own game, then move on.</p>';
     }
     $('#notesBody').innerHTML = body;
     showOverlay('notesOverlay');
@@ -2017,6 +2292,14 @@
       if (k === 'Escape') { hideOverlay('voteOverlay'); e.preventDefault(); }
       if (k === 'Enter') saveVotes(e);
       return; // typing goes to the inputs
+    }
+    if ($('#newsOverlay').classList.contains('on')) {
+      if (k === ' ' || k === 'Enter' || k === 'Escape' || k === 'ArrowRight' || k === 'PageDown') { closeNews(); e.preventDefault(); }
+      return;
+    }
+    if ($('#milestoneOverlay').classList.contains('on')) {
+      if (k === ' ' || k === 'Enter' || k === 'Escape' || k === 'ArrowRight' || k === 'PageDown') { hideOverlay('milestoneOverlay'); e.preventDefault(); }
+      return;
     }
     if ($('#soldOverlay').classList.contains('on')) {
       if (k === ' ' || k === 'Enter' || k === 'Escape') { hideOverlay('soldOverlay'); e.preventDefault(); return; }

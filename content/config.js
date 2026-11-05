@@ -20,9 +20,14 @@
  *              100 = lush, high fuel load, high fire risk
  *                0 = thinned, scarred, low fire risk
  *   forestTo   (optional) set the forest slider to an absolute value, e.g. after a burn
+ *   givenBack  dollars returned to the community (the "Given back to Cedar Bend" tally). Pair it
+ *              with a matching negative treasury delta: the money leaves the business.
  *
  * Game length: rounds marked `fullGameOnly: true` are skipped in the short game. Conditions
  * about a skipped round's choice are simply false.
+ *
+ * Each round can carry `news`: a breaking-news headline shown full-screen when the year opens,
+ * from a real event, with optional deltas applied before the fixed costs.
  *
  * Each round can carry `voices`: short public comments to the board from people in town,
  * shown with the P key. The students play themselves (the directors); the community speaks
@@ -103,6 +108,38 @@
     // Asked by the chair before every vote, and shown under the public comments.
     standingQuestion: 'Before you vote: who does this affect who is not in this room?',
 
+    // The forest's standing community dividend, modelled on real policies (Kaslo, Sechelt): once
+    // a year, a share of everything above the reserve goes back to the town. It is paid at the
+    // start of each year from last year's money, and once more after Fire Season.
+    dividendPolicy: {
+      reserve: 350000,
+      share: 0.5,
+      label: 'Annual community dividend',
+      finalLabel: 'Final community dividend',
+    },
+
+    // Shown full-screen when the "Given back to Cedar Bend" tally first passes each amount.
+    // Real BC community forest equivalents (see reports/BC community forest decisions and outcomes.md).
+    milestones: [
+      { at: 40000, title: 'A Zamboni', text: 'Your forest has given $40,000 back to Cedar Bend. In 2020, Clinton\u2019s community forest gave $40,000 to buy the youth hockey club a new Zamboni.' },
+      { at: 100000, title: 'Five local groups', text: 'Your forest has given $100,000 back to Cedar Bend. In 2021, the Sunshine Coast\u2019s community forest gave $100,000 to five local groups.' },
+      { at: 150000, title: 'A salmon hatchery and six more', text: 'Your forest has given $150,000 back to Cedar Bend. In 2022, the Sunshine Coast\u2019s community forest gave $144,000 to seven local groups, including a new water intake for a salmon hatchery.' },
+      { at: 250000, title: 'A whole town\u2019s year', text: 'Your forest has given $250,000 back to Cedar Bend: as much as Clinton\u2019s community forest gave away in all of 2020.' },
+    ],
+
+    // A no-stakes warm-up before Year 1, to teach the ballot and the reveal. Nothing on the
+    // meters moves.
+    practice: {
+      title: 'Practice vote',
+      prompt: 'Before the real decisions: the forest company needs a logo for its trucks. Vote on it, and watch how the board works. Nothing is at stake.',
+      options: [
+        { key: 'A', label: 'A tree' },
+        { key: 'B', label: 'Thunderhead Mountain' },
+        { key: 'C', label: 'A thunderhead cloud' },
+      ],
+      chairNote: 'Two minutes. Run it exactly like a real year: private ballot, then press V to enter the counts, then hands, then press the winning letter. Nothing on the meters moves.',
+    },
+
     insolvency: {
       heading: 'The Province has taken the forest back.',
       text:
@@ -146,8 +183,9 @@
       // The forest keeps growing whether or not you act: fuel builds up every round.
       growthPerRound: 4,
       growthLabel: 'The forest grew. Fuel load builds.',
-      lushEnd: { health: 'Lush, dense, healthy-looking', risk: 'High fuel load, high fire risk' },
-      thinEnd: { health: 'Thinned, scarred, logged', risk: 'Low fuel load, low fire risk' },
+      // `short` is what the dashboard shows under the slider.
+      lushEnd: { health: 'Lush, dense, healthy-looking', risk: 'High fuel load, high fire risk', short: 'Lush: high fire risk' },
+      thinEnd: { health: 'Thinned, scarred, logged', risk: 'Low fuel load, low fire risk', short: 'Thinned: low fire risk' },
     },
 
     rounds: [
@@ -210,6 +248,12 @@
       {
         id: 'r2',
         title: 'The Windfall',
+        news: {
+          headline: 'Lumber prices hit a record',
+          text: 'Mills are paying more for logs than anyone can remember. This year\u2019s regular sales bring in an extra $50,000.',
+          real: 'This really happened: in April 2021, lumber hit a record of about US$1,600 per thousand board feet. A community forest near Hope paid each of its partners $150,000, its biggest cheque ever.',
+          deltas: { treasury: 50000, forestry: 5 },
+        },
         prompt:
           'Two offers of fast money. An outside company wants the timber rights to part of the ' +
           'forest, long term: big money up front, but their crews, their mill, their profits. ' +
@@ -263,6 +307,12 @@
         id: 'trails',
         fullGameOnly: true,
         title: 'The Trail Network',
+        news: {
+          headline: 'US duties on Canadian lumber climb again',
+          text: 'Mills cut back, and log prices drop. A lean year: regular sales bring in $30,000 less than planned.',
+          real: 'This really happened: by 2025, combined US duties on Canadian softwood lumber had climbed to about 35%, and BC lost thousands of forestry jobs.',
+          deltas: { treasury: -30000, forestry: -10 },
+        },
         prompt:
           'Riders, hikers and paragliders are pouring into Cedar Bend. The trail groups want a ' +
           'new trail network on the upper mountain, and visitors are already parking all along ' +
@@ -422,7 +472,7 @@
           'the whole town; the reserve looks boring. Do not tell them the reserve comes back when ' +
           'fire season arrives: it is insurance, and that is the lesson.',
         startEffects: [
-          { label: 'Regular timber sales: a good year', deltas: { treasury: 200000, forest: -5 } },
+          { label: 'Regular timber sales: a good year', deltas: { treasury: 240000, forest: -5 } },
           {
             when: { choice: { round: 'r3', option: 'A' } },
             label: 'The partnership qualifies for joint stewardship funding',
@@ -449,7 +499,7 @@
             key: 'A',
             label: 'Community grants',
             detail: 'Give local clubs and non-profits a hand.',
-            deltas: { treasury: -80000, recreation: 10, residents: 5, forestry: 5, forest: 0 },
+            deltas: { treasury: -80000, givenBack: 80000, recreation: 10, residents: 5, forestry: 5, forest: 0 },
             consequence: 'The trail society, the ski club, and the food bank all send thank-you letters.',
           },
           {
@@ -463,14 +513,14 @@
             key: 'C',
             label: 'Hire a FireSmart crew',
             detail: 'A local crew clearing fuel around the Hillside homes.',
-            deltas: { treasury: -60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
+            deltas: { treasury: -60000, givenBack: 60000, recreation: 0, residents: 10, forestry: 5, forest: -8 },
             consequence: 'Local jobs, less fuel near the homes, less money in the bank.',
           },
           {
             key: 'D',
             label: 'Fund a Town capital project',
             detail: 'Bring forward the Town\u2019s unfunded water system upgrade.',
-            deltas: { treasury: -100000, recreation: 5, residents: 15, forestry: 0, forest: 0 },
+            deltas: { treasury: -100000, givenBack: 100000, recreation: 5, residents: 15, forestry: 0, forest: 0 },
             consequence: 'A real asset for the whole town, years early. Nobody gets a cheque; everybody gets clean water.',
             variants: [
               {
@@ -486,6 +536,12 @@
         id: 'mill',
         fullGameOnly: true,
         title: 'The Mill or the Carbon',
+        news: {
+          headline: 'A mill in the next valley closes',
+          text: 'Over the pass, a big company shuts its mill for good. Cedar Bend\u2019s mill workers are watching your board very closely.',
+          real: 'This really happened: in 2024 the Fraser Lake mill closed. About 175 people lost their jobs, in a village of about 965.',
+          deltas: { forestry: -5 },
+        },
         startEffects: [
           {
             when: { choice: { round: 'r3', option: 'A' } },
@@ -574,6 +630,12 @@
       {
         id: 'r4',
         title: 'Fire Season',
+        news: {
+          headline: 'Wildfire prevention grant approved',
+          text: 'The Province approves your application for wildfire prevention funding: $30,000 toward this year\u2019s work.',
+          real: 'This really happened: Logan Lake\u2019s community forest received $512,000 for wildfire fuel reduction, and BC\u2019s Forest Enhancement Society has funded 201 community wildfire projects since 2016.',
+          deltas: { treasury: 30000 },
+        },
         // Draws the interface-fire zone on the slider from this round on.
         showFireZone: true,
         prompt:
@@ -798,9 +860,18 @@
       choices: ['Yes', 'No', 'Unsure'],
     },
 
-    // Debrief screen: revealed one at a time with the Next key. Name, then move on.
+    // The debrief runs: What worked? (the given-back tally), then So what? (these concepts,
+    // revealed one at a time with the Next key), then Now what? (the exit ticket and the close).
+    workedScreen: {
+      heading: 'What worked?',
+      prompt: 'Look at what your forest gave back. Which decision are you proudest of, and why?',
+    },
+    nowWhatScreen: {
+      heading: 'Now what?',
+      prompt: 'On a slip of paper: one idea from this board you would use in your own business, or your own town.',
+    },
     debrief: [
-      { term: 'Profit vs break-even', line: 'You were never trying to get rich. You were trying not to die.' },
+      { term: 'Profit vs break-even', line: 'A community forest makes a profit so it can give it away. Look at your given-back tally.' },
       { term: 'Who captures the value', line: 'The Windfall: when the outsider buys in, the money leaves town.' },
       { term: 'Pricing and revenue streams', line: 'Timber, shuttle rides, parking, carbon credits: what does a forest sell, and to whom?', when: { length: 'full' } },
       { term: 'Where the profit goes', line: 'A social enterprise decides who its surplus is for.', when: { length: 'full' } },

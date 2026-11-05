@@ -12,6 +12,9 @@ and a full play-through has been watched. See `OPEN-QUESTIONS.md`.
 
 ## Meter legend
 
+- **Given back to Cedar Bend** ($): the headline score. Money the forest has returned to the
+  town. It grows from the community dividend (below) and from choices that give directly
+  (grants, a FireSmart crew, a Town capital project in Where the Profit Goes).
 - **Treasury** ($): the board's cash. Bleeds each round from fixed costs before any
   decision is applied.
 - **Recreation & Tourism** (sentiment bar)
@@ -19,6 +22,24 @@ and a full play-through has been watched. See `OPEN-QUESTIONS.md`.
 - **Forestry Sector** (sentiment bar)
 - **Forest Health / Wildfire Risk** (one coupled slider: high forest health means high
   fuel load means high fire risk)
+
+**The start of each year**, in order: the community dividend (half of everything above a
+$350,000 reserve, from last year's money; paid once more after Fire Season), any breaking news,
+fixed costs ($90,000), forest growth, then any carry-forward effects.
+
+**Breaking news** (real events, each with a "this really happened" line):
+
+| Year | Headline | Effect | Real event |
+|------|----------|--------|------------|
+| The Windfall | Lumber prices hit a record | Treasury +$50k, Forestry + | April 2021 lumber record; a community forest near Hope paid its partners $150,000 each |
+| The Trail Network (full) | US duties climb again | Treasury -$30k, Forestry - | Combined US duties about 35% by 2025 |
+| The Mill or the Carbon (full) | A mill in the next valley closes | Forestry - | Fraser Lake, 2024: about 175 jobs in a village of about 965 |
+| Fire Season | Wildfire prevention grant approved | Treasury +$30k | Logan Lake's $512,000 fuel-reduction funding; 201 FESBC community wildfire projects |
+
+**Milestones** on the given-back tally: $40k (Clinton's Zamboni), $100k (Sechelt's five
+groups), $150k (Sechelt's seven groups and a salmon hatchery), $250k (Clinton's whole 2020).
+Sources and confidence: `reports/BC community forest decisions and outcomes.md`. Check each
+before relying on it in the room.
 
 Notation below: `+` improves the meter, `-` worsens it, `++`/`--` is a large move. For the
 coupled slider, "toward lush" means denser forest and higher fire risk; "toward thinned"
