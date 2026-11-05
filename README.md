@@ -15,8 +15,10 @@ meter. That is the lesson.
    (4 years, fits a 50-minute period).
 3. Print **`dist/community-forest-printables.html`**: ballot slips and a poster of the
    standing question for the front of the room.
-4. Print **`dist/community-forest-speaking-notes.html`** and hold it while you run the session:
-   what to say, ask and press on every screen (source: `docs/SPEAKING-NOTES.md`).
+4. Print **`dist/community-forest-facilitator-guide.pdf`** and hold it while you run the session:
+   the run of show (timing) and the speaking notes (what to say, ask and press on every screen).
+   Sources: `docs/RUN-OF-SHOW.md` and `docs/SPEAKING-NOTES.md`; after editing them, run
+   `node tools/build.mjs` then `node tools/pdf.mjs` (needs Playwright).
 
 Chair's keys: **Space** next · **←** back · **A/B/C** apply the room's vote · **U** undo
 (for re-votes) · **T** tick the Treasury down · **V** enter votes · **H** hide text ·
@@ -33,6 +35,7 @@ clicker works for next and back.
 | `app/printables.html` | Printable ballots and the voiceless seat poster, generated from the config |
 | `tools/simulate.mjs` | Plays every path through both game lengths and flags tuning problems |
 | `tools/build.mjs` | Rebuilds the single-file classroom versions in `dist/` |
+| `tools/pdf.mjs` | Renders the facilitator guide PDF (run of show + speaking notes) |
 
 ## Tuning the numbers
 

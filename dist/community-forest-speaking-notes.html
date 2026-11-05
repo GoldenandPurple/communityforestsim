@@ -12,19 +12,27 @@
   li { margin: 0.2rem 0; }
   strong { font-weight: 800; }
   code { font-size: 0.92em; background: #f1f1f1; padding: 0 0.2em; border-radius: 3px; }
-  table { border-collapse: collapse; margin: 0.6rem 0; font-size: 11pt; }
+  table { border-collapse: collapse; margin: 0.6rem 0; font-size: 10.5pt; width: 100%; }
   th, td { border: 1px solid #bbb; padding: 0.25rem 0.5rem; text-align: left; vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  .doc + .doc { break-before: page; page-break-before: always; }
+  .cover { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; break-after: page; page-break-after: always; }
+  .cover .kicker { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #8a5a00; font-size: 11pt; }
+  .cover h1 { font-size: 34pt; line-height: 1.05; margin: 0.6rem 0 1rem; }
+  .cover p { font-size: 13pt; max-width: 32rem; }
+  .cover ol { font-size: 13pt; }
   .print { font: inherit; font-weight: 700; padding: 0.4em 1em; border: 2px solid #111; background: #fff; border-radius: 0.4em; cursor: pointer; }
   @media print {
     .print { display: none; }
     body { margin: 0; max-width: none; font-size: 11pt; }
     h2 { break-after: avoid; page-break-after: avoid; }
-    h2:not(:first-of-type) { break-before: auto; }
     @page { size: letter; margin: 14mm; }
   }
 </style></head><body>
 <p><button class="print" onclick="window.print()">Print</button></p>
-<h1>Speaking notes</h1>
+
+<div class="doc"><h1>Speaking notes</h1>
 <p>Hold these at the front of the room. They follow the dashboard screen by screen.</p>
 <p><strong>How to read them</strong></p>
 <ul>
@@ -270,5 +278,5 @@
 </ul>
 <hr>
 <h2>Keys at a glance</h2>
-<table><thead><tr><th>Key</th><th>Does</th></tr></thead><tbody><tr><td>Space / → / clicker</td><td>Next screen; also closes news, milestone and red screens</td></tr><tr><td>←</td><td>Back (never changes the meters)</td></tr><tr><td>A B C D</td><td>Apply the room's vote</td></tr><tr><td>U</td><td>Undo (for a re-vote)</td></tr><tr><td>V</td><td>Enter votes (ballot and hands, or the opening and closing vote)</td></tr><tr><td>P</td><td>Public comments, with the standing question</td></tr><tr><td>T</td><td>Tick the Treasury down $10,000</td></tr><tr><td>H</td><td>Hide the scenario text</td></tr><tr><td>I</td><td>Chair's notes (the room can see them)</td></tr><tr><td>G</td><td>Game length (title screen only)</td></tr><tr><td>F / L</td><td>Fullscreen / light theme</td></tr><tr><td>R R</td><td>Reset for the next class</td></tr></tbody></table>
+<table><thead><tr><th>Key</th><th>Does</th></tr></thead><tbody><tr><td>Space / → / clicker</td><td>Next screen; also closes news, milestone and red screens</td></tr><tr><td>←</td><td>Back (never changes the meters)</td></tr><tr><td>A B C D</td><td>Apply the room's vote</td></tr><tr><td>U</td><td>Undo (for a re-vote)</td></tr><tr><td>V</td><td>Enter votes (ballot and hands, or the opening and closing vote)</td></tr><tr><td>P</td><td>Public comments, with the standing question</td></tr><tr><td>T</td><td>Tick the Treasury down $10,000</td></tr><tr><td>H</td><td>Hide the scenario text</td></tr><tr><td>I</td><td>Chair's notes (the room can see them)</td></tr><tr><td>G</td><td>Game length (title screen only)</td></tr><tr><td>F / L</td><td>Fullscreen / light theme</td></tr><tr><td>R R</td><td>Reset for the next class</td></tr></tbody></table></div>
 </body></html>

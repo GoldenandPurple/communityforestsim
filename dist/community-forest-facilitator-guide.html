@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facilitator guide</title>
+<style>
+  body { font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif; color: #111; background: #fff;
+    max-width: 46rem; margin: 2rem auto; padding: 0 1.2rem; line-height: 1.45; font-size: 12pt; }
+  h1 { font-size: 22pt; margin: 0 0 0.4rem; }
+  h2 { font-size: 15pt; margin: 1.6rem 0 0.4rem; border-bottom: 2px solid #111; padding-bottom: 0.15rem; }
+  hr { border: 0; border-top: 1px solid #bbb; margin: 1.4rem 0; }
+  p { margin: 0.45rem 0; }
+  ul { margin: 0.3rem 0 0.6rem 1.2rem; padding: 0; }
+  li { margin: 0.2rem 0; }
+  strong { font-weight: 800; }
+  code { font-size: 0.92em; background: #f1f1f1; padding: 0 0.2em; border-radius: 3px; }
+  table { border-collapse: collapse; margin: 0.6rem 0; font-size: 10.5pt; width: 100%; }
+  th, td { border: 1px solid #bbb; padding: 0.25rem 0.5rem; text-align: left; vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  .doc + .doc { break-before: page; page-break-before: always; }
+  .cover { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; break-after: page; page-break-after: always; }
+  .cover .kicker { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #8a5a00; font-size: 11pt; }
+  .cover h1 { font-size: 34pt; line-height: 1.05; margin: 0.6rem 0 1rem; }
+  .cover p { font-size: 13pt; max-width: 32rem; }
+  .cover ol { font-size: 13pt; }
+  .print { font: inherit; font-weight: 700; padding: 0.4em 1em; border: 2px solid #111; background: #fff; border-radius: 0.4em; cursor: pointer; }
+  @media print {
+    .print { display: none; }
+    body { margin: 0; max-width: none; font-size: 11pt; }
+    h2 { break-after: avoid; page-break-after: avoid; }
+    @page { size: letter; margin: 14mm; }
+  }
+</style></head><body>
+<p><button class="print" onclick="window.print()">Print</button></p>
+
+<section class="cover">
+  <div class="kicker">Facilitator guide</div>
+  <h1>Thunderhead Mountain Community Forest</h1>
+  <p>A governance simulation for a high school class. The class is the board of the community forest
+  above Cedar Bend, and has to keep it running while giving back to the town.</p>
+  <ol>
+    <li><strong>Run of show:</strong> the timing, for the full game (7 years) and the short game (4 years).</li>
+    <li><strong>Speaking notes:</strong> what to say, ask and press on every screen.</li>
+  </ol>
+  <p>Real-world figures in the game come from research that could mostly read only search-result
+  excerpts. Check them against <code>reports/BC community forest decisions and outcomes.md</code> before class.</p>
+</section>
+<div class="doc"><h1>Run of show</h1>
+<p>For what to say on each screen, see <code>SPEAKING-NOTES.md</code> (printable as <code>dist/community-forest-speaking-notes.html</code>). This file is the timing.</p>
+<p>There are two game lengths, picked with <strong>G</strong> on the dashboard's title screen:</p>
+<ul>
+<li><strong>Short game (4 years):</strong> the original design, for one 50-minute period. The beat sheet directly below.</li>
+<li><strong>Full game (7 years):</strong> adds The Trail Network, Where the Profit Goes, and The Mill or the Carbon. About 75 minutes, for a double block. See Full game at the end.</li>
+</ul>
+<h2>Short game (4 years, 50 minutes)</h2>
+<p>A beat sheet for the 50-minute period. Budget roughly 42 minutes of live content after students settle and before they file out. Times are targets, not a straitjacket. The one rule if you run short: <strong>protect Round 3.</strong> It is the richest round and the one the whole ethics arc turns on. Compress Round 2 or the epilogue before you touch it.</p>
+<p>All meter changes referenced here are defined in <code>SCENARIOS.md</code>. The facilitator drives every dashboard change with a key press (see <code>DASHBOARD-SPEC.md</code>).</p>
+<table><thead><tr><th>Time</th><th>Beat</th><th>What happens</th></tr></thead><tbody><tr><td>0:00-0:03</td><td><strong>Cold open</strong></td><td>No introduction. Ask: "Above the town of Cedar Bend is Thunderhead Mountain. There is timber on its lower slopes, right above people's homes. I am going to make you decide whether we cut it. But first: who owns it?" Let them answer. Most will be wrong, and being wrong out loud is engaging. Only after they have guessed do you give your one-line introduction.</td></tr><tr><td>0:03-0:06</td><td><strong>Welcome and setup</strong></td><td>Welcome screen: the class has been selected as the corporate board of the Thunderhead Mountain Community Forest, owned by the Town of Cedar Bend; then, in a minute, what a community forest is. Then the setup screen. Lead with the green <strong>Given back to Cedar Bend</strong> tally: that is their real score, and half of everything above the reserve goes back to town each year. Explain the meters in under two minutes. Introduce the standing question, the voiceless seat (see <code>CLASSROOM-MECHANICS.md</code>). State the one rule: if the treasury hits zero, the Province takes the forest back, game over.</td></tr><tr><td>0:06-0:08</td><td><strong>Practice vote</strong></td><td>No stakes: pick the logo for the forest trucks. Run it exactly like a real year (ballot, V to enter, hands, press the letter) so the mechanics are learned before anything matters.</td></tr><tr><td>0:08-0:14</td><td><strong>Round 1: The First Harvest</strong></td><td>The forest has to fund itself. How hard do you cut this year? Public comments (P), floor debate, the standing question, private ballot, public vote. Apply result live. Don't name the carry-forward consequences; let them surface in later years.</td></tr><tr><td>0:14-0:21</td><td><strong>Round 2: The Windfall</strong></td><td>Opens with <strong>breaking news</strong>: lumber prices hit a record (read the "this really happened" line aloud, then Space). Then a salvage-logging opportunity or an outside buyout offer. Tests whether they trade the long game for fast money, and introduces "who captures the value" when an outsider wants in.</td></tr><tr><td>0:21-0:31</td><td><strong>Round 3: The Partnership</strong></td><td>The First Nation whose territory includes the forest (unnamed, see <code>SCENARIOS.md</code>) invites the board into an equal partnership. This is a real decision with real tradeoffs, not a footnote. It reframes the word "community": whose forest is it? Give it the most air.</td></tr><tr><td>0:31-0:37</td><td><strong>Round 4: Fire Season</strong></td><td>Opens with breaking news: a wildfire prevention grant. Their accumulated Forest Health / Wildfire Risk determines their exposure. The boards that preserved everything now face the highest fuel load above the homes. The past comes home and the meter does the moralizing.</td></tr><tr><td>0:37-0:41</td><td><strong>Epilogue and the reveal</strong></td><td>Read the "50 years later" outcome and the given-back total. Then show the opening vote next to the closing vote and let them see whether the room changed its own mind.</td></tr><tr><td>0:41-0:44</td><td><strong>Debrief: What worked?</strong></td><td>Open on success, not failure. The screen shows everything the forest gave back. Ask two or three directors which decision they are proudest of, and why.</td></tr><tr><td>0:44-0:48</td><td><strong>Debrief: So what?</strong></td><td>Cash in the business concepts they already used, one sentence each, tied to a moment from their game (do not lecture them first): profit vs break-even, who captures value, renewable vs non-renewable, social entrepreneurship, partnership. End on the reveal that this is not made up (Golden's 2006 community forest allocation, lost in 2010, being tried again today).</td></tr><tr><td>0:48-0:50</td><td><strong>Debrief: Now what?</strong></td><td>Exit ticket on a slip: one idea from this board they would use in their own business or town. Collect at the door. Then the 80-year close.</td></tr></tbody></table>
+<h2>Facilitator notes</h2>
+<ul>
+<li><strong>Keep the concept-naming short.</strong> The moment the debrief feels like the lesson has "arrived," you lose them. Land each concept in a sentence and move.</li>
+<li><strong>Every reveal is a chance to move the meters visibly.</strong> The reaction of the room to the dashboard reacting is a good chunk of the energy. Do not rush the apply-and-animate moment; let them watch the bar move.</li>
+<li><strong>If the room goes quiet</strong>, point at a public comment: "The mill worker says their hours get cut every year you don't harvest. Does that change anyone's vote?"</li>
+<li><strong>Let the milestones land.</strong> When the given-back tally passes a milestone, a card names a real BC equivalent (a Zamboni, a salmon hatchery's water intake). Read it, enjoy it, then Space.</li>
+<li><strong>News is real, so say so.</strong> Each breaking-news screen ends with a "this really happened" line. Reading it aloud is most of its value.</li>
+<li><strong>Fast votes early, slower votes later.</strong> Round 1 can move quickly. Rounds 3 and 4 deserve the debate. Do not spend your debate budget on the easy round.</li>
+</ul>
+<h2>Full game (7 years, about 75 minutes)</h2>
+<p>The same arc with three extra years. The new years are quicker decisions (hands only, no ballot, about 4 minutes each), so the debate budget still goes to The Partnership and Fire Season. Budget about 67 minutes of live content.</p>
+<table><thead><tr><th>Time</th><th>Beat</th><th>What happens</th></tr></thead><tbody><tr><td>0:00-0:03</td><td><strong>Cold open</strong></td><td>As in the short game. Take the opening vote.</td></tr><tr><td>0:03-0:07</td><td><strong>Setup</strong></td><td>As in the short game.</td></tr><tr><td>0:07-0:09</td><td><strong>Practice vote</strong></td><td>As in the short game.</td></tr><tr><td>0:09-0:14</td><td><strong>Year 1: The First Harvest</strong></td><td>Ballot, then the Residents knot and a re-vote (U).</td></tr><tr><td>0:14-0:21</td><td><strong>Year 2: The Windfall</strong></td><td>The outside buyout. It will come back to bite them twice.</td></tr><tr><td>0:21-0:26</td><td><strong>Year 3: The Trail Network</strong></td><td><em>Quick round.</em> Opens with breaking news: US lumber duties climb (a lean year, and the first community dividend usually lands here too). Charge for access (a paid shuttle and parking), build with the trail groups, or keep it a working forest. The pricing round: a forest sells more than timber. Optional 4 Ps drop-in here.</td></tr><tr><td>0:26-0:37</td><td><strong>Year 4: The Partnership</strong></td><td>Protect this. Most air of the session.</td></tr><tr><td>0:37-0:42</td><td><strong>Year 5: Where the Profit Goes</strong></td><td><em>Quick round.</em> A good timber year leaves a surplus: community grants, a reserve fund, a FireSmart crew, or a Town capital project. Grants, the crew and the capital project all add to the given-back tally. Social enterprise in one question: who is the profit for? (The reserve quietly pays back in fire season.)</td></tr><tr><td>0:42-0:49</td><td><strong>Year 6: The Mill or the Carbon</strong></td><td>Opens with breaking news: a mill in the next valley closes. The mill needs a log contract; a carbon buyer pays the same to leave the trees standing. Carbon credits keep the forest dense above the homes and make thinning in Year 7 expensive. Let the room discover that.</td></tr><tr><td>0:49-0:56</td><td><strong>Year 7: Fire Season</strong></td><td>As in the short game, with seven years of choices behind the slider.</td></tr><tr><td>0:56-1:01</td><td><strong>Epilogue and the reveal</strong></td><td>Outcome and given-back total, then opening vote against closing vote.</td></tr><tr><td>1:01-1:05</td><td><strong>Debrief: What worked?</strong></td><td>As in the short game.</td></tr><tr><td>1:05-1:11</td><td><strong>Debrief: So what?</strong></td><td>The concepts, including pricing and revenue streams and where the profit goes.</td></tr><tr><td>1:11-1:15</td><td><strong>Debrief: Now what?</strong></td><td>Exit ticket, then the 80-year close.</td></tr></tbody></table>
+<p>If you are running long, the first round to cut to a 2-minute hands vote is Where the Profit Goes, then The Trail Network. Never compress The Partnership.</p></div>
+<div class="doc"><h1>Speaking notes</h1>
+<p>Hold these at the front of the room. They follow the dashboard screen by screen.</p>
+<p><strong>How to read them</strong></p>
+<ul>
+<li><strong>Say:</strong> words for you to say, in your own voice. Paraphrase freely; they are a safety net, not a script to read.</li>
+<li><strong>Press:</strong> the key to press. Space moves on; A, B, C or D applies the vote; P shows public comments; V enters votes; U undoes.</li>
+<li><strong>Ask:</strong> questions to put to the room.</li>
+<li><strong>If it stalls:</strong> a line to restart a quiet room.</li>
+<li><strong>Watch for:</strong> something sensitive, or easy to get wrong.</li>
+<li><strong>Clock:</strong> target time from the start of class, as <em>full game / short game</em>. Years marked <em>full game only</em> are skipped in the short game.</li>
+</ul>
+<hr>
+<h2>Before class</h2>
+<ul>
+<li>Load <code>dist/community-forest-dashboard.html</code>, press <strong>F</strong> for fullscreen, and check it from the back row. Press <strong>L</strong> if the room is bright.</li>
+<li>On the title screen, press <strong>G</strong> to choose the game length (7 years or 4).</li>
+<li>Print from <code>dist/community-forest-printables.html</code>: ballot slips (including the practice vote), and the voiceless seat poster. Put the poster up at the front.</li>
+<li>Have blank slips ready for the exit ticket.</li>
+<li>Quietly ask one or two confident students to make their honest case early and strongly in Year 1. A primed first voice breaks the silence.</li>
+<li>Decide how you will open with a territorial acknowledgement for the land you are on. The game's Nation is fictional and unnamed; your acknowledgement should be real.</li>
+<li>Read the <strong>Watch for</strong> notes on The Partnership and Fire Season below before you start.</li>
+</ul>
+<hr>
+<h2>Title screen: the cold open</h2>
+<p><strong>Clock:</strong> 0:00 / 0:00</p>
+<p><strong>Say:</strong> "Above the town of Cedar Bend is Thunderhead Mountain. There is timber on its lower slopes, right above people's homes. I'm going to make you decide whether we cut it. But first: who owns it?"</p>
+<p>Let them guess. Most will be wrong, and being wrong out loud is engaging. Then:</p>
+<p><strong>Say:</strong> "It's provincial Crown land, on a First Nation's territory that was never given up, and the Province has licensed it to the town's community forest. Which, as of right now, is you."</p>
+<p>Then your one-line introduction, and your territorial acknowledgement.</p>
+<p><strong>Press:</strong> V to enter the opening vote. <strong>Say:</strong> "Quick vote before we start. Should we log the lower slopes of Thunderhead Mountain? Yes, no, or unsure." Count hands, type the numbers, Enter.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Welcome to the board</h2>
+<p><strong>Clock:</strong> 0:03 / 0:03</p>
+<p><strong>Say:</strong> "You have been selected as the board of directors of the Thunderhead Mountain Community Forest. The company is owned by the Town of Cedar Bend, and for the next seven years (or four), you run it."</p>
+<p><strong>Say:</strong> "So what is a community forest? Instead of licensing a forest to a big outside company, the Province licenses it to a town for the long term. The town decides how it's logged, protected and used, and keeps the profits. It has to pay its own way like any business. But it doesn't exist to make anyone rich. It exists for the whole town: jobs, trails, fire safety, and money back to the community. BC has about sixty of them, and about half involve First Nations."</p>
+<p>Keep it under two minutes. The point to plant: <em>a business that is not trying to get rich.</em></p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>How the board keeps score</h2>
+<p><strong>Clock:</strong> 0:05 / 0:05</p>
+<p><strong>Say:</strong> "Every one of you decides as yourself. Not as a logger, not as a mountain biker. You."</p>
+<p>Point at each meter as you go:</p>
+<p><strong>Say:</strong> "This green number is your real score: what your forest gives back to Cedar Bend. Every year, half of everything above a $350,000 reserve goes back to the town. Plus anything you choose to give."</p>
+<p><strong>Say:</strong> "This is the Treasury, the bank account. Fixed costs come out every year whether you do anything or not: a manager, planning, insurance, roads."</p>
+<p><strong>Say:</strong> "These three bars are how the town feels about your board: the people who ride and hike and run tourism businesses; the families on the Hillside, right under the forest; and the loggers, truckers and mill."</p>
+<p><strong>Say:</strong> "And this slider is the forest. Here's the catch: lush and green means lots of fuel and high fire risk. Thinned means low fire risk, but scarred. One slider, two meanings."</p>
+<p><strong>Say:</strong> "One rule. If the Treasury hits zero, the Province takes the forest back. The timber goes to outside companies, and the money goes to Victoria instead of Cedar Bend."</p>
+<p>Point at the poster: <strong>Say:</strong> "And one question I'll ask before every vote: who does this affect who is not in this room? That's the voiceless seat. The forest itself. The people who'll live here in fifty years. The Nation whose territory this is. Anyone can raise it, any time."</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Practice vote</h2>
+<p><strong>Clock:</strong> 0:07 / 0:06</p>
+<p><strong>Say:</strong> "Practice round, nothing at stake. The forest company needs a logo for its trucks. Tree, mountain, or thunderhead cloud? Write your letter on a slip, privately. Don't show anyone."</p>
+<p>Collect or count the slips. <strong>Press:</strong> V, type the ballot counts, Tab to the hands row.</p>
+<p><strong>Say:</strong> "Now hands. A? B? C?" Type the counts, Enter.</p>
+<p><strong>Say:</strong> "Notice anything? Sometimes the secret vote and the hands don't match. That happens on real boards too."</p>
+<p><strong>Press:</strong> the winning letter. <strong>Say:</strong> "That's how every year works. Secret ballot, hands, then I apply it, and you watch what happens. From now on, it counts."</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>The First Harvest</h2>
+<p><strong>Clock:</strong> 0:09 / 0:08</p>
+<p>The year opens and the meters move: the fixed costs, and the forest grows a little. <strong>Say:</strong> "Notice: you've spent $90,000 and done nothing yet. And the forest grew. More fuel."</p>
+<p><strong>Say:</strong> "You've just taken over. The forest has to fund itself this year. The lower stand, right above the Hillside homes and beside the Ridgeline trail, is ready to cut. How hard do you cut?" Walk through the four options in a sentence each.</p>
+<p><strong>Press:</strong> P. Read the comments aloud, or have students read them. Then point at the first two:</p>
+<p><strong>Say:</strong> "Same street. One neighbour wants it cut so they don't burn. The other doesn't want a clearcut view. What do you do with that?"</p>
+<p><strong>Ask:</strong></p>
+<ul>
+<li>"Who's going to pay for leaving it standing?"</li>
+<li>"Option D cuts somewhere else. What do you gain, and what do you give up?"</li>
+<li>The standing question: "Who does this affect who isn't in this room?"</li>
+</ul>
+<p>Private ballot, V, hands, then press the winning letter.</p>
+<p><strong>Ask</strong> (as the meters move): "Who's surprised? Which bar moved most?"</p>
+<p>Then point at the Hillside knot again and <strong>Say:</strong> "Want to change your mind? You can." <strong>Press:</strong> U to undo and run the vote again. Let it be quick.</p>
+<p><strong>If it stalls:</strong> "The mill worker says every year you don't harvest, their hours get cut. Does anyone want to answer them?"</p>
+<p><strong>Watch for:</strong> don't warn them that burning trust now makes the partnership more expensive later. Let it surprise them.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>The Windfall</h2>
+<p><strong>Clock:</strong> 0:14 / 0:14</p>
+<p><strong>Breaking news</strong> appears first: lumber prices hit a record. <strong>Say</strong> the headline, then read the bottom line: "This really happened. In April 2021, lumber hit a record. A community forest near Hope paid each of its partners $150,000, its biggest cheque ever." <strong>Press:</strong> Space.</p>
+<p><strong>Say:</strong> "Two offers of fast money. An outside company wants the timber rights to part of your forest, long term. Big money up front, but their crews, their mill, their profits. Or: a windstorm flattened timber in Cedar Creek, where the town gets its drinking water. You could salvage it, if you build a road into the watershed."</p>
+<p><strong>Press:</strong> P for the comments.</p>
+<p><strong>Ask:</strong></p>
+<ul>
+<li>"If the company makes money from our trees, where does that money go?"</li>
+<li>"Who pays if something goes wrong in Cedar Creek? When?"</li>
+<li>The standing question.</li>
+</ul>
+<p>Ballot, V, hands, press the letter.</p>
+<p><strong>Ask:</strong> "Who's surprised?"</p>
+<p><strong>If it stalls:</strong> "The water operator says Cedar Creek is what comes out of everyone's tap. Is anyone here willing to drink downstream of a new logging road?"</p>
+<p><strong>Watch for:</strong> if they salvage, the cost arrives later (the water gets fouled at the start of The Partnership). Don't warn them.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>The Trail Network <em>(full game only, quick year)</em></h2>
+<p><strong>Clock:</strong> 0:21</p>
+<p><strong>Breaking news:</strong> US duties on Canadian lumber climb again. Read the headline and the real line ("by 2025, combined US duties had climbed to about 35%, and BC lost thousands of forestry jobs"). <strong>Press:</strong> Space.</p>
+<p>Often the first <strong>community dividend</strong> lands here too. If the green number moves, <strong>Say:</strong> "There it is: the first money back to Cedar Bend. That's what this business is for."</p>
+<p><strong>Say:</strong> "Riders, hikers and paragliders are pouring into town. The trail groups want a new network on the upper mountain, and visitors are already parking all over the Hillside. Trails bring money. They also take trees out of the timber base forever."</p>
+<p><strong>Ask:</strong></p>
+<ul>
+<li>"Would you pay for a shuttle ride you get free now? How much?"</li>
+<li>"A forest sells more than timber. What else is it selling?"</li>
+</ul>
+<p>If option C is struck out: <strong>Say:</strong> "See that? You already cut the upper stand in Year 1. Early choices close doors."</p>
+<p>Hands only, to save time. Press the letter.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>The Partnership</h2>
+<p><strong>Clock:</strong> 0:26 / 0:21. <strong>Protect this year.</strong> Give it the most time of the session.</p>
+<p>If the board salvaged in The Windfall, the year opens with the water bill. <strong>Say:</strong> "Remember Cedar Creek? Spring runoff came down the new road. Boil-water advisory. That's yours."</p>
+<p><strong>Say:</strong> "Thunderhead Mountain is in the territory of a First Nation that has cared for it for thousands of years, and never gave it up. The Nation's government is inviting your board into an equal partnership: shared board seats, shared decisions, and a plan written for the next hundred years, not the next four. It means doing things differently, and it may cost some flexibility and money at first."</p>
+<p><strong>Press:</strong> P for the comments.</p>
+<p><strong>Ask</strong> the standing question first, and wait: "Who does this affect who isn't in this room?"</p>
+<p>Then:</p>
+<ul>
+<li>"What would change if decisions were made for the next hundred years instead of the next four?"</li>
+<li>"What's the difference between B and A?" Then name it: "B is consultation without power. They can advise. You still decide."</li>
+<li>"Whose forest is it?"</li>
+</ul>
+<p>Ballot, V, hands, press the letter.</p>
+<p><strong>Ask:</strong> "Who's surprised? What did you expect to happen?"</p>
+<p><strong>Watch for:</strong></p>
+<ul>
+<li><strong>Nobody speaks <em>as</em> the Nation.</strong> It's a government and a rights holder, not a stakeholder. If a student starts "the Nation would say…", redirect: "We don't speak for them. What do <em>you</em> think?"</li>
+<li><strong>If a student raises the Cowichan decision, title, or private property:</strong> acknowledge it. <strong>Say:</strong> "That's a real conversation happening in BC right now. This scenario is about a forest licence on Crown land; nobody's home or private land is part of it. Partnerships like this are one way towns and Nations build certainty together." Don't speculate about court cases. Offer to follow up afterwards.</li>
+<li><strong>Don't frame the partnership as a cost or a twist.</strong> Its benefits arrive later: funding, and cultural burning that lowers fire risk.</li>
+</ul>
+<p><strong>If it stalls:</strong> "The mill worker says, if it means harvest plans that hold for a hundred years, I'm in. Why would a mill worker say that?"</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Where the Profit Goes <em>(full game only, quick year)</em></h2>
+<p><strong>Clock:</strong> 0:37</p>
+<p>The year opens with a good timber year (a big jump in the Treasury), plus the partnership's funding if they partnered.</p>
+<p><strong>Say:</strong> "A good year. You have a surplus. Local clubs need a hand, the Town has aging assets it can't afford to replace, and the Hillside wants fuel cleared. A private company would pay its owners. Who are yours?"</p>
+<p><strong>Ask:</strong></p>
+<ul>
+<li>"Grants help specific groups. The water upgrade helps everyone a little. Which matters more?"</li>
+<li>"Is saving money ever the right thing for a community business?"</li>
+</ul>
+<p>Hands only. Press the letter.</p>
+<p><strong>Watch for:</strong> don't reveal that the reserve comes back at fire season. It's insurance, and that's the lesson.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>The Mill or the Carbon <em>(full game only)</em></h2>
+<p><strong>Clock:</strong> 0:42</p>
+<p><strong>Breaking news:</strong> a mill in the next valley closes. Read the real line ("in 2024 the Fraser Lake mill closed: about 175 jobs, in a village of about 965"). <strong>Say:</strong> "That's nearly one job for every five people in town." <strong>Press:</strong> Space.</p>
+<p><strong>Say:</strong> "Cedar Bend's mill, the town's biggest employer, says it will cut jobs unless it gets guaranteed logs for ten years. The same week, a carbon buyer offers to pay you exactly as much to leave the trees standing. Same money. Opposite forests."</p>
+<p><strong>Press:</strong> P for the comments.</p>
+<p><strong>Ask:</strong></p>
+<ul>
+<li>"Who gets the jobs in each option?"</li>
+<li>"Option D sells fewer logs. Why would anyone choose it?"</li>
+</ul>
+<p>Ballot, V, hands, press the letter.</p>
+<p><strong>Watch for:</strong> the carbon deal keeps the forest dense, right above the homes. Don't point it out. Let the room find it, or let Fire Season find it for them.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Fire Season</h2>
+<p><strong>Clock:</strong> 0:49 / 0:31</p>
+<p><strong>Breaking news:</strong> a wildfire prevention grant. Read the real line (Logan Lake's community forest received $512,000 for fuel reduction). <strong>Press:</strong> Space.</p>
+<p>If they partnered, a cultural burn happens before the dry season. <strong>Say:</strong> "Your partners have been burning low and slow in the cool seasons, years ahead. That's why your slider is lower."</p>
+<p><strong>Say:</strong> "A hot, dry summer. Lightning in the forecast. Look at the slider. The red zone is where a fire reaches the Hillside homes. That's your starting position, and you built it."</p>
+<p>If the controlled burn is struck out: <strong>Say:</strong> "Too dry and too dense to burn safely this year. Burning is something you do years ahead, not in a drought."</p>
+<p><strong>Ask:</strong> "Where's the slider? Where will it be if you do nothing?"</p>
+<p>Ballot, V, hands, press the letter.</p>
+<p><strong>Watch for:</strong> some students may have lived through evacuations, such as the 2024 Dogtooth fire near Golden. Keep the tone serious, not dramatic. The screen says homes were <em>damaged</em>, not lost.</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Fire Season: what happened</h2>
+<p><strong>Clock:</strong> 0:56 / 0:37</p>
+<p>The outcome comes straight off the slider. There are no dice.</p>
+<ul>
+<li><strong>If the fire reached the homes:</strong> "The fuel load did the rest. That slider was built over every year of this game."</li>
+<li><strong>If it was held:</strong> "A tense week, a big bill, and the homes are standing. Your earlier work bought you that."</li>
+<li><strong>If it was quiet:</strong> "That's what years of thinning buys you. In 2021, a 63,000-hectare fire reached the town of Logan Lake. After eighteen years of fuel work, the town lost zero buildings."</li>
+</ul>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Fifty years later</h2>
+<p><strong>Say:</strong> read the ending's title and text, then the green line: "Given back to Cedar Bend: …"</p>
+<p><strong>Press:</strong> Space for the reveal.</p>
+<p><strong>Say:</strong> "Same question as the start. Should we log the lower slopes of Thunderhead Mountain?" Count hands. <strong>Press:</strong> V, enter, Enter.</p>
+<p><strong>Ask:</strong> "Did the room change its mind? Why?"</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Debrief: What worked?</h2>
+<p><strong>Clock:</strong> 1:01 / 0:41</p>
+<p>Open on success, not failure.</p>
+<p><strong>Say:</strong> "This is what your forest gave back to Cedar Bend." Read the biggest lines on the list.</p>
+<p><strong>Ask:</strong> "Which decision are you proudest of, and why?" Take two or three answers.</p>
+<p>If the total is zero: <strong>Ask:</strong> "What would it have taken?"</p>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Debrief: So what?</h2>
+<p><strong>Clock:</strong> 1:05 / 0:44</p>
+<p><strong>Press:</strong> Space to reveal each concept. One sentence each, tied to a moment from <em>their</em> game, then move on. Don't lecture.</p>
+<ul>
+<li><strong>Profit vs break-even:</strong> "A community forest makes a profit so it can give it away. Look at your green number."</li>
+<li><strong>Who captures the value:</strong> "When the outside company wanted your trees, where would the money have gone?"</li>
+<li><strong>Pricing and revenue streams</strong> <em>(full game):</em> "Shuttle rides, parking, carbon credits. A forest sells more than wood."</li>
+<li><strong>Where the profit goes</strong> <em>(full game):</em> "You decided who your surplus was for. A private company never asks that question."</li>
+<li><strong>Market segmentation:</strong> "Three groups in town, three sets of needs. You couldn't please all of them."</li>
+<li><strong>Renewable vs non-renewable:</strong> "A forest cut too hard is as gone as a mine."</li>
+<li><strong>Social entrepreneurship:</strong> "A business run for a community. That's what you just ran."</li>
+<li><strong>Partnership:</strong> "About half of BC's community forests involve First Nations. Shared decisions, longer horizons, more certainty."</li>
+<li><strong>This is not made up:</strong> "In 2006 the Province set aside a community forest for Golden, about 4% of the local cut, and took it back in 2010. Today the Shuswap Band, the Town and the regional district are trying again."</li>
+</ul>
+<p><strong>Press:</strong> Space.</p>
+<hr>
+<h2>Debrief: Now what?</h2>
+<p><strong>Clock:</strong> 1:11 / 0:48</p>
+<p>Hand out slips.</p>
+<p><strong>Say:</strong> "One idea from this board that you'd use in your own business, or your own town. One line. I'll collect them at the door."</p>
+<p>Give them a minute. Then the close, slowly:</p>
+<p><strong>Say:</strong> "The trees you cut this year were planted before any of you were born. The ones you plant, you'll never see cut. So what do you owe people who can't vote, complain, or thank you?"</p>
+<p>Stop there. Leave time for two or three real questions.</p>
+<hr>
+<h2>Anytime screens</h2>
+<p><strong>Milestone cards.</strong> When the green tally passes a milestone, a card names a real BC equivalent (a Zamboni, a salmon hatchery's water intake). <strong>Say:</strong> read it, let it land, and smile. "That's real. A town did that." <strong>Press:</strong> Space.</p>
+<p><strong>The Province takes the forest back.</strong> If the Treasury hits zero, a red screen appears.</p>
+<p><strong>Say:</strong> "That's it: the agreement is cancelled. The timber goes to outside companies, and the money goes to Victoria."</p>
+<p>Then be honest: "In real life, no BC community forest has been cancelled this way. The real failures are boards that lose money, fire their manager and lose the town's trust."</p>
+<p><strong>Press:</strong> Space to play on as a post-mortem ("what would you have done?"), or U to undo the last vote.</p>
+<p><strong>A year runs long.</strong> Press <strong>T</strong> to tick the Treasury down by $10,000 while they argue: "While you debate, you're paying staff." Use it once or twice, not as a punishment.</p>
+<hr>
+<h2>If you're running long</h2>
+<ul>
+<li>First cut: make <strong>Where the Profit Goes</strong> a two-minute hands vote.</li>
+<li>Next: do the same for <strong>The Trail Network</strong>.</li>
+<li>Then: shorten the epilogue and the reveal.</li>
+<li><strong>Never compress The Partnership.</strong></li>
+</ul>
+<hr>
+<h2>What not to say</h2>
+<ul>
+<li>"The forest gets sold." It can't be: a community forest licence is a Crown tenure. Say "the Province takes it back."</li>
+<li>"The Nation would want…" Nobody speaks for the Nation.</li>
+<li>"Stakeholder" for a First Nation. Say "rights holder" or "government."</li>
+<li>"Mount 7", "Golden's sawmill", or "this is Golden" during play. The game is set in fictional Cedar Bend; Golden only appears in the debrief's true story.</li>
+<li>Any real-world figure you haven't checked. The news and milestone figures come from search-result excerpts; check them against <code>reports/BC community forest decisions and outcomes.md</code> before class.</li>
+</ul>
+<hr>
+<h2>Keys at a glance</h2>
+<table><thead><tr><th>Key</th><th>Does</th></tr></thead><tbody><tr><td>Space / → / clicker</td><td>Next screen; also closes news, milestone and red screens</td></tr><tr><td>←</td><td>Back (never changes the meters)</td></tr><tr><td>A B C D</td><td>Apply the room's vote</td></tr><tr><td>U</td><td>Undo (for a re-vote)</td></tr><tr><td>V</td><td>Enter votes (ballot and hands, or the opening and closing vote)</td></tr><tr><td>P</td><td>Public comments, with the standing question</td></tr><tr><td>T</td><td>Tick the Treasury down $10,000</td></tr><tr><td>H</td><td>Hide the scenario text</td></tr><tr><td>I</td><td>Chair's notes (the room can see them)</td></tr><tr><td>G</td><td>Game length (title screen only)</td></tr><tr><td>F / L</td><td>Fullscreen / light theme</td></tr><tr><td>R R</td><td>Reset for the next class</td></tr></tbody></table></div>
+</body></html>

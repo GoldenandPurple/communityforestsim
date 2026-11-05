@@ -43,6 +43,7 @@ function inline(text) {
   return text
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
 }
@@ -85,10 +86,12 @@ function markdownToHtml(md) {
   return out.join('\n');
 }
 
-const notes = readFileSync(join(root, 'docs/SPEAKING-NOTES.md'), 'utf8');
-const notesHtml = `<!doctype html>
+// A printable page from one or more markdown documents. Each document after the first starts
+// on a new printed page.
+function printablePage(title, bodies, cover) {
+  return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Speaking notes</title>
+<title>${title}</title>
 <style>
   body { font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif; color: #111; background: #fff;
     max-width: 46rem; margin: 2rem auto; padding: 0 1.2rem; line-height: 1.45; font-size: 12pt; }
@@ -100,20 +103,52 @@ const notesHtml = `<!doctype html>
   li { margin: 0.2rem 0; }
   strong { font-weight: 800; }
   code { font-size: 0.92em; background: #f1f1f1; padding: 0 0.2em; border-radius: 3px; }
-  table { border-collapse: collapse; margin: 0.6rem 0; font-size: 11pt; }
+  table { border-collapse: collapse; margin: 0.6rem 0; font-size: 10.5pt; width: 100%; }
   th, td { border: 1px solid #bbb; padding: 0.25rem 0.5rem; text-align: left; vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  .doc + .doc { break-before: page; page-break-before: always; }
+  .cover { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; break-after: page; page-break-after: always; }
+  .cover .kicker { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #8a5a00; font-size: 11pt; }
+  .cover h1 { font-size: 34pt; line-height: 1.05; margin: 0.6rem 0 1rem; }
+  .cover p { font-size: 13pt; max-width: 32rem; }
+  .cover ol { font-size: 13pt; }
   .print { font: inherit; font-weight: 700; padding: 0.4em 1em; border: 2px solid #111; background: #fff; border-radius: 0.4em; cursor: pointer; }
   @media print {
     .print { display: none; }
     body { margin: 0; max-width: none; font-size: 11pt; }
     h2 { break-after: avoid; page-break-after: avoid; }
-    h2:not(:first-of-type) { break-before: auto; }
     @page { size: letter; margin: 14mm; }
   }
 </style></head><body>
 <p><button class="print" onclick="window.print()">Print</button></p>
-${markdownToHtml(notes)}
+${cover || ''}
+${bodies.map((b) => '<div class="doc">' + markdownToHtml(b) + '</div>').join('\n')}
 </body></html>
 `;
-writeFileSync(join(root, 'dist/community-forest-speaking-notes.html'), notesHtml);
-console.log(`built dist/community-forest-speaking-notes.html (${(notesHtml.length / 1024).toFixed(0)} KB)`);
+}
+
+const runOfShow = readFileSync(join(root, 'docs/RUN-OF-SHOW.md'), 'utf8');
+const notes = readFileSync(join(root, 'docs/SPEAKING-NOTES.md'), 'utf8');
+const cfgForGuide = require('../content/config.js');
+
+const outputs = [
+  ['dist/community-forest-speaking-notes.html', printablePage('Speaking notes', [notes])],
+  ['dist/community-forest-facilitator-guide.html', printablePage('Facilitator guide', [runOfShow, notes], `
+<section class="cover">
+  <div class="kicker">Facilitator guide</div>
+  <h1>${cfgForGuide.forestName}</h1>
+  <p>A governance simulation for a high school class. The class is the board of the community forest
+  above ${cfgForGuide.town}, and has to keep it running while giving back to the town.</p>
+  <ol>
+    <li><strong>Run of show:</strong> the timing, for the full game (7 years) and the short game (4 years).</li>
+    <li><strong>Speaking notes:</strong> what to say, ask and press on every screen.</li>
+  </ol>
+  <p>Real-world figures in the game come from research that could mostly read only search-result
+  excerpts. Check them against <code>reports/BC community forest decisions and outcomes.md</code> before class.</p>
+</section>`)],
+];
+for (const [out, html] of outputs) {
+  writeFileSync(join(root, out), html);
+  console.log(`built ${out} (${(html.length / 1024).toFixed(0)} KB)`);
+}
