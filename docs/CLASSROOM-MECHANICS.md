@@ -1,6 +1,6 @@
 # Classroom mechanics
 
-How thirty students stay involved instead of five. This is the make-or-break layer. A
+How every student stays involved, whether the class is fifteen or thirty. This is the make-or-break layer. A
 beautiful dashboard with a passive room is a failure. Everything here exists to force
 participation structurally rather than hope for it.
 

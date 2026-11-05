@@ -90,8 +90,8 @@ out loud ("while you are debating, you are paying staff").
 
 ## The participation cliff (the main failure mode)
 
-In a committee of thirty, the default outcome is that five loud students run it and
-twenty-five spectate. Left unaddressed, this is just five kids talking with a nicer
+In a big committee, the default outcome is that a few loud students run it and the rest
+spectate. Left unaddressed, this is just a few kids talking with a nicer
 projector. The design engineers against it structurally, not by hoping. See
 `CLASSROOM-MECHANICS.md` for the full treatment. Students decide **as themselves**, never in
 a role: the question is always "what would you do?" The defences:
