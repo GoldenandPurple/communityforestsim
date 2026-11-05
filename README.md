@@ -15,6 +15,8 @@ meter. That is the lesson.
    (4 years, fits a 50-minute period).
 3. Print **`dist/community-forest-printables.html`**: ballot slips and a poster of the
    standing question for the front of the room.
+4. Print **`dist/community-forest-speaking-notes.html`** and hold it while you run the session:
+   what to say, ask and press on every screen (source: `docs/SPEAKING-NOTES.md`).
 
 Chair's keys: **Space** next · **←** back · **A/B/C** apply the room's vote · **U** undo
 (for re-votes) · **T** tick the Treasury down · **V** enter votes · **H** hide text ·
@@ -25,7 +27,7 @@ clicker works for next and back.
 
 | Path | What it is |
 |------|------------|
-| `docs/` | The design: start with `CONCEPT.md`, then `RUN-OF-SHOW.md` and `CLASSROOM-MECHANICS.md` |
+| `docs/` | The design: start with `CONCEPT.md`, then `RUN-OF-SHOW.md`, `SPEAKING-NOTES.md` and `CLASSROOM-MECHANICS.md` |
 | `content/config.js` | **Every number and every word on screen.** Edit this to tune the game |
 | `app/dashboard.html`, `app/engine.js` | The dashboard source (opens directly from the repo too) |
 | `app/printables.html` | Printable ballots and the voiceless seat poster, generated from the config |

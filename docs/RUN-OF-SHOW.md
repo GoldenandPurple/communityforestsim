@@ -1,5 +1,8 @@
 # Run of show
 
+For what to say on each screen, see `SPEAKING-NOTES.md` (printable as
+`dist/community-forest-speaking-notes.html`). This file is the timing.
+
 There are two game lengths, picked with **G** on the dashboard's title screen:
 
 - **Short game (4 years):** the original design, for one 50-minute period. The beat sheet
